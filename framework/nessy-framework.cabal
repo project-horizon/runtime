@@ -1,0 +1,23 @@
+name:                   nessy-framework
+version:                0.1.0.0
+synopsis:               The framework behind the nessy language.
+-- description:         
+license:                MIT
+license-file:           LICENSE
+author:                 Nils 'bash0r' Jonsson
+maintainer:             aka.bash0r@gmail.com
+-- copyright:           
+-- category:            
+build-type:             Simple
+extra-source-files:     LICENSE
+                  ,     README.md
+                  ,     changelog.md
+cabal-version:          >=1.10
+
+library
+  -- exposed-modules:     
+  -- other-modules:       
+  build-depends:        base >=4.8 && <4.9
+  hs-source-dirs:       src/lib
+  default-language:     Haskell2010
+
