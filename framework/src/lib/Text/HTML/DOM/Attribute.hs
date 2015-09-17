@@ -35,7 +35,7 @@ Portability :  non-portable (Portability is untested.)
 This module contains definitions for the attribute element in the HTML DOM.
 -}
 module Text.HTML.DOM.Attribute
-( T
+( T (..)
 ) where
 
 
