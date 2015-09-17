@@ -17,7 +17,8 @@ cabal-version:          >=1.10
 
 library
   -- exposed-modules:     
-  other-modules:        Text.HTML.DOM.Attribute
+  other-modules:        Text.HTML.DOM
+               ,        Text.HTML.DOM.Attribute
   build-depends:        base >=4.8 && <4.9
   hs-source-dirs:       src/lib
   default-language:     Haskell2010
