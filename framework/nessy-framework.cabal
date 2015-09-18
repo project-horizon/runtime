@@ -23,6 +23,11 @@ library
                ,        Text.JavaScript.DOM.Expression
                ,        Text.JavaScript.DOM.Expression.BinaryOperator
                ,        Text.JavaScript.DOM.Statement
+               ,        Text.CSS.DOM
+               ,        Text.CSS.DOM.Declaration
+               ,        Text.CSS.DOM.Declaration.Selector
+               ,        Text.CSS.DOM.Definition
+               ,        Text.CSS.DOM.Expression
   build-depends:        base >=4.8 && <4.9
   hs-source-dirs:       src/lib
   default-language:     Haskell2010
