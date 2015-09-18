@@ -35,6 +35,16 @@ Portability :  non-portable (Portability is untested.)
 The DOM element for JavaScript statements.
 -}
 module Text.JavaScript.DOM.Statement
-( 
+( T (..)
 ) where
+
+import qualified Text.JavaScript.DOM.Expression as Expression
+
+
+-- | A simple statement representation.
+data T
+  -- | An if then else statement.
+  = IfThenElse Expression.T T T
+  -- | A block of statements.
+  | StatementBlock [T]
 
