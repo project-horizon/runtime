@@ -35,6 +35,17 @@ Portability :  non-portable (Portability is untested.)
 A declaration in the CSS language.
 -}
 module Text.CSS.DOM.Declaration
-( 
+( T (..)
 ) where
+
+import qualified Text.CSS.DOM.Definition as Definition
+import qualified Text.CSS.DOM.Declaration.Selector as Selector
+
+
+-- | A declaration in the CSS language.
+data T
+  -- | A simple declaration.
+  = Con Selector.T [Definition.T]
+  -- | A sequence of declarations.
+  | Sequence T T
 
