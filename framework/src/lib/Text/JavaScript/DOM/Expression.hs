@@ -45,7 +45,7 @@ import qualified Text.JavaScript.DOM.Expression.UnaryOperator as UnaryOperator
 -- | A JavaScript expression.
 data T
   -- | A JavaScript number expression.
-  = NumberLiteral Int
+  = NumberLiteral Double
   -- | A JavaScript string expression.
   | StringLiteral String
   -- | A JavaScript binary expression.
