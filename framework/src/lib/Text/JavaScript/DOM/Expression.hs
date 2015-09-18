@@ -38,3 +38,16 @@ module Text.JavaScript.DOM.Expression
 ( 
 ) where
 
+
+import qualified Text.JavaScript.DOM.Expression.BinaryOperator as BinaryOperator
+
+
+-- | A JavaScript expression.
+data T
+  -- | A JavaScript number expression.
+  = JsNumber Int
+  -- | A JavaScript string expression.
+  | JsString String
+  -- | A JavaScript binary exprission.
+  | JsBinaryOperator BinaryOperator.T T T
+
