@@ -35,19 +35,21 @@ Portability :  non-portable (Portability is untested.)
 The basic DOM element for JavaScript expressions.
 -}
 module Text.JavaScript.DOM.Expression
-( 
+( T (..)
 ) where
 
 
 import qualified Text.JavaScript.DOM.Expression.BinaryOperator as BinaryOperator
-
+import qualified Text.JavaScript.DOM.Expression.UnaryOperator as UnaryOperator
 
 -- | A JavaScript expression.
 data T
   -- | A JavaScript number expression.
-  = JsNumber Int
+  = NumberLiteral Int
   -- | A JavaScript string expression.
-  | JsString String
-  -- | A JavaScript binary exprission.
-  | JsBinaryOperator BinaryOperator.T T T
+  | StringLiteral String
+  -- | A JavaScript binary expression.
+  | BinaryOperator BinaryOperator.T T T
+  -- | A JavaScript unary expression.
+  | UnaryOperator UnaryOperator.T T
 
