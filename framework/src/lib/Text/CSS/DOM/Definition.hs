@@ -35,6 +35,14 @@ Portability :  non-portable (Portability is untested.)
 A definition in the CSS language.
 -}
 module Text.CSS.DOM.Definition
-( 
+( T (..)
 ) where
+
+import qualified Text.CSS.DOM.Expression as Expression
+
+
+-- | A definition inside a declaration.
+data T
+  -- | A definition inside a declaration.
+  = Con String Expression.T
 
