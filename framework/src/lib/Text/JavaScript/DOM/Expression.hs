@@ -52,4 +52,8 @@ data T
   | BinaryOperator BinaryOperator.T T T
   -- | A JavaScript unary expression.
   | UnaryOperator UnaryOperator.T T
+  -- | A JavaScript object expression.
+  | Object [(String,T)]
+  -- | A JavaScript array expression.
+  | Array [T]
 
