@@ -39,6 +39,8 @@ module Language.JavaScript.DOM
 , FunctionParameter
 
 , Argument
+, FieldName
+, Field
 
 , Expression (..)
 , Statement (..)
@@ -58,6 +60,12 @@ type FunctionParameter = String
 -- | An argument for a function call.
 type Argument = Expression
 
+-- | The name of a field in an object.
+type FieldName = String
+
+-- | A field in an object.
+type Field = (FieldName, Expression)
+
 
 -- | A JavaScript exmression.
 data Expression
@@ -70,7 +78,7 @@ data Expression
   -- | A JavaScript unary expression.
   | UnaryOperator UnaryOperator.T Expression
   -- | A JavaScript object expression.
-  | Object [(String,Expression)]
+  | Object [Field]
   -- | A JavaScript array expression.
   | Array [Expression]
   -- | A JavaScript function expression.

@@ -74,8 +74,11 @@ type FunctionParameter = DOM.FunctionParameter
 type Argument = DOM.Argument
 
 
--- | The name of a variable in an object creation.
-type VariableName = String
+-- | The name of a field in an object.
+type FieldName = DOM.FieldName
+
+-- | A field of an object.
+type Field = DOM.Field
 
 
 -- | A container for a JavaScript DOM tree.
@@ -106,7 +109,12 @@ call = DOM.FunctionCall
 array :: [Expression] -> Expression
 array = DOM.Array
 
+-- | Creates a field from a field name and an expression.
 infixr 3 =:
-(=:) :: VariableName -> Expression -> (VariableName, Expression)
+(=:) :: FieldName -> Expression -> Field
 (=:) k v = (k, v)
+
+-- | Creates an object from multiple fields.
+object :: [Field] -> Expression
+object = Object
 
