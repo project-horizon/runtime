@@ -49,6 +49,10 @@ import qualified Language.JavaScript.DOM.Expression.BinaryOperator as BinaryOper
 import qualified Language.JavaScript.DOM.Expression.UnaryOperator as UnaryOperator
 
 
+instance (Generator.C a) => Generator.C (Maybe a) where
+  generate (Just v) = generate v
+  generate Nothing  = ""
+
 instance Generator.C BinaryOperator.T where
   generate BinaryOperator.Addition = "+"
   generate BinaryOperator.Subtraction = "-"
@@ -66,6 +70,7 @@ instance Generator.C DOM.Expression where
   generate (DOM.Object vs)               = "{" ++> intercalate "," (map (\(k,v)-> show k ++> ":" ++> v) vs) ++> "}"
   generate (DOM.Array vs)                = "[" ++> intercalate "," (map generate vs) ++> "]"
   generate (DOM.FunctionCall f args)     = f ++> "(" ++> intercalate "," (map generate args) ++> ")"
+  generate (DOM.Function f ps ss)        = "function " ++> f ++> "(" ++> intercalate "," ps ++> "){" ++> intercalate ";" (map generate ss) ++> "}"
 
 instance Generator.C DOM.Statement where
   generate (DOM.ConditionTree cs ow)        = intercalate " else " (map (\(c,s)-> "if(" ++> c ++> ")" ++> s) cs) ++> " else " ++> ow
