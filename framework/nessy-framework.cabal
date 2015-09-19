@@ -20,9 +20,7 @@ library
   other-modules:        Text.HTML.DOM
                ,        Text.HTML.DOM.Attribute
                ,        Text.JavaScript.DOM
-               ,        Text.JavaScript.DOM.Expression
                ,        Text.JavaScript.DOM.Expression.BinaryOperator
-               ,        Text.JavaScript.DOM.Statement
                ,        Text.CSS.DOM
                ,        Text.CSS.DOM.Declaration
                ,        Text.CSS.DOM.Declaration.Selector

@@ -35,6 +35,43 @@ Portability :  non-portable (Portability is untested.)
 The domain object model of the JavaScript language.
 -}
 module Text.JavaScript.DOM
-(
+( FunctionName
+, FunctionParameter
+, Expression (..)
+, Statement (..)
 ) where
+
+import qualified Text.JavaScript.DOM.Expression.BinaryOperator as BinaryOperator
+import qualified Text.JavaScript.DOM.Expression.UnaryOperator as UnaryOperator
+
+
+-- | The name of a JavaScript function.
+type FunctionName = Maybe String
+
+-- | The name of a parameter for in a function declaration.
+type FunctionParameter = String
+
+-- | A JavaScript exmression.
+data Expression
+  -- | A JavaScript number expression.
+  = NumberLiteral Double
+  -- | A JavaScript string expression.
+  | StringLiteral String
+  -- | A JavaScript binary expression.
+  | BinaryOperator BinaryOperator.T Expression Expression
+  -- | A JavaScript unary expression.
+  | UnaryOperator UnaryOperator.T Expression
+  -- | A JavaScript object expression.
+  | Object [(String,Expression)]
+  -- | A JavaScript array expression.
+  | Array [Expression]
+  -- | A JavaScript function expression.
+  | Function FunctionName [FunctionParameter] [Statement]
+
+-- | A simple statement representation.
+data Statement
+  -- | An if then else statement.
+  = IfThenElse Expression Statement Statement
+  -- | A block of statements.
+  | StatementBlock [Statement]
 
