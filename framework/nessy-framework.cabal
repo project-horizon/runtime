@@ -17,10 +17,15 @@ cabal-version:          >=1.10
 
 library
   -- exposed-modules:     
-  other-modules:        Language.HTML.DOM
+  other-modules:        Language.HTML
+               ,        Language.HTML.DOM
                ,        Language.HTML.DOM.Attribute
+
+               ,        Language.JavaScript
                ,        Language.JavaScript.DOM
                ,        Language.JavaScript.DOM.Expression.BinaryOperator
+
+               ,        Language.CSS
                ,        Language.CSS.DOM
                ,        Language.CSS.DOM.Declaration
                ,        Language.CSS.DOM.Declaration.Selector
