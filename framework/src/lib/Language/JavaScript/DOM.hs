@@ -35,40 +35,12 @@ Portability :  non-portable (Portability is untested.)
 The domain object model of the JavaScript language.
 -}
 module Language.JavaScript.DOM
-( FunctionName
-, FunctionParameter
-, OptionalFunctionName
-
-, Argument
-, FieldName
-, Field
-
-, Expression (..)
+( Expression (..)
 , Statement (..)
 ) where
 
 import qualified Language.JavaScript.DOM.Expression.BinaryOperator as BinaryOperator
 import qualified Language.JavaScript.DOM.Expression.UnaryOperator as UnaryOperator
-
-
--- | The name of a JavaScript function.
-type FunctionName = String
-
--- | The name of a parameter for in a function declaration.
-type FunctionParameter = String
-
--- | A function name that is optional in JavaScript syntax.
-type OptionalFunctionName = Maybe FunctionName
-
--- | An argument for a function call.
-type Argument = Expression
-
--- | The name of a field in an object.
-type FieldName = String
-
--- | A field in an object.
-type Field = (FieldName, Expression)
-
 
 -- | A JavaScript exmression.
 data Expression
@@ -81,13 +53,13 @@ data Expression
   -- | A JavaScript unary expression.
   | UnaryOperator UnaryOperator.T Expression
   -- | A JavaScript object expression.
-  | Object [Field]
+  | Object [(String,Expression)]
   -- | A JavaScript array expression.
   | Array [Expression]
   -- | A JavaScript function expression.
-  | Function FunctionName [FunctionParameter] [Statement]
+  | Function (Maybe String) [String] [Statement]
   -- | A JavaScript function call expression.
-  | FunctionCall FunctionName [Argument]
+  | FunctionCall String [Expression]
   deriving (Show, Eq)
 
 -- | A simple statement representation.
