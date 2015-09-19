@@ -59,6 +59,11 @@ module Language.JavaScript
 , block
 , loop
 
+, for
+, foreach
+, while
+, dowhile
+
 , function
 , expr
 , call
