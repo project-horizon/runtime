@@ -128,5 +128,5 @@ infixr 3 =:
 
 -- | Creates an object from multiple fields.
 object :: [Field] -> Expression
-object = Object
+object = DOM.Object
 
