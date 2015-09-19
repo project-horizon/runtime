@@ -52,6 +52,8 @@ type FunctionName = Maybe String
 -- | The name of a parameter for in a function declaration.
 type FunctionParameter = String
 
+-- | An argument for a function call.
+type Argument = Expression
 
 
 -- | A JavaScript exmression.
@@ -70,6 +72,8 @@ data Expression
   | Array [Expression]
   -- | A JavaScript function expression.
   | Function FunctionName [FunctionParameter] [Statement]
+  -- | A JavaScript function call expression.
+  | FunctionCall FunctionName [Argument]
   deriving (Show, Eq)
 
 -- | A simple statement representation.
