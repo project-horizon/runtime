@@ -42,6 +42,11 @@ module Language.JavaScript
 , FunctionParameter
 
 , Script (..)
+
+, function
+
+, block
+, expr
 ) where
 
 import qualified Language.JavaScript.DOM as DOM
@@ -70,13 +75,14 @@ data Script
   deriving (Show, Eq)
 
 
--- | Creates a scope block.
-block :: [Statement] -> Statement
-block = DOM.StatementBlock
-
 -- | Creates a function.
 function :: FunctionName -> [FunctionParameter] -> [Statement]
 function = DOM.Function
+
+
+-- | Creates a scope block.
+block :: [Statement] -> Statement
+block = DOM.StatementBlock
 
 -- | Creates a statement from an expression.
 expr :: Expression -> Statement
