@@ -16,15 +16,15 @@ extra-source-files:     LICENSE
 cabal-version:          >=1.10
 
 library
-  -- exposed-modules:     
-  other-modules:        Text.Generation
-               ,        Text.Generation.Generator
+  exposed-modules:      Text.Generation
+                 ,      Text.Generation.Generator
 
-               ,        Language.HTML
+                 ,      Language.JavaScript
+  other-modules:        Language.HTML
                ,        Language.HTML.DOM
                ,        Language.HTML.DOM.Attribute
 
-               ,        Language.JavaScript
+               ,        Language.JavaScript.Generator
                ,        Language.JavaScript.DOM
                ,        Language.JavaScript.DOM.Expression.BinaryOperator
 
