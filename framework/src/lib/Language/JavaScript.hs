@@ -182,6 +182,10 @@ when c s = DOM.ConditionTree [(c, s)] (block [])
 either :: Condition -> Statement -> Statement -> Statement
 either c s = DOM.ConditionTree [(c, s)]
 
+-- | Creates a return statement.
+ret :: Expression -> Statement
+ret = DOM.Return
+
 
 -- | Creates a function.
 function :: OptionalFunctionName -> [FunctionParameter] -> [Statement] -> Expression
@@ -236,6 +240,9 @@ instance (Write.C a) => Write.C [a] where
 
 instance Write.C String where
   write = DOM.StringLiteral
+
+instance Write.C Char where
+  write c = DOM.StringLiteral [c]
 
 instance Write.C Int where
   write i = DOM.NumberLiteral (fromIntegral i)
