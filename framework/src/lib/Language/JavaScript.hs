@@ -84,10 +84,11 @@ module Language.JavaScript
 , (/:)
 ) where
 
-import Prelude hiding (either)
+import           Prelude hiding (either)
 
-import Data.Int
+import           Data.Int
 
+import           Language.JavaScript.Generation
 import qualified Language.JavaScript.DOM as DOM
 import qualified Language.JavaScript.DOM.Expression.BinaryOperator as BinaryOperator
 import qualified Language.JavaScript.DOM.Expression.UnaryOperator as UnaryOperator
