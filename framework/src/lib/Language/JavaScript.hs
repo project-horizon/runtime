@@ -58,6 +58,7 @@ module Language.JavaScript
 -- Statements
 , method
 , block
+, expr
 , when
 , for
 , foreach
@@ -66,12 +67,13 @@ module Language.JavaScript
 
 -- Expressions
 , function
-, expr
 , call
 , array
 ) where
 
 import qualified Language.JavaScript.DOM as DOM
+
+import qualified Language.JavaScript.DOM.Conversion.Write as Write
 
 
 -- | An expression.
@@ -135,12 +137,13 @@ method f ps ss = expr (function (Just f) ps ss)
 block :: [Statement] -> Statement
 block = DOM.StatementBlock
 
--- | Creates an if statement.
-when :: Condition -> [Statement] -> Statement
-when c ss = DOM.ConditionTree [(c,block ss)] (block [])
+-- | Creates a statement from an expression.
+expr :: Expression -> Statement
+expr = DOM.ExprAsStmt
 
-
-
+-- | Creates a statement from an expression.
+expr :: Expression -> Statement
+expr = DOM.ExprAsStmt
 
 -- | Creates a for loop head.
 for :: Initializations -> Condition -> Changes -> Statement -> Statement
@@ -162,10 +165,6 @@ dowhile c = DOM.Loop (DOM.DoWhileLoop c)
 -- | Creates a function.
 function :: OptionalFunctionName -> [FunctionParameter] -> [Statement] -> Expression
 function = DOM.Function
-
--- | Creates a statement from an expression.
-expr :: Expression -> Statement
-expr = DOM.ExprAsStmt
 
 -- | Creates an expression from a function name and function call
 --   arguments.
