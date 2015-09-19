@@ -79,6 +79,7 @@ instance Generator.C DOM.Statement where
       generateLoop lh@(DOM.DoWhileLoop _) s = "do " ++> s ++> lh
       generateLoop lh s                     = lh ++> s
   generate (DOM.ExprAsStmt v)               = generate v
+  generate (DOM.Return v)                   = "return " ++> v
   generate (DOM.StatementBlock stmts)       = "{" ++> intercalate ";" (map generate stmts) ++> "}"
 
 instance Generator.C DOM.LoopHead where
