@@ -20,6 +20,8 @@ library
                  ,      Text.Generation.Generator
 
                  ,      Language.JavaScript
+                 ,      Language.JavaScript.DOM.Conversion.Read
+                 ,      Language.JavaScript.DOM.Conversion.Write
   other-modules:        Language.HTML
                ,        Language.HTML.DOM
                ,        Language.HTML.DOM.Attribute
