@@ -21,10 +21,9 @@ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 -}
 
-
 {- |
 Module      :  $Header$
-Description :  The basic DOM description of HTML.
+Description :  The available binary operators in JavaScript.
 Author	    :  Nils 'bash0r' Jonsson
 Copyright   :  (c) 2015 Nils 'bash0r' Jonsson
 License	    :  MIT
@@ -33,20 +32,21 @@ Maintainer  :  aka.bash0r@gmail.com
 Stability   :  unstable
 Portability :  non-portable (Portability is untested.)
 
-The domain object model of HTML.
+The available binary operators in JavaScript.
 -}
-module Text.HTML.DOM
+module Language.JavaScript.DOM.Expression.BinaryOperator
 ( T (..)
-, module Attribute
 ) where
 
-
-import qualified Text.HTML.DOM.Attribute as Attribute
-
--- | Domain Object Model.
+-- | All available binary operators in the JavaScript language.
 data T
-  -- | Pure plain text.
-  = PlainText String
-  -- | An HTML tag.
-  | Tag String [Attribute.T] [T]
+  -- | The addition operator.
+  = Addition
+  -- | The subtraction operator.
+  | Subtraction
+  -- | The multiplication operator.
+  | Multiplication
+  -- | The division operator.
+  | Division
+  deriving (Show, Eq)
 

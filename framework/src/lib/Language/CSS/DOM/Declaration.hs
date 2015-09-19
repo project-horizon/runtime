@@ -23,7 +23,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 {- |
 Module      :  $Header$
-Description :  A listing of unary operators from the JavaScript language.
+Description :  A declaration in the CSS language.
 Author	    :  Nils 'bash0r' Jonsson
 Copyright   :  (c) 2015 Nils 'bash0r' Jonsson
 License	    :  MIT
@@ -32,14 +32,20 @@ Maintainer  :  aka.bash0r@gmail.com
 Stability   :  unstable
 Portability :  non-portable (Portability is untested.)
 
-A listing of unary operators from the JavaScript language.
+A declaration in the CSS language.
 -}
-module Text.JavaScript.DOM.Expression.UnaryOperator
+module Language.CSS.DOM.Declaration
 ( T (..)
 ) where
 
--- | All available unary operators from the JavaScript language.
+import qualified Text.CSS.DOM.Definition as Definition
+import qualified Text.CSS.DOM.Declaration.Selector as Selector
+
+
+-- | A declaration in the CSS language.
 data T
-  -- | The negation operator.
-  = Negate
+  -- | A simple declaration.
+  = Con Selector.T [Definition.T]
+  -- | A sequence of declarations.
+  | Sequence T T
 

@@ -23,7 +23,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 {- |
 Module      :  $Header$
-Description :  A definition in the CSS language.
+Description :  An expression in the CSS language.
 Author	    :  Nils 'bash0r' Jonsson
 Copyright   :  (c) 2015 Nils 'bash0r' Jonsson
 License	    :  MIT
@@ -32,17 +32,16 @@ Maintainer  :  aka.bash0r@gmail.com
 Stability   :  unstable
 Portability :  non-portable (Portability is untested.)
 
-A definition in the CSS language.
+An expression in the CSS language.
 -}
-module Text.CSS.DOM.Definition
+module Language.CSS.DOM.Expression
 ( T (..)
 ) where
 
-import qualified Text.CSS.DOM.Expression as Expression
-
-
--- | A definition inside a declaration.
+-- | A simple expression in the CSS language.
 data T
-  -- | A definition inside a declaration.
-  = Con String Expression.T
+  -- | An integer literal.
+  = IntegerLiteral Int
+  -- | A double literal.
+  | DoubleLiteral Double
 

@@ -23,24 +23,27 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 {- |
 Module      :  $Header$
-Description :  The attribute element in HTML DOMs.
+Description :  A selector used in a declaration.
 Author	    :  Nils 'bash0r' Jonsson
 Copyright   :  (c) 2015 Nils 'bash0r' Jonsson
-License	    :  
+License	    :  MIT
 
 Maintainer  :  aka.bash0r@gmail.com
 Stability   :  unstable
 Portability :  non-portable (Portability is untested.)
 
-This module contains definitions for the attribute element in the HTML DOM.
+A selector used in a declaration.
 -}
-module Text.HTML.DOM.Attribute
+module Language.CSS.DOM.Declaration.Selector
 ( T (..)
 ) where
 
-
--- | The attribute element in the HTML DOM.
+-- | A CSS selector.
 data T
-  -- | The attribute element in the HTML DOM.
-  = Con String String
+  -- | A simple selector.
+  = SimpleSelector String
+  -- | A nested selector.
+  | NestedSelector T T
+  -- | A child selector.
+  | ChildSelector T
 

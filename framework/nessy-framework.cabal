@@ -17,15 +17,15 @@ cabal-version:          >=1.10
 
 library
   -- exposed-modules:     
-  other-modules:        Text.HTML.DOM
-               ,        Text.HTML.DOM.Attribute
-               ,        Text.JavaScript.DOM
-               ,        Text.JavaScript.DOM.Expression.BinaryOperator
-               ,        Text.CSS.DOM
-               ,        Text.CSS.DOM.Declaration
-               ,        Text.CSS.DOM.Declaration.Selector
-               ,        Text.CSS.DOM.Definition
-               ,        Text.CSS.DOM.Expression
+  other-modules:        Language.HTML.DOM
+               ,        Language.HTML.DOM.Attribute
+               ,        Language.JavaScript.DOM
+               ,        Language.JavaScript.DOM.Expression.BinaryOperator
+               ,        Language.CSS.DOM
+               ,        Language.CSS.DOM.Declaration
+               ,        Language.CSS.DOM.Declaration.Selector
+               ,        Language.CSS.DOM.Definition
+               ,        Language.CSS.DOM.Expression
   build-depends:        base >=4.8 && <4.9
   hs-source-dirs:       src/lib
   default-language:     Haskell2010

@@ -23,7 +23,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 {- |
 Module      :  $Header$
-Description :  A selector used in a declaration.
+Description :  A definition in the CSS language.
 Author	    :  Nils 'bash0r' Jonsson
 Copyright   :  (c) 2015 Nils 'bash0r' Jonsson
 License	    :  MIT
@@ -32,18 +32,17 @@ Maintainer  :  aka.bash0r@gmail.com
 Stability   :  unstable
 Portability :  non-portable (Portability is untested.)
 
-A selector used in a declaration.
+A definition in the CSS language.
 -}
-module Text.CSS.DOM.Declaration.Selector
+module Language.CSS.DOM.Definition
 ( T (..)
 ) where
 
--- | A CSS selector.
+import qualified Text.CSS.DOM.Expression as Expression
+
+
+-- | A definition inside a declaration.
 data T
-  -- | A simple selector.
-  = SimpleSelector String
-  -- | A nested selector.
-  | NestedSelector T T
-  -- | A child selector.
-  | ChildSelector T
+  -- | A definition inside a declaration.
+  = Con String Expression.T
 

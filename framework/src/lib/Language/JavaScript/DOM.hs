@@ -34,7 +34,7 @@ Portability :  non-portable (Portability is untested.)
 
 The domain object model of the JavaScript language.
 -}
-module Text.JavaScript.DOM
+module Language.JavaScript.DOM
 ( FunctionName
 , FunctionParameter
 , Expression (..)
@@ -67,6 +67,7 @@ data Expression
   | Array [Expression]
   -- | A JavaScript function expression.
   | Function FunctionName [FunctionParameter] [Statement]
+  deriving (Show, Eq)
 
 -- | A simple statement representation.
 data Statement
@@ -74,4 +75,5 @@ data Statement
   = IfThenElse Expression Statement Statement
   -- | A block of statements.
   | StatementBlock [Statement]
+  deriving (Show, Eq)
 

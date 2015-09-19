@@ -21,9 +21,10 @@ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 -}
 
+
 {- |
 Module      :  $Header$
-Description :  A declaration in the CSS language.
+Description :  The basic DOM description of HTML.
 Author	    :  Nils 'bash0r' Jonsson
 Copyright   :  (c) 2015 Nils 'bash0r' Jonsson
 License	    :  MIT
@@ -32,20 +33,20 @@ Maintainer  :  aka.bash0r@gmail.com
 Stability   :  unstable
 Portability :  non-portable (Portability is untested.)
 
-A declaration in the CSS language.
+The domain object model of HTML.
 -}
-module Text.CSS.DOM.Declaration
+module Language.HTML.DOM
 ( T (..)
+, module Attribute
 ) where
 
-import qualified Text.CSS.DOM.Definition as Definition
-import qualified Text.CSS.DOM.Declaration.Selector as Selector
 
+import qualified Text.HTML.DOM.Attribute as Attribute
 
--- | A declaration in the CSS language.
+-- | Domain Object Model.
 data T
-  -- | A simple declaration.
-  = Con Selector.T [Definition.T]
-  -- | A sequence of declarations.
-  | Sequence T T
+  -- | Pure plain text.
+  = PlainText String
+  -- | An HTML tag.
+  | Tag String [Attribute.T] [T]
 

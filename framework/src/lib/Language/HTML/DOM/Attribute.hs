@@ -23,29 +23,24 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 {- |
 Module      :  $Header$
-Description :  The available binary operators in JavaScript.
+Description :  The attribute element in HTML DOMs.
 Author	    :  Nils 'bash0r' Jonsson
 Copyright   :  (c) 2015 Nils 'bash0r' Jonsson
-License	    :  MIT
+License	    :  
 
 Maintainer  :  aka.bash0r@gmail.com
 Stability   :  unstable
 Portability :  non-portable (Portability is untested.)
 
-The available binary operators in JavaScript.
+This module contains definitions for the attribute element in the HTML DOM.
 -}
-module Text.JavaScript.DOM.Expression.BinaryOperator
+module Language.HTML.DOM.Attribute
 ( T (..)
 ) where
 
--- | All available binary operators in the JavaScript language.
+
+-- | The attribute element in the HTML DOM.
 data T
-  -- | The addition operator.
-  = Addition
-  -- | The subtraction operator.
-  | Subtraction
-  -- | The multiplication operator.
-  | Multiplication
-  -- | The division operator.
-  | Division
+  -- | The attribute element in the HTML DOM.
+  = Con String String
 
