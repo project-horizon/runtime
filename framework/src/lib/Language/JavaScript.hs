@@ -45,4 +45,5 @@ import qualified Language.JavaScript.DOM as DOM
 data Script
   -- | A container for a JavaScript DOM tree.
   = Script [DOM.Statement]
+  deriving (Show, Eq)
 
