@@ -203,24 +203,21 @@ infixr 3 =:
 (=:) k v = (k, v)
 
 infixl 3 +:
-(+:) :: (Write.C a) => a -> a -> Expression
-(+:) l r = DOM.BinaryExpression BinaryOperator.Addition (val l) (val r)
+(+:) :: Expression -> Expression -> Expression
+(+:) = DOM.BinaryExpression BinaryOperator.Addition
 
 infixl 3 -:
-(-:) :: (Write.C a) => a -> a -> Expression
-(-:) l r = DOM.BinaryExpression BinaryOperator.Subtraction (val l) (val r)
+(-:) :: Expression -> Expression -> Expression
+(-:) = DOM.BinaryExpression BinaryOperator.Subtraction
 
 infixl 4 *:
-(*:) :: (Write.C a) => a -> a -> Expression
-(*:) l r = DOM.BinaryExpression BinaryOperator.Multiplication (val l) (val r)
+(*:) :: Expression -> Expression -> Expression
+(*:) = DOM.BinaryExpression BinaryOperator.Multiplication
 
 infixl 4 /:
-(/:) :: (Write.C a) => a -> a -> Expression
-(/:) l r = DOM.BinaryExpression BinaryOperator.Division (val l) (val r)
+(/:) :: Expression -> Expression -> Expression
+(/:) = DOM.BinaryExpression BinaryOperator.Division
 
-
-instance Write.C Expression where
-  write e = e
 
 instance (Write.C a) => Write.C [a] where
   write vs = array (map val vs)
