@@ -37,6 +37,7 @@ The domain object model of the JavaScript language.
 module Language.JavaScript.DOM
 ( FunctionName
 , FunctionParameter
+
 , Expression (..)
 , Statement (..)
 ) where
@@ -50,6 +51,8 @@ type FunctionName = Maybe String
 
 -- | The name of a parameter for in a function declaration.
 type FunctionParameter = String
+
+
 
 -- | A JavaScript exmression.
 data Expression
