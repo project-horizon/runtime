@@ -59,10 +59,32 @@ instance Generator.C UnaryOperator.T where
   generate UnaryOperator.Negate = "!"
 
 instance Generator.C DOM.Expression where
-  generate (DOM.NumberLiteral v) = show v
-  generate (DOM.StringLiteral v) = show v
-  generate (DOM.UnaryOperator op v) = op ++> v
+  generate (DOM.NumberLiteral v)       = show v
+  generate (DOM.StringLiteral v)       = show v
   generate (DOM.BinaryOperator op l r) = l ++> op ++> r
-  generate (DOM.Object vs) = "{" ++> intercalate "," (map (\(k,v)-> show k ++> ":" ++> v) vs) ++> "}"
+  generate (DOM.UnaryOperator op v)    = op ++> v
+  generate (DOM.Object vs)             = "{" ++> intercalate "," (map (\(k,v)-> show k ++> ":" ++> v) vs) ++> "}"
+  generate (DOM.Array vs)              = "[" ++> intercalate "," (map generate vs) ++> "]"
+  generate (DOM.FunctionCall f args)   = f ++> "(" ++> intercalate "," (map generate args) ++> ")"
 
+instance Generator.C DOM.Statement where
+  generate (DOM.ConditionTree cs ow)        = intercalate " else " (map (\(c,s)-> "if(" ++> c ++> ")" ++> s) cs) ++> " else " ++> ow
+  generate (DOM.Loop lh s)                  = generateLoop lh s
+    where
+      generateLoop lh@(DOM.DoWhileLoop _) s = "do " ++> s ++> lh
+      generateLoop lh s                     = lh ++> s
+  generate (DOM.ExprAsStmt v)               = generate v
+  generate (DOM.StatementBlock stmts)       = "{" ++> intercalate ";" (map generate stmts) ++> "}"
+
+instance Generator.C DOM.LoopHead where
+  generate (DOM.IterationLoop inits cond chs) =
+    "for(" ++> intercalate "," (map generate inits) ++> ";" ++>
+               cond ++>
+               intercalate "," (map generate chs) ++> ")"
+  generate (DOM.ForEachLoop v e) =
+    "for(" ++> v ++> " in " ++> e ++> ")"
+  generate (DOM.WhileLoop c) =
+    "while(" ++> c ++> ")"
+  generate (DOM.DoWhileLoop c) =
+    "while(" ++> c ++> ");"
 
