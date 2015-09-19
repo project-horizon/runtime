@@ -21,6 +21,9 @@ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 -}
 
+{-# LANGUAGE FlexibleInstances #-}
+{-# LANGUAGE TypeSynonymInstances #-}
+
 {- |
 Module      :  $Header$
 Description :  The EDSL for creating JavaScript DOM elements.
@@ -59,14 +62,15 @@ module Language.JavaScript
 , method
 , block
 , expr
-, when
 , for
 , foreach
 , while
 , dowhile
+, when
 
 -- Expressions
 , function
+, val
 , call
 , array
 ) where
@@ -141,10 +145,6 @@ block = DOM.StatementBlock
 expr :: Expression -> Statement
 expr = DOM.ExprAsStmt
 
--- | Creates a statement from an expression.
-expr :: Expression -> Statement
-expr = DOM.ExprAsStmt
-
 -- | Creates a for loop head.
 for :: Initializations -> Condition -> Changes -> Statement -> Statement
 for i c cs = DOM.Loop (DOM.IterationLoop i c cs)
@@ -161,10 +161,18 @@ while c = DOM.Loop (DOM.WhileLoop c)
 dowhile :: Condition -> Statement -> Statement
 dowhile c = DOM.Loop (DOM.DoWhileLoop c)
 
+-- | Creates a simple if statement.
+when :: Condition -> Statement -> Statement
+when c s = DOM.ConditionTree [(c, s)] (block [])
+
 
 -- | Creates a function.
 function :: OptionalFunctionName -> [FunctionParameter] -> [Statement] -> Expression
 function = DOM.Function
+
+-- | Creates an expression from a Haskell value.
+val :: (Write.C a) => a -> Expression
+val = Write.write
 
 -- | Creates an expression from a function name and function call
 --   arguments.
@@ -183,4 +191,11 @@ infixr 3 =:
 -- | Creates an object from multiple fields.
 object :: [Field] -> Expression
 object = DOM.Object
+
+
+instance Write.C String where
+  write = DOM.StringLiteral
+
+instance Write.C Int where
+  write i = DOM.NumberLiteral (fromIntegral i)
 
