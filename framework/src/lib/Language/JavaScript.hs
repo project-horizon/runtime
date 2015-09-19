@@ -44,17 +44,18 @@ module Language.JavaScript
 
 , FunctionName
 , FunctionParameter
-, OptionalFunctionName
 , Argument
 
 , VariableName
 , Initializations
-, Condition
 , Changes
 , Container
 
 , FieldName
 , Field
+
+, Condition
+, Case
 
 , Script (..)
 
@@ -109,9 +110,6 @@ type FunctionName = String
 -- | The name of a parameter in a function.
 type FunctionParameter = String
 
--- | A function name that is optional in JavaScript syntax.
-type OptionalFunctionName = Maybe FunctionName
-
 -- | An argument for a function call.
 type Argument = Expression
 
@@ -121,9 +119,6 @@ type VariableName = String
 
 -- | The statements to initialize a for loop.
 type Initializations = [Statement]
-
--- | A condition in control flow statements.
-type Condition = Expression
 
 -- | The statements to change the state of a for loop.
 type Changes = [Statement]
@@ -137,6 +132,13 @@ type FieldName = String
 
 -- | A field of an object.
 type Field = (FieldName, Expression)
+
+
+-- | A condition in control flow statements.
+type Condition = Expression
+
+-- | A case statement.
+type Case = (Condition, Statement)
 
 
 -- | A container for a JavaScript DOM tree.
@@ -178,9 +180,13 @@ dowhile c = DOM.Loop (DOM.DoWhileLoop c)
 when :: Condition -> Statement -> Statement
 when c s = DOM.ConditionTree [(c, s)] (block [])
 
--- | Creates a complex if statement.
+-- | Creates a if else statement.
 either :: Condition -> Statement -> Statement -> Statement
 either c s = DOM.ConditionTree [(c, s)]
+
+-- | Creates a complex if statement.
+switch :: [Case] -> Statement -> Statement
+switch = DOM.ConditionTree
 
 -- | Creates a return statement.
 ret :: Expression -> Statement
@@ -188,8 +194,8 @@ ret = DOM.Return
 
 
 -- | Creates a function.
-function :: OptionalFunctionName -> [FunctionParameter] -> [Statement] -> Expression
-function = DOM.Function
+function :: [FunctionParameter] -> [Statement] -> Expression
+function = DOM.Function Nothing
 
 -- | Creates an expression from a Haskell value.
 val :: (Write.C a) => a -> Expression
