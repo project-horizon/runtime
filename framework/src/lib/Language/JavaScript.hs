@@ -143,19 +143,19 @@ when c ss = DOM.ConditionTree [(c,block ss)] (block [])
 
 
 -- | Creates a for loop head.
-for :: Initializations -> Condition -> Changes -> [Statement] -> Statement
+for :: Initializations -> Condition -> Changes -> Statement -> Statement
 for i c cs = DOM.Loop (DOM.IterationLoop i c cs)
 
 -- | Creates a for each loop head.
-foreach :: VariableName -> Container -> [Statement] -> Statement
+foreach :: VariableName -> Container -> Statement -> Statement
 foreach v c = DOM.Loop (DOM.ForEachLoop v c)
 
 -- | Creates a while loop head.
-while :: Condition -> [Statement] -> Statement
+while :: Condition -> Statement -> Statement
 while c = DOM.Loop (DOM.WhileLoop c)
 
 -- | Creates a do while loop head.
-dowhile :: Condition -> [Statement] -> Statement
+dowhile :: Condition -> Statement -> Statement
 dowhile c = DOM.Loop (DOM.DoWhileLoop c)
 
 
