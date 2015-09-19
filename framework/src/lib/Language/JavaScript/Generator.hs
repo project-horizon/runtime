@@ -59,13 +59,13 @@ instance Generator.C UnaryOperator.T where
   generate UnaryOperator.Negate = "!"
 
 instance Generator.C DOM.Expression where
-  generate (DOM.NumberLiteral v)       = show v
-  generate (DOM.StringLiteral v)       = show v
-  generate (DOM.BinaryOperator op l r) = l ++> op ++> r
-  generate (DOM.UnaryOperator op v)    = op ++> v
-  generate (DOM.Object vs)             = "{" ++> intercalate "," (map (\(k,v)-> show k ++> ":" ++> v) vs) ++> "}"
-  generate (DOM.Array vs)              = "[" ++> intercalate "," (map generate vs) ++> "]"
-  generate (DOM.FunctionCall f args)   = f ++> "(" ++> intercalate "," (map generate args) ++> ")"
+  generate (DOM.NumberLiteral v)         = show v
+  generate (DOM.StringLiteral v)         = show v
+  generate (DOM.BinaryExpression op l r) = l ++> op ++> r
+  generate (DOM.UnaryExpression op v)    = op ++> v
+  generate (DOM.Object vs)               = "{" ++> intercalate "," (map (\(k,v)-> show k ++> ":" ++> v) vs) ++> "}"
+  generate (DOM.Array vs)                = "[" ++> intercalate "," (map generate vs) ++> "]"
+  generate (DOM.FunctionCall f args)     = f ++> "(" ++> intercalate "," (map generate args) ++> ")"
 
 instance Generator.C DOM.Statement where
   generate (DOM.ConditionTree cs ow)        = intercalate " else " (map (\(c,s)-> "if(" ++> c ++> ")" ++> s) cs) ++> " else " ++> ow
