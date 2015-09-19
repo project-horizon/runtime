@@ -38,6 +38,8 @@ module Language.JavaScript.DOM
 ( FunctionName
 , FunctionParameter
 
+, Argument
+
 , Expression (..)
 , Statement (..)
 ) where
@@ -51,6 +53,7 @@ type FunctionName = Maybe String
 
 -- | The name of a parameter for in a function declaration.
 type FunctionParameter = String
+
 
 -- | An argument for a function call.
 type Argument = Expression
