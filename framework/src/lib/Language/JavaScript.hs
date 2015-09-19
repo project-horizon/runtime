@@ -37,6 +37,7 @@ The EDSL for creating JavaScript DOM elements.
 module Language.JavaScript
 ( Expression
 , Statement
+, LoopHead
 
 , FunctionName
 , FunctionParameter
@@ -50,6 +51,7 @@ module Language.JavaScript
 
 , method
 , block
+, loop
 
 , function
 , expr
@@ -65,6 +67,9 @@ type Expression = DOM.Expression
 
 -- | A statement.
 type Statement = DOM.Statement
+
+-- | A loop head.
+type LoopHead = DOM.LoopHead
 
 
 -- | The name of a function.
@@ -101,6 +106,10 @@ method f ps ss = expr (function (Just f) ps ss)
 -- | Creates a scope block.
 block :: [Statement] -> Statement
 block = DOM.StatementBlock
+
+-- | Creates a loop.
+loop :: LoopHead -> [Statement]
+loop = DOM.Loop
 
 
 -- | Creates a function.
