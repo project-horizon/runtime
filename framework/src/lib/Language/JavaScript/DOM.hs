@@ -51,9 +51,9 @@ data Expression
   -- | A JavaScript string expression.
   | StringLiteral String
   -- | A JavaScript binary expression.
-  | BinaryOperator BinaryOperator.T Expression Expression
+  | BinaryExpression BinaryOperator.T Expression Expression
   -- | A JavaScript unary expression.
-  | UnaryOperator UnaryOperator.T Expression
+  | UnaryExpression UnaryOperator.T Expression
   -- | A JavaScript object expression.
   | Object [(String,Expression)]
   -- | A JavaScript array expression.
