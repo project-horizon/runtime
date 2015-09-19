@@ -43,6 +43,7 @@ module Language.JavaScript.DOM
 import qualified Language.JavaScript.DOM.Expression.BinaryOperator as BinaryOperator
 import qualified Language.JavaScript.DOM.Expression.UnaryOperator as UnaryOperator
 
+
 -- | A JavaScript exmression.
 data Expression
   -- | A JavaScript number expression.
@@ -65,9 +66,9 @@ data Expression
 
 -- | A simple statement representation.
 data Statement
-  -- | An if then else statement.
-  = IfThenElse Expression Statement Statement
-  -- | A for statement.
+  -- | A conditional execution statement.
+  = ConditionalExecution Condition 
+  -- | A loop statement.
   | Loop LoopHead [Statement]
   -- | An expression used as a statement.
   | ExprAsStmt Expression
