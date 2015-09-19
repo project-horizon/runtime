@@ -50,6 +50,7 @@ module Language.JavaScript
 , expr
 
 , call
+, array
 ) where
 
 import qualified Language.JavaScript.DOM as DOM
@@ -97,4 +98,8 @@ expr = DOM.ExprAsStmt
 --   arguments.
 call :: FunctionName -> [Argument] -> Expression
 call = DOM.FunctionCall
+
+-- | Creates an expression from multiple expressions.
+array :: [Expression] -> Expression
+array = DOM.Array
 
