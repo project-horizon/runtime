@@ -67,7 +67,7 @@ data Expression
 -- | A simple statement representation.
 data Statement
   -- | A conditional execution statement.
-  = ConditionalExecution Condition 
+  = ConditionTree [(Expression,Statement)] Statement
   -- | A loop statement.
   | Loop LoopHead [Statement]
   -- | An expression used as a statement.
@@ -87,4 +87,5 @@ data LoopHead
   -- | A loop iterating until the condition becomes false but evaluating
   --   the condition after the execution of the loop block.
   | DoWhileLoop Expression
+  deriving (Show, Eq)
 
