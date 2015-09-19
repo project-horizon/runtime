@@ -55,15 +55,16 @@ module Language.JavaScript
 
 , Script (..)
 
+-- Statements
 , method
 , block
-, loop
-
+, when
 , for
 , foreach
 , while
 , dowhile
 
+-- Expressions
 , function
 , expr
 , call
@@ -134,26 +135,28 @@ method f ps ss = expr (function (Just f) ps ss)
 block :: [Statement] -> Statement
 block = DOM.StatementBlock
 
--- | Creates a loop.
-loop :: LoopHead -> [Statement]
-loop = DOM.Loop
+-- | Creates an if statement.
+when :: Condition -> [Statement] -> Statement
+when c ss = DOM.ConditionTree [(c,block ss)] (block [])
+
+
 
 
 -- | Creates a for loop head.
-for :: Initializations -> Condition -> Changes -> LoopHead
-for = DOM.IterationLoop
+for :: Initializations -> Condition -> Changes -> [Statement] -> Statement
+for i c cs = DOM.Loop (DOM.IterationLoop i c cs)
 
 -- | Creates a for each loop head.
-foreach :: VariableName -> Container -> LoopHead
-foreach = DOM.ForEachLoop
+foreach :: VariableName -> Container -> [Statement] -> Statement
+foreach v c = DOM.Loop (DOM.ForEachLoop v c)
 
 -- | Creates a while loop head.
-while :: Condition -> LoopHead
-while = DOM.WhileLoop
+while :: Condition -> [Statement] -> Statement
+while c = DOM.Loop (DOM.WhileLoop c)
 
 -- | Creates a do while loop head.
-dowhile :: Condition -> LoopHead
-dowhile = DOM.DoWhileLoop
+dowhile :: Condition -> [Statement] -> Statement
+dowhile c = DOM.Loop (DOM.DoWhileLoop c)
 
 
 -- | Creates a function.
