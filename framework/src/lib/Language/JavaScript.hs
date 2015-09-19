@@ -202,18 +202,22 @@ infixr 3 =:
 (=:) :: FieldName -> Expression -> Field
 (=:) k v = (k, v)
 
+-- | Creates a binary addition expression.
 infixl 3 +:
 (+:) :: Expression -> Expression -> Expression
 (+:) = DOM.BinaryExpression BinaryOperator.Addition
 
+-- | Creates a binary subtraction expression.
 infixl 3 -:
 (-:) :: Expression -> Expression -> Expression
 (-:) = DOM.BinaryExpression BinaryOperator.Subtraction
 
+-- | Creates a binary multiplication expression.
 infixl 4 *:
 (*:) :: Expression -> Expression -> Expression
 (*:) = DOM.BinaryExpression BinaryOperator.Multiplication
 
+-- | Creates a binary division expression.
 infixl 4 /:
 (/:) :: Expression -> Expression -> Expression
 (/:) = DOM.BinaryExpression BinaryOperator.Division
