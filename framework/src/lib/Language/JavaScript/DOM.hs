@@ -73,6 +73,8 @@ data Expression
 data Statement
   -- | An if then else statement.
   = IfThenElse Expression Statement Statement
+  -- | An expression used as a statement.
+  | ExprAsStmt Expression
   -- | A block of statements.
   | StatementBlock [Statement]
   deriving (Show, Eq)
