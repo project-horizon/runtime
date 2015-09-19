@@ -35,15 +35,50 @@ Portability :  non-portable (Portability is untested.)
 The EDSL for creating JavaScript DOM elements.
 -}
 module Language.JavaScript
-( Script (..)
+( Expression
+, Statement
+
+, FunctionName
+, FunctionParameter
+
+, Script (..)
 ) where
 
 import qualified Language.JavaScript.DOM as DOM
 
 
+-- | An expression.
+type Expression = DOM.Expression
+
+-- | A statement.
+type Statement = DOM.Statement
+
+
+-- | The name of a function.
+type FunctionName = DOM.FunctionName
+
+-- | The name of a parameter in a function.
+type FunctionParameter = DOM.FunctionParameter
+
+
+
+
 -- | A container for a JavaScript DOM tree.
 data Script
   -- | A container for a JavaScript DOM tree.
-  = Script [DOM.Statement]
+  = Script [Statement]
   deriving (Show, Eq)
+
+
+-- | Creates a scope block.
+block :: [Statement] -> Statement
+block = DOM.StatementBlock
+
+-- | Creates a function.
+function :: FunctionName -> [FunctionParameter] -> [Statement]
+function = DOM.Function
+
+-- | Creates a statement from an expression.
+expr :: Expression -> Statement
+expr = DOM.ExprAsStmt
 
