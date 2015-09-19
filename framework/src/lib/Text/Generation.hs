@@ -21,6 +21,8 @@ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 -}
 
+{-# LANGUAGE FlexibleInstances #-}
+
 {- |
 Module      :  $Header$
 Description :  A simple DSL for creating source code generations.
@@ -35,6 +37,23 @@ Portability :  non-portable (Portability is untested.)
 A simple DSL to create source code generators.
 -}
 module Text.Generation
-( 
+( module Generator
+
+, (++>)
+, generate
 ) where
+
+import qualified Text.Generation.Generator as Generator
+
+-- | Combines two generatable values to a String.
+infixl 4 ++>
+(++>) :: (Generator.C a, Generator.C b) => a -> b -> String
+(++>) a b = generate a ++ generate b
+
+instance Generator.C String where
+    generate s = s
+
+-- | Generates source code from a given element.
+generate :: (Generator.C a) => a -> String
+generate = Generator.generate
 
