@@ -66,9 +66,18 @@ data Expression
 data Statement
   -- | An if then else statement.
   = IfThenElse Expression Statement Statement
+  -- | A for statement.
+  | Loop LoopHead [Statement]
   -- | An expression used as a statement.
   | ExprAsStmt Expression
   -- | A block of statements.
   | StatementBlock [Statement]
   deriving (Show, Eq)
+
+-- | Represents the head of a loop.
+data LoopHead
+  -- | A simple iterational loop.
+  = IterationLoop [Statement] Expression [Statement]
+  -- | A loop iterating over every element in a collection.
+  | ForEachLoop String Expression
 
