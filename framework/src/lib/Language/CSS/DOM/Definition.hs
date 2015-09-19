@@ -38,7 +38,7 @@ module Language.CSS.DOM.Definition
 ( T (..)
 ) where
 
-import qualified Text.CSS.DOM.Expression as Expression
+import qualified Language.CSS.DOM.Expression as Expression
 
 
 -- | A definition inside a declaration.

@@ -41,8 +41,8 @@ module Language.JavaScript.DOM
 , Statement (..)
 ) where
 
-import qualified Text.JavaScript.DOM.Expression.BinaryOperator as BinaryOperator
-import qualified Text.JavaScript.DOM.Expression.UnaryOperator as UnaryOperator
+import qualified Language.JavaScript.DOM.Expression.BinaryOperator as BinaryOperator
+import qualified Language.JavaScript.DOM.Expression.UnaryOperator as UnaryOperator
 
 
 -- | The name of a JavaScript function.

@@ -41,7 +41,7 @@ module Language.HTML.DOM
 ) where
 
 
-import qualified Text.HTML.DOM.Attribute as Attribute
+import qualified Language.HTML.DOM.Attribute as Attribute
 
 -- | Domain Object Model.
 data T
