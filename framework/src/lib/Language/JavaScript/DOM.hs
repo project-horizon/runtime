@@ -37,6 +37,7 @@ The domain object model of the JavaScript language.
 module Language.JavaScript.DOM
 ( Expression (..)
 , Statement (..)
+, LoopHead (..)
 ) where
 
 import qualified Language.JavaScript.DOM.Expression.BinaryOperator as BinaryOperator
@@ -80,4 +81,9 @@ data LoopHead
   = IterationLoop [Statement] Expression [Statement]
   -- | A loop iterating over every element in a collection.
   | ForEachLoop String Expression
+  -- | A loop iterating until the condition becomes false.
+  | WhileLoop Expression
+  -- | A loop iterating until the condition becomes false but evaluating
+  --   the condition after the execution of the loop block.
+  | DoWhileLoop Expression
 
