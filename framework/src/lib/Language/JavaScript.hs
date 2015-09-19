@@ -42,13 +42,14 @@ module Language.JavaScript
 , FunctionParameter
 , Argument
 
+, VariableName
+
 , Script (..)
 
-, function
-
 , block
-, expr
 
+, function
+, expr
 , call
 , array
 ) where
@@ -73,6 +74,9 @@ type FunctionParameter = DOM.FunctionParameter
 type Argument = DOM.Argument
 
 
+-- | The name of a variable in an object creation.
+type VariableName = String
+
 
 -- | A container for a JavaScript DOM tree.
 data Script
@@ -80,15 +84,14 @@ data Script
   = Script [Statement]
   deriving (Show, Eq)
 
-
--- | Creates a function.
-function :: FunctionName -> [FunctionParameter] -> [Statement]
-function = DOM.Function
-
-
 -- | Creates a scope block.
 block :: [Statement] -> Statement
 block = DOM.StatementBlock
+
+
+-- | Creates a function.
+function :: FunctionName -> [FunctionParameter] -> [Statement] -> Expression
+function = DOM.Function
 
 -- | Creates a statement from an expression.
 expr :: Expression -> Statement
@@ -102,4 +105,8 @@ call = DOM.FunctionCall
 -- | Creates an expression from multiple expressions.
 array :: [Expression] -> Expression
 array = DOM.Array
+
+infixr 3 =:
+(=:) :: VariableName -> Expression -> (VariableName, Expression)
+(=:) k v = (k, v)
 
