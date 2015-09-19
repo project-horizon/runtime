@@ -44,6 +44,12 @@ module Language.JavaScript
 , OptionalFunctionName
 , Argument
 
+, VariableName
+, Initializations
+, Condition
+, Changes
+, Container
+
 , FieldName
 , Field
 
@@ -85,6 +91,22 @@ type OptionalFunctionName = Maybe FunctionName
 type Argument = Expression
 
 
+-- | The name of a variable.
+type VariableName = String
+
+-- | The statements to initialize a for loop.
+type Initializations = [Statement]
+
+-- | A condition in control flow statements.
+type Condition = Expression
+
+-- | The statements to change the state of a for loop.
+type Changes = [Statement]
+
+-- | An expression containing the elements to iterate over.
+type Container = Expression
+
+
 -- | The name of a field in an object.
 type FieldName = String
 
@@ -110,6 +132,23 @@ block = DOM.StatementBlock
 -- | Creates a loop.
 loop :: LoopHead -> [Statement]
 loop = DOM.Loop
+
+
+-- | Creates a for loop head.
+for :: Initializations -> Condition -> Changes -> LoopHead
+for = DOM.IterationLoop
+
+-- | Creates a for each loop head.
+foreach :: VariableName -> Container -> LoopHead
+foreach = DOM.ForEachLoop
+
+-- | Creates a while loop head.
+while :: Condition -> LoopHead
+while = DOM.WhileLoop
+
+-- | Creates a do while loop head.
+dowhile :: Condition -> LoopHead
+dowhile = DOM.DoWhileLoop
 
 
 -- | Creates a function.
