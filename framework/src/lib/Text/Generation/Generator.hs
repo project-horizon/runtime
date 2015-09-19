@@ -38,6 +38,9 @@ module Text.Generation.Generator
 ( C (..)
 ) where
 
+
+-- | A typeclass providing generator access.
 class C a where
+    -- | Generates source code for a given element.
     generate :: a -> String
 
