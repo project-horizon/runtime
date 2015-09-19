@@ -34,7 +34,7 @@ Portability :  non-portable (Portability is untested.)
 
 The CSS DOM.
 -}
-module Text.CSS.DOM
+module Language.CSS.DOM
 (
 ) where
 
