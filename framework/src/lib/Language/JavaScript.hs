@@ -40,6 +40,7 @@ module Language.JavaScript
 
 , FunctionName
 , FunctionParameter
+, Argument
 
 , Script (..)
 
@@ -47,6 +48,8 @@ module Language.JavaScript
 
 , block
 , expr
+
+, call
 ) where
 
 import qualified Language.JavaScript.DOM as DOM
@@ -65,6 +68,8 @@ type FunctionName = DOM.FunctionName
 -- | The name of a parameter in a function.
 type FunctionParameter = DOM.FunctionParameter
 
+-- | An argument for a function call.
+type Argument = DOM.Argument
 
 
 
@@ -87,4 +92,9 @@ block = DOM.StatementBlock
 -- | Creates a statement from an expression.
 expr :: Expression -> Statement
 expr = DOM.ExprAsStmt
+
+-- | Creates an expression from a function name and function call
+--   arguments.
+call :: FunctionName -> [Argument] -> Expression
+call = DOM.FunctionCall
 
