@@ -69,7 +69,7 @@ data Statement
   -- | A conditional execution statement.
   = ConditionTree [(Expression,Statement)] Statement
   -- | A loop statement.
-  | Loop LoopHead [Statement]
+  | Loop LoopHead Statement
   -- | An expression used as a statement.
   | ExprAsStmt Expression
   -- | A block of statements.
