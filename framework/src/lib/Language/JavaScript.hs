@@ -67,6 +67,7 @@ module Language.JavaScript
 , while
 , dowhile
 , when
+, either
 
 -- Expressions
 , function
@@ -80,6 +81,8 @@ module Language.JavaScript
 , (*:)
 , (/:)
 ) where
+
+import Prelude hiding (either)
 
 import Data.Int
 
@@ -173,6 +176,10 @@ dowhile c = DOM.Loop (DOM.DoWhileLoop c)
 -- | Creates a simple if statement.
 when :: Condition -> Statement -> Statement
 when c s = DOM.ConditionTree [(c, s)] (block [])
+
+-- | Creates a complex if statement.
+either :: Condition -> Statement -> Statement -> Statement
+either c s = DOM.ConditionTree [(c, s)]
 
 
 -- | Creates a function.
