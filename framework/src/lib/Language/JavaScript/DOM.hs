@@ -37,6 +37,7 @@ The domain object model of the JavaScript language.
 module Language.JavaScript.DOM
 ( FunctionName
 , FunctionParameter
+, OptionalFunctionName
 
 , Argument
 , FieldName
@@ -51,11 +52,13 @@ import qualified Language.JavaScript.DOM.Expression.UnaryOperator as UnaryOperat
 
 
 -- | The name of a JavaScript function.
-type FunctionName = Maybe String
+type FunctionName = String
 
 -- | The name of a parameter for in a function declaration.
 type FunctionParameter = String
 
+-- | A function name that is optional in JavaScript syntax.
+type OptionalFunctionName = Maybe FunctionName
 
 -- | An argument for a function call.
 type Argument = Expression

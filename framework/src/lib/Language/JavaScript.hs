@@ -40,18 +40,22 @@ module Language.JavaScript
 
 , FunctionName
 , FunctionParameter
+, OptionalFunctionName
 , Argument
 
 , VariableName
 
 , Script (..)
 
+, method
 , block
 
 , function
 , expr
 , call
 , array
+
+, functionDef
 ) where
 
 import qualified Language.JavaScript.DOM as DOM
@@ -70,6 +74,9 @@ type FunctionName = DOM.FunctionName
 -- | The name of a parameter in a function.
 type FunctionParameter = DOM.FunctionParameter
 
+-- | A function name that is optional in JavaScript syntax.
+type OptionalFunctionName = DOM.OptionalFunctionName
+
 -- | An argument for a function call.
 type Argument = DOM.Argument
 
@@ -87,13 +94,18 @@ data Script
   = Script [Statement]
   deriving (Show, Eq)
 
+
+-- | Creates a method definition.
+method :: FunctionName -> [FunctionParameter] -> [Statement] -> Statement
+method = expr . function
+
 -- | Creates a scope block.
 block :: [Statement] -> Statement
 block = DOM.StatementBlock
 
 
 -- | Creates a function.
-function :: FunctionName -> [FunctionParameter] -> [Statement] -> Expression
+function :: OptionalFunctionName -> [FunctionParameter] -> [Statement] -> Expression
 function = DOM.Function
 
 -- | Creates a statement from an expression.
