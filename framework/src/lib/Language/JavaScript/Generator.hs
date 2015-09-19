@@ -38,4 +38,31 @@ module Language.JavaScript.Generator
 ( 
 ) where
 
+import Data.List
+
+
+import Text.Generation
+import qualified Text.Generation.Generator as Generator
+
+import qualified Language.JavaScript.DOM as DOM
+import qualified Language.JavaScript.DOM.Expression.BinaryOperator as BinaryOperator
+import qualified Language.JavaScript.DOM.Expression.UnaryOperator as UnaryOperator
+
+
+instance Generator.C BinaryOperator.T where
+  generate BinaryOperator.Addition = "+"
+  generate BinaryOperator.Subtraction = "-"
+  generate BinaryOperator.Multiplication = "*"
+  generate BinaryOperator.Division = "/"
+
+instance Generator.C UnaryOperator.T where
+  generate UnaryOperator.Negate = "!"
+
+instance Generator.C DOM.Expression where
+  generate (DOM.NumberLiteral v) = show v
+  generate (DOM.StringLiteral v) = show v
+  generate (DOM.UnaryOperator op v) = op ++> v
+  generate (DOM.BinaryOperator op l r) = l ++> op ++> r
+  generate (DOM.Object vs) = "{" ++> intercalate "," (map (\(k,v)-> show k ++> ":" ++> v) vs) ++> "}"
+
 
