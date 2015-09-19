@@ -75,6 +75,8 @@ module Language.JavaScript
 , array
 ) where
 
+import Data.Int
+
 import qualified Language.JavaScript.DOM as DOM
 
 import qualified Language.JavaScript.DOM.Conversion.Write as Write
@@ -193,9 +195,30 @@ object :: [Field] -> Expression
 object = DOM.Object
 
 
+instance (Write.C a) => Write.C [a] where
+  write vs = array (map val vs)
+
 instance Write.C String where
   write = DOM.StringLiteral
 
 instance Write.C Int where
+  write i = DOM.NumberLiteral (fromIntegral i)
+
+instance Write.C Double where
+  write = DOM.NumberLiteral
+
+instance Write.C Float where
+  write f = DOM.NumberLiteral (realToFrac f)
+
+instance Write.C Int8 where
+  write i = DOM.NumberLiteral (fromIntegral i)
+
+instance Write.C Int16 where
+  write i = DOM.NumberLiteral (fromIntegral i)
+
+instance Write.C Int32 where
+  write i = DOM.NumberLiteral (fromIntegral i)
+
+instance Write.C Int64 where
   write i = DOM.NumberLiteral (fromIntegral i)
 
