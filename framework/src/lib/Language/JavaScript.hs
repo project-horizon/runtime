@@ -73,12 +73,19 @@ module Language.JavaScript
 , val
 , call
 , array
+
+, (=:)
+, (+:)
+, (-:)
+, (*:)
+, (/:)
 ) where
 
 import Data.Int
 
 import qualified Language.JavaScript.DOM as DOM
-
+import qualified Language.JavaScript.DOM.Expression.BinaryOperator as BinaryOperator
+import qualified Language.JavaScript.DOM.Expression.UnaryOperator as UnaryOperator
 import qualified Language.JavaScript.DOM.Conversion.Write as Write
 
 
@@ -185,15 +192,35 @@ call = DOM.FunctionCall
 array :: [Expression] -> Expression
 array = DOM.Array
 
+-- | Creates an object from multiple fields.
+object :: [Field] -> Expression
+object = DOM.Object
+
+
 -- | Creates a field from a field name and an expression.
 infixr 3 =:
 (=:) :: FieldName -> Expression -> Field
 (=:) k v = (k, v)
 
--- | Creates an object from multiple fields.
-object :: [Field] -> Expression
-object = DOM.Object
+infixl 3 +:
+(+:) :: (Write.C a) => a -> a -> Expression
+(+:) l r = DOM.BinaryExpression BinaryOperator.Addition (val l) (val r)
 
+infixl 3 -:
+(-:) :: (Write.C a) => a -> a -> Expression
+(-:) l r = DOM.BinaryExpression BinaryOperator.Subtraction (val l) (val r)
+
+infixl 4 *:
+(*:) :: (Write.C a) => a -> a -> Expression
+(*:) l r = DOM.BinaryExpression BinaryOperator.Multiplication (val l) (val r)
+
+infixl 4 /:
+(/:) :: (Write.C a) => a -> a -> Expression
+(/:) l r = DOM.BinaryExpression BinaryOperator.Division (val l) (val r)
+
+
+instance Write.C Expression where
+  write e = e
 
 instance (Write.C a) => Write.C [a] where
   write vs = array (map val vs)
