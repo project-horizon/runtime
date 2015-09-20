@@ -75,15 +75,21 @@ instance Eq (Expression a) where
 
 -- | A PolyDSL declaration.
 data Declaration a where
+  -- | Import declaration.
+  Import :: String -> Declaration String
   -- | Function declaration.
   Function :: String -> [String] -> Expression a -> Declaration a
   -- | Signature declaration.
   Signature :: (Show a, Eq a) => String -> [Type.T] -> Declaration a
 
 instance Show (Declaration a) where
-  show (Function f ps e) = "Function " ++ show f ++ " " ++ show ps ++ " (" ++ show e ++ ")"
+  show (Import     p     ) = "Import " ++ show p
+  show (Function   f ps e) = "Function " ++ show f ++ " " ++ show ps ++ " (" ++ show e ++ ")"
+  show (Sigtnature s ps  ) = "Signature " ++ show s ++ show ps
 
 instance Eq (Declaration a) where
-  (Function fl psl el) == (Function fr psr er) = fl == fr && psl == psr && el == er
-  _                    == _                    = False
+  (Import    pl       ) == (Import    pr       ) = pl == pr
+  (Function  fl psl el) == (Function  fr psr er) = fl == fr && psl == psr && el == er
+  (Signature sl psl   ) == (Signature sr psr   ) = sl == sr && psl == psr
+  _                     == _                     = False
 
