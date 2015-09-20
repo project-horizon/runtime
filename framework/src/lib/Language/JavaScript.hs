@@ -82,17 +82,24 @@ module Language.JavaScript
 , (-:)
 , (*:)
 , (/:)
+
+, module Write
+, module Read
 ) where
 
 import           Prelude hiding (either)
 
 import           Data.Int
+import           Data.List
 
-import           Language.JavaScript.Generation
+import           Text.Generation
+
+import           Language.JavaScript.Generator
 import qualified Language.JavaScript.DOM as DOM
 import qualified Language.JavaScript.DOM.Expression.BinaryOperator as BinaryOperator
 import qualified Language.JavaScript.DOM.Expression.UnaryOperator as UnaryOperator
 import qualified Language.JavaScript.DOM.Conversion.Write as Write
+import qualified Language.JavaScript.DOM.Conversion.Read as Read
 
 
 -- | An expression.
@@ -146,12 +153,15 @@ type Case = (Condition, Statement)
 data Script
   -- | A container for a JavaScript DOM tree.
   = Script [Statement]
-  deriving (Show, Eq)
+  deriving (Eq)
+
+instance Show Script where
+  show (Script stmts) = intercalate ";" (map generate stmts)
 
 
 -- | Creates a method definition.
 method :: FunctionName -> [FunctionParameter] -> [Statement] -> Statement
-method f ps ss = expr (function (Just f) ps ss)
+method f ps ss = expr (DOM.Function (Just f) ps ss)
 
 -- | Creates a scope block.
 block :: [Statement] -> Statement
