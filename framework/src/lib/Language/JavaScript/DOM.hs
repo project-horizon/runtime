@@ -50,6 +50,8 @@ data Expression
   = NumberLiteral Double
   -- | A JavaScript string expression.
   | StringLiteral String
+  -- | A JavaScript variable identifier expression.
+  | Identifier String
   -- | A JavaScript binary expression.
   | BinaryExpression BinaryOperator.T Expression Expression
   -- | A JavaScript unary expression.
