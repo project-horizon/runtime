@@ -60,6 +60,8 @@ data Expression
   | Object [(String,Expression)]
   -- | A JavaScript array expression.
   | Array [Expression]
+  -- | A JavaScript object access expression.
+  | ObjectAccess Expression String
   -- | A JavaScript function expression.
   | Function (Maybe String) [String] [Statement]
   -- | A JavaScript function call expression.
