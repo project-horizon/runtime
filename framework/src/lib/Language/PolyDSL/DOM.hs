@@ -38,6 +38,7 @@ The DOM of the PolyDSL language.
 -}
 module Language.PolyDSL.DOM
 ( Expression (..)
+, Declaration (..)
 ) where
 
 
@@ -65,4 +66,17 @@ instance Eq (Expression a) where
   (CharLiteral   l) == (CharLiteral   r) = l == r
   (Identifier    l) == (Identifier    r) = l == r
   _                 == _                 = False
+
+
+-- | A PolyDSL declaration.
+data Declaration a where
+  -- | Function declaration.
+  Function :: String -> [String] -> Expression a -> Declaration a
+
+instance Show (Declaration a) where
+  show (Function f ps e) = "Function " ++ show f ++ " " ++ show ps ++ " " ++ e
+
+instance Eq (Declaration a) where
+  (Function fl psl el) == (Function fr psr er) = fl == fr && psl == psr && el == er
+  _                    == _                    = False
 
