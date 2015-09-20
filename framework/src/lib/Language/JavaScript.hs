@@ -60,15 +60,18 @@ module Language.JavaScript
 , Script (..)
 
 -- Statements
-, method
-, block
-, expr
 , for
 , foreach
 , while
 , dowhile
 , when
 , either
+, switch
+, expr
+, var
+, ret
+, block
+, method
 
 -- Expressions
 , function
@@ -158,15 +161,6 @@ data Script
 instance Show Script where
   show (Script stmts) = intercalate ";" (map generate stmts)
 
-
--- | Creates a method definition.
-method :: FunctionName -> [FunctionParameter] -> [Statement] -> Statement
-method f ps ss = expr (DOM.Function (Just f) ps ss)
-
--- | Creates a scope block.
-block :: [Statement] -> Statement
-block = DOM.StatementBlock
-
 -- | Creates a statement from an expression.
 expr :: Expression -> Statement
 expr = DOM.ExprAsStmt
@@ -202,6 +196,18 @@ switch = DOM.ConditionTree
 -- | Creates a return statement.
 ret :: Expression -> Statement
 ret = DOM.Return
+
+-- | Creates a variable definition statement.
+var :: VariableName -> Expression -> Statement
+var = DOM.Var
+
+-- | Creates a scope block.
+block :: [Statement] -> Statement
+block = DOM.StatementBlock
+
+-- | Creates a method definition.
+method :: FunctionName -> [FunctionParameter] -> [Statement] -> Statement
+method f ps ss = expr (DOM.Function (Just f) ps ss)
 
 
 -- | Creates a function.
