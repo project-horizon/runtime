@@ -41,6 +41,8 @@ module Language.PolyDSL.DOM
 , Declaration (..)
 ) where
 
+import qualified Language.PolyDSL.DOM.Declaration.Type as Type
+
 
 -- | A PolyDSL expression.
 data Expression a where
@@ -56,26 +58,30 @@ data Expression a where
   FunctionCall :: (Show a, Eq a, Show b, Eq b) => Expression a -> Expression b -> Expression (a, b)
 
 instance Show (Expression a) where
-  show (NumberLiteral v) = "NumberLiteral " ++ show v
-  show (StringLiteral v) = "StringLiteral " ++ show v
-  show (CharLiteral   v) = "CharLiteral " ++ show v
-  show (Identifier    v) = "Identifier " ++ show v
+  show (NumberLiteral  v) = "NumberLiteral " ++ show v
+  show (StringLiteral  v) = "StringLiteral " ++ show v
+  show (CharLiteral    v) = "CharLiteral " ++ show v
+  show (Identifier     v) = "Identifier " ++ show v
+  show (FunctionCall c p) = "FunctionCall (" ++ show c ++ ") (" ++ show p ++ ")"
 
 instance Eq (Expression a) where
-  (NumberLiteral l) == (NumberLiteral r) = l == r
-  (StringLiteral l) == (StringLiteral r) = l == r
-  (CharLiteral   l) == (CharLiteral   r) = l == r
-  (Identifier    l) == (Identifier    r) = l == r
-  _                 == _                 = False
+  (NumberLiteral l    ) == (NumberLiteral r    ) = l == r
+  (StringLiteral l    ) == (StringLiteral r    ) = l == r
+  (CharLiteral   l    ) == (CharLiteral   r    ) = l == r
+  (Identifier    l    ) == (Identifier    r    ) = l == r
+  (FunctionCall  cl pl) == (FunctionCall  cr pr) = cl == cr && pl == pr
+  _                     == _                     = False
 
 
 -- | A PolyDSL declaration.
 data Declaration a where
   -- | Function declaration.
   Function :: String -> [String] -> Expression a -> Declaration a
+  -- | Signature declaration.
+  Signature :: (Show a, Eq a) => String -> [Type.T] -> Declaration a
 
 instance Show (Declaration a) where
-  show (Function f ps e) = "Function " ++ show f ++ " " ++ show ps ++ " " ++ show e
+  show (Function f ps e) = "Function " ++ show f ++ " " ++ show ps ++ " (" ++ show e ++ ")"
 
 instance Eq (Declaration a) where
   (Function fl psl el) == (Function fr psr er) = fl == fr && psl == psr && el == er
