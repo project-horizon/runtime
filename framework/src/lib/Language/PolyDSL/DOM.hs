@@ -21,6 +21,8 @@ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 -}
 
+{-# LANGUAGE GADTs #-}
+
 {- |
 Module      :  $Header$
 Description :  The DOM of the PolyDSL language.
@@ -35,6 +37,22 @@ Portability :  non-portable (Portability is untested.)
 The DOM of the PolyDSL language.
 -}
 module Language.PolyDSL.DOM
-( 
+( Expression (..)
 ) where
+
+
+data Expression where
+  -- | Integer literal.
+  IntegralLiteral :: (Integral a, Show a, Eq a) => a -> Expression
+  -- | Fractional literal.
+  FractionalLiteral :: (Fractional a, Show a, Eq a) => a -> Expression
+
+instance Show Expression where
+  show (IntegralLiteral   v) = "IntegralLiteral " ++ show v
+  show (FractionalLiteral v) = "FractionalLiteral " ++ show v
+
+instance Eq Expression where
+  (IntegralLiteral   l) == (IntegralLiteral   r) = l == r
+  (FractionalLiteral l) == (FractionalLiteral r) = l == r
+  _                     == _                     = False
 
