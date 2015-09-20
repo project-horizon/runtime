@@ -69,13 +69,15 @@ module Language.JavaScript
 , switch
 , expr
 , var
-, ret
+, rel
 , block
 , method
 
 -- Expressions
 , int
 , dbl
+, true
+, false
 , ident
 , array
 , object
@@ -221,6 +223,14 @@ int i = DOM.NumberLiteral (fromIntegral i)
 -- | Creates a numeric value expression.
 dbl :: (Real a) => a -> Expression
 dbl d = DOM.NumberLiteral (realToFrac d)
+
+-- | Creates a boolean value expression.
+true :: Expression
+true = DOM.BooleanLiteral True
+
+-- | Creates a boolean value expression.
+false :: Expression
+false = DOM.BooleanLiteral False
 
 -- | Creates an identifier access.
 ident :: VariableName -> Expression
