@@ -42,18 +42,27 @@ module Language.PolyDSL.DOM
 
 
 -- | A PolyDSL expression.
-data Expression where
-  -- | Integer literal.
-  IntegralLiteral :: (Integral a, Show a, Eq a) => a -> Expression
-  -- | Fractional literal.
-  FractionalLiteral :: (Fractional a, Show a, Eq a) => a -> Expression
+data Expression a where
+  -- | Number literal.
+  NumberLiteral :: (Num a, Show a, Eq a) => a -> Expression a
+  -- | String literal.
+  StringLiteral :: String -> Expression String
+  -- | Char Literal.
+  CharLiteral :: Char -> Expression Char
+  -- | Identifier.
+  Identifier :: String -> Expression String
 
-instance Show Expression where
+instance Show (Expression a) where
   show (IntegralLiteral   v) = "IntegralLiteral " ++ show v
   show (FractionalLiteral v) = "FractionalLiteral " ++ show v
+  show (StringLiteral     v) = "StringLiteral " ++ show v
+  show (CharLiteral       v) = "CharLiteral " ++ show v
+  show (Identifier        v) = "Identifier " ++ show v
 
-instance Eq Expression where
-  (IntegralLiteral   l) == (IntegralLiteral   r) = l == r
-  (FractionalLiteral l) == (FractionalLiteral r) = l == r
-  _                     == _                     = False
+instance Eq (Expression a) where
+  (NumberLiteral l) == (NumberLiteral r) = l == r
+  (StringLiteral l) == (StringLiteral r) = l == r
+  (CharLiteral   l) == (CharLiteral   r) = l == r
+  (Identifier    l) == (Identifier    r) = l == r
+  _                 == _                 = False
 
