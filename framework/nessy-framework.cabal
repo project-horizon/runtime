@@ -17,18 +17,18 @@ cabal-version:          >=1.10
 
 library
   exposed-modules:      Text.Generation
-                 ,      Text.Generation.Generator
-
                  ,      Language.JavaScript
-                 ,      Language.JavaScript.DOM.Conversion.Read
-                 ,      Language.JavaScript.DOM.Conversion.Write
-  other-modules:        Language.HTML
+  other-modules:        Text.Generation.Generator
+
+               ,        Language.HTML
                ,        Language.HTML.DOM
                ,        Language.HTML.DOM.Attribute
 
                ,        Language.JavaScript.Generator
                ,        Language.JavaScript.DOM
                ,        Language.JavaScript.DOM.Expression.BinaryOperator
+               ,        Language.JavaScript.DOM.Conversion.Read
+               ,        Language.JavaScript.DOM.Conversion.Write
 
                ,        Language.CSS
                ,        Language.CSS.DOM
