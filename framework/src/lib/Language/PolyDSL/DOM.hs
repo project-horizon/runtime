@@ -83,9 +83,9 @@ data Declaration a where
   Signature :: (Show a, Eq a) => String -> [Type.T] -> Declaration a
 
 instance Show (Declaration a) where
-  show (Import     p     ) = "Import " ++ show p
-  show (Function   f ps e) = "Function " ++ show f ++ " " ++ show ps ++ " (" ++ show e ++ ")"
-  show (Sigtnature s ps  ) = "Signature " ++ show s ++ show ps
+  show (Import    p     ) = "Import " ++ show p
+  show (Function  f ps e) = "Function " ++ show f ++ " " ++ show ps ++ " (" ++ show e ++ ")"
+  show (Signature s ps  ) = "Signature " ++ show s ++ " " ++ show ps
 
 instance Eq (Declaration a) where
   (Import    pl       ) == (Import    pr       ) = pl == pr
