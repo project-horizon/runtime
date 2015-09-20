@@ -50,15 +50,16 @@ data Expression a where
   StringLiteral :: String -> Expression String
   -- | Char Literal.
   CharLiteral :: Char -> Expression Char
-  -- | Identifier.
+  -- | Identifier expression.
   Identifier :: String -> Expression String
+  -- | Function call expression.
+  FunctionCall :: (Show a, Eq a, Show b, Eq b) => Expression a -> Expression b -> Expression (a, b)
 
 instance Show (Expression a) where
-  show (IntegralLiteral   v) = "IntegralLiteral " ++ show v
-  show (FractionalLiteral v) = "FractionalLiteral " ++ show v
-  show (StringLiteral     v) = "StringLiteral " ++ show v
-  show (CharLiteral       v) = "CharLiteral " ++ show v
-  show (Identifier        v) = "Identifier " ++ show v
+  show (NumberLiteral v) = "NumberLiteral " ++ show v
+  show (StringLiteral v) = "StringLiteral " ++ show v
+  show (CharLiteral   v) = "CharLiteral " ++ show v
+  show (Identifier    v) = "Identifier " ++ show v
 
 instance Eq (Expression a) where
   (NumberLiteral l) == (NumberLiteral r) = l == r
@@ -74,7 +75,7 @@ data Declaration a where
   Function :: String -> [String] -> Expression a -> Declaration a
 
 instance Show (Declaration a) where
-  show (Function f ps e) = "Function " ++ show f ++ " " ++ show ps ++ " " ++ e
+  show (Function f ps e) = "Function " ++ show f ++ " " ++ show ps ++ " " ++ show e
 
 instance Eq (Declaration a) where
   (Function fl psl el) == (Function fr psr er) = fl == fr && psl == psr && el == er
