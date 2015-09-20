@@ -69,7 +69,7 @@ module Language.JavaScript
 , switch
 , expr
 , var
-, rel
+, ret
 , block
 , method
 
