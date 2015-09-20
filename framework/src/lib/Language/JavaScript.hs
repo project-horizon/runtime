@@ -74,11 +74,12 @@ module Language.JavaScript
 , method
 
 -- Expressions
-, function
-, val
-, call
+, ident
 , array
 , object
+, function
+, call
+, val
 
 , (=:)
 , (+:)
@@ -209,27 +210,26 @@ block = DOM.StatementBlock
 method :: FunctionName -> [FunctionParameter] -> [Statement] -> Statement
 method f ps ss = expr (DOM.Function (Just f) ps ss)
 
+-- | Creates an object from multiple fields.
+object :: [Field] -> Expression
+object = DOM.Object
+
+-- | Creates an expression from multiple expressions.
+array :: [Expression] -> Expression
+array = DOM.Array
 
 -- | Creates a function.
 function :: [FunctionParameter] -> [Statement] -> Expression
 function = DOM.Function Nothing
-
--- | Creates an expression from a Haskell value.
-val :: (Write.C a) => a -> Expression
-val = Write.write
 
 -- | Creates an expression from a function name and function call
 --   arguments.
 call :: FunctionName -> [Argument] -> Expression
 call = DOM.FunctionCall
 
--- | Creates an expression from multiple expressions.
-array :: [Expression] -> Expression
-array = DOM.Array
-
--- | Creates an object from multiple fields.
-object :: [Field] -> Expression
-object = DOM.Object
+-- | Creates an expression from a Haskell value.
+val :: (Write.C a) => a -> Expression
+val = Write.write
 
 
 -- | Creates a field from a field name and an expression.
