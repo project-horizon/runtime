@@ -65,6 +65,7 @@ instance Generator.C UnaryOperator.T where
 instance Generator.C DOM.Expression where
   generate (DOM.NumberLiteral v)         = show v
   generate (DOM.StringLiteral v)         = show v
+  generate (DOM.BooleanLiteral v)        = if v then "true" else "false"
   generate (DOM.BinaryExpression op l r) = l ++> op ++> r
   generate (DOM.UnaryExpression op v)    = op ++> v
   generate (DOM.Object vs)               = "{" ++> intercalate "," (map (\(k,v)-> show k ++> ":" ++> v) vs) ++> "}"
