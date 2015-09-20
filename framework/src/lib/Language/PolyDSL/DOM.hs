@@ -41,6 +41,7 @@ module Language.PolyDSL.DOM
 ) where
 
 
+-- | A PolyDSL expression.
 data Expression where
   -- | Integer literal.
   IntegralLiteral :: (Integral a, Show a, Eq a) => a -> Expression
