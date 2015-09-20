@@ -69,6 +69,7 @@ instance Generator.C DOM.Expression where
   generate (DOM.UnaryExpression op v)    = op ++> v
   generate (DOM.Object vs)               = "{" ++> intercalate "," (map (\(k,v)-> show k ++> ":" ++> v) vs) ++> "}"
   generate (DOM.Array vs)                = "[" ++> intercalate "," (map generate vs) ++> "]"
+  generate (DOM.ObjectAccess e p)        = e ++> "[" ++> show p ++> "]"
   generate (DOM.FunctionCall f args)     = f ++> "(" ++> intercalate "," (map generate args) ++> ")"
   generate (DOM.Function f ps ss)        = "function " ++> f ++> "(" ++> intercalate "," ps ++> "){" ++> intercalate ";" (map generate ss) ++> "}"
 
