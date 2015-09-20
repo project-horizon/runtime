@@ -72,6 +72,8 @@ data Statement
   | Loop LoopHead Statement
   -- | An expression used as a statement.
   | ExprAsStmt Expression
+  -- | A var statement.
+  | Var String Expression
   -- | A return statement.
   | Return Expression
   -- | A block of statements.
