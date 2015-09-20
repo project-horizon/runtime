@@ -74,6 +74,8 @@ module Language.JavaScript
 , method
 
 -- Expressions
+, int
+, dbl
 , ident
 , array
 , object
@@ -209,6 +211,19 @@ block = DOM.StatementBlock
 -- | Creates a method definition.
 method :: FunctionName -> [FunctionParameter] -> [Statement] -> Statement
 method f ps ss = expr (DOM.Function (Just f) ps ss)
+
+
+-- | Creates a numeric value expression.
+int :: (Integral a) => a -> Expression
+int i = DOM.NumberLiteral (fromIntegral i)
+
+-- | Creates a numeric value expression.
+dbl :: (Real a) => a -> Expression
+dbl d = DOM.NumberLiteral (realToFrac d)
+
+-- | Creates an identifier access.
+ident :: VariableName -> Expression
+ident = DOM.Identifier
 
 -- | Creates an object from multiple fields.
 object :: [Field] -> Expression
