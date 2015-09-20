@@ -77,8 +77,8 @@ instance Generator.C DOM.Statement where
   generate (DOM.ConditionTree cs ow)        = intercalate " else " (map (\(c,s)-> "if(" ++> c ++> ")" ++> s) cs) ++> " else " ++> ow
   generate (DOM.Loop lh s)                  = generateLoop lh s
     where
-      generateLoop lh@(DOM.DoWhileLoop _) s = "do " ++> s ++> lh
-      generateLoop lh s                     = lh ++> s
+      generateLoop lh@(DOM.DoWhileLoop _) s = "do " ++> s ++> lh ++> ";"
+      generateLoop lh s                     = lh ++> s ++> ";"
   generate (DOM.ExprAsStmt v)               = generate v
   generate (DOM.Var s v)                    = "var " ++> s ++> "=" ++> v
   generate (DOM.Return v)                   = "return " ++> v
@@ -94,5 +94,5 @@ instance Generator.C DOM.LoopHead where
   generate (DOM.WhileLoop c) =
     "while(" ++> c ++> ")"
   generate (DOM.DoWhileLoop c) =
-    "while(" ++> c ++> ");"
+    "while(" ++> c ++> ")"
 
