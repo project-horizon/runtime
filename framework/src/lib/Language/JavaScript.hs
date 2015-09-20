@@ -88,6 +88,7 @@ module Language.JavaScript
 , (-:)
 , (*:)
 , (/:)
+, (.:)
 
 , module Write
 , module Read
@@ -272,6 +273,10 @@ infixl 4 /:
 (/:) :: Expression -> Expression -> Expression
 (/:) = DOM.BinaryExpression BinaryOperator.Division
 
+-- | Creates an object access expression.
+infixl 9 .:
+(.:) :: Expression -> VariableName -> Expression
+(.:) = DOM.ObjectAccess
 
 instance (Write.C a) => Write.C [a] where
   write vs = array (map val vs)
