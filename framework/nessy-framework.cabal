@@ -42,6 +42,7 @@ library
 
                ,        Language.PolyDSL
                ,        Language.PolyDSL.DOM
+               --,        Language.PolyDSL.Transformation.JavaScript
   build-depends:        base >=4.8 && <4.9
   hs-source-dirs:       src/lib
   default-language:     Haskell2010
