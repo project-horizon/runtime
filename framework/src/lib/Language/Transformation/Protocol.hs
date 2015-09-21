@@ -21,6 +21,8 @@ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 -}
 
+{-# LANGUAGE ConstraintKinds  #-}
+
 {- |
 Module      :  $Header$
 Description :  The transformation protocol for AST conversions.
@@ -35,8 +37,8 @@ Portability :  non-portable (Portability is untested.)
 The transformation protocol for AST conversions.
 -}
 module Language.Transformation.Protocol
-( module Transformator
+( module Language.Transformation.Protocol.Transformator
 ) where
 
-import qualified Language.Transformation.Protocol.Transformator as Transformator
+import Language.Transformation.Protocol.Transformator
 
