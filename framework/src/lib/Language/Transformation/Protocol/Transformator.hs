@@ -21,7 +21,7 @@ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 -}
 
-{-# LANGUAGE FlexibleInstances #-}
+{-# LANGUAGE MultiParamTypeClasses #-}
 
 {- |
 Module      :  $Header$
@@ -37,12 +37,12 @@ Portability :  non-portable (Portability is untested.)
 An AST transformation protocol.
 -}
 module Language.Transformation.Protocol.Transformator
-( C (..)
+( Transformator (..)
 ) where
 
 
 -- | A typeclass structuring the transformation of ASTs.
-class C t where
+class Transformator a b where
   -- | Transforms an AST node to a different AST node.
-  transform :: t
+  transform :: a -> b
 
