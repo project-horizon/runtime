@@ -250,7 +250,7 @@ function = DOM.Function Nothing
 
 -- | Creates an expression from a function name and function call
 --   arguments.
-call :: FunctionName -> [Argument] -> Expression
+call :: Expression -> [Argument] -> Expression
 call = DOM.FunctionCall
 
 -- | Creates an expression from a Haskell value.
@@ -288,10 +288,11 @@ infixl 9 .:
 (.:) :: Expression -> VariableName -> Expression
 (.:) = DOM.ObjectAccess
 
-instance (Write.C a) => Write.C [a] where
+
+instance {-# OVERLAPPABLE #-} (Write.C a) => Write.C [a] where
   write vs = array (map val vs)
 
-instance Write.C String where
+instance {-# OVERLAPS #-} Write.C String where
   write = DOM.StringLiteral
 
 instance Write.C Char where
