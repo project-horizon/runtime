@@ -20,6 +20,9 @@ library
                  ,      Language.JavaScript
   other-modules:        Text.Generation.Generator
 
+               ,        Language.Transformation.Protocol
+               ,        Language.Transformation.Protocol.Transformator
+
                ,        Language.HTML
                ,        Language.HTML.DOM
                ,        Language.HTML.DOM.Attribute
