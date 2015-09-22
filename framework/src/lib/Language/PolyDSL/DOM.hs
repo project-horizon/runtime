@@ -21,6 +21,7 @@ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 -}
 
+{-# LANGUAGE ConstraintKinds #-}
 {-# LANGUAGE GADTs #-}
 
 {- |
@@ -41,13 +42,16 @@ module Language.PolyDSL.DOM
 , Declaration (..)
 ) where
 
+import qualified Language.JavaScript                   as JS
 import qualified Language.PolyDSL.DOM.Declaration.Type as Type
 
+
+type Value a = (Num a, Show a, Read a, Eq a, JS.DOMWrite a)
 
 -- | A PolyDSL expression.
 data Expression a where
   -- | Number literal.
-  NumberLiteral :: (Num a, Show a, Eq a) => a -> Expression a
+  NumberLiteral :: Value a => a -> Expression a
   -- | String literal.
   StringLiteral :: String -> Expression String
   -- | Char Literal.

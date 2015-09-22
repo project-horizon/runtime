@@ -35,13 +35,14 @@ Portability :  non-portable (Portability is untested.)
 The domain object model of the JavaScript language.
 -}
 module Language.JavaScript.DOM
-( Expression (..)
+( module Export
+
+, Expression (..)
 , Statement (..)
 , LoopHead (..)
 ) where
 
-import qualified Language.JavaScript.DOM.Expression.BinaryOperator as BinaryOperator
-import qualified Language.JavaScript.DOM.Expression.UnaryOperator as UnaryOperator
+import           Language.JavaScript.DOM.Expression as Export
 
 
 -- | A JavaScript exmression.
@@ -55,9 +56,9 @@ data Expression
   -- | A JavaScript variable identifier expression.
   | Identifier String
   -- | A JavaScript binary expression.
-  | BinaryExpression BinaryOperator.T Expression Expression
+  | BinaryExpression BinaryOperator Expression Expression
   -- | A JavaScript unary expression.
-  | UnaryExpression UnaryOperator.T Expression
+  | UnaryExpression UnaryOperator Expression
   -- | A JavaScript object expression.
   | Object [(String,Expression)]
   -- | A JavaScript array expression.

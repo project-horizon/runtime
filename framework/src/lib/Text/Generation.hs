@@ -37,23 +37,23 @@ Portability :  non-portable (Portability is untested.)
 A simple DSL to create source code generators.
 -}
 module Text.Generation
-( module Generator
+( module Export
 
 , (++>)
-, generate
 ) where
 
-import qualified Text.Generation.Generator as Generator
+import           Text.Generation.Generator as Export
+
 
 -- | Combines two generatable values to a String.
 infixl 4 ++>
-(++>) :: (Generator.C a, Generator.C b) => a -> b -> String
+(++>) :: (Generator a, Generator b) => a -> b -> String
 (++>) a b = generate a ++ generate b
 
-instance Generator.C String where
+instance Generator String where
     generate s = s
 
--- | Generates source code from a given element.
-generate :: (Generator.C a) => a -> String
-generate = Generator.generate
+instance (Generator a) => Generator (Maybe a) where
+  generate (Just v) = generate v
+  generate Nothing  = ""
 

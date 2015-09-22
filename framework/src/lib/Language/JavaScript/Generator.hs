@@ -42,27 +42,20 @@ import Data.List
 
 
 import Text.Generation
-import qualified Text.Generation.Generator as Generator
 
 import qualified Language.JavaScript.DOM as DOM
-import qualified Language.JavaScript.DOM.Expression.BinaryOperator as BinaryOperator
-import qualified Language.JavaScript.DOM.Expression.UnaryOperator as UnaryOperator
 
 
-instance (Generator.C a) => Generator.C (Maybe a) where
-  generate (Just v) = generate v
-  generate Nothing  = ""
+instance Generator DOM.BinaryOperator where
+  generate DOM.Addition       = "+"
+  generate DOM.Subtraction    = "-"
+  generate DOM.Multiplication = "*"
+  generate DOM.Division       = "/"
 
-instance Generator.C BinaryOperator.T where
-  generate BinaryOperator.Addition = "+"
-  generate BinaryOperator.Subtraction = "-"
-  generate BinaryOperator.Multiplication = "*"
-  generate BinaryOperator.Division = "/"
+instance Generator DOM.UnaryOperator where
+  generate DOM.Negate = "!"
 
-instance Generator.C UnaryOperator.T where
-  generate UnaryOperator.Negate = "!"
-
-instance Generator.C DOM.Expression where
+instance Generator DOM.Expression where
   generate (DOM.NumberLiteral v)         = show v
   generate (DOM.StringLiteral v)         = show v
   generate (DOM.BooleanLiteral v)        = if v then "true" else "false"
@@ -74,7 +67,7 @@ instance Generator.C DOM.Expression where
   generate (DOM.FunctionCall f args)     = f ++> "(" ++> intercalate "," (map generate args) ++> ")"
   generate (DOM.Function f ps ss)        = "function " ++> f ++> "(" ++> intercalate "," ps ++> "){" ++> intercalate ";" (map generate ss) ++> "}"
 
-instance Generator.C DOM.Statement where
+instance Generator DOM.Statement where
   generate (DOM.ConditionTree cs ow)        = intercalate " else " (map (\(c,s)-> "if(" ++> c ++> ")" ++> s) cs) ++> " else " ++> ow
   generate (DOM.Loop lh s)                  = generateLoop lh s
     where
@@ -85,7 +78,7 @@ instance Generator.C DOM.Statement where
   generate (DOM.Return v)                   = "return " ++> v
   generate (DOM.StatementBlock stmts)       = "{" ++> intercalate ";" (map generate stmts) ++> "}"
 
-instance Generator.C DOM.LoopHead where
+instance Generator DOM.LoopHead where
   generate (DOM.IterationLoop inits cond chs) =
     "for(" ++> intercalate "," (map generate inits) ++> ";" ++>
                cond ++>

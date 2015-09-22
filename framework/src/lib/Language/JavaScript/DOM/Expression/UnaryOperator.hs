@@ -35,11 +35,11 @@ Portability :  non-portable (Portability is untested.)
 A listing of unary operators from the JavaScript language.
 -}
 module Language.JavaScript.DOM.Expression.UnaryOperator
-( T (..)
+( UnaryOperator (..)
 ) where
 
 -- | All available unary operators from the JavaScript language.
-data T
+data UnaryOperator
   -- | The negation operator.
   = Negate
   deriving (Show, Eq)

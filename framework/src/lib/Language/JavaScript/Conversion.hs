@@ -23,7 +23,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 {- |
 Module      :  $Header$
-Description :  Haskell to JavaScript value conversion.
+Description :  A conversion interface from Haskell to JavaScript expressions.
 Author	    :  Nils 'bash0r' Jonsson
 Copyright   :  (c) 2015 Nils 'bash0r' Jonsson
 License	    :  MIT
@@ -32,18 +32,12 @@ Maintainer  :  aka.bash0r@gmail.com
 Stability   :  unstable
 Portability :  non-portable (Portability is untested.)
 
-Haskell to JavaScript value conversion.
+A conversion interface from Haskell to JavaScript expressions.
 -}
-module Language.JavaScript.DOM.Conversion.Write
-( C (..)
+module Language.JavaScript.Conversion
+( module Export
 ) where
 
-import qualified Language.JavaScript.DOM as DOM
-
-
--- | A typeclass structuring writes from Haskell values to JavaScript
---   expressions.
-class C a where
-  -- | Writes a Haskell value to a JavaScript DOM expression.
-  write :: a -> DOM.Expression
+import Language.JavaScript.Conversion.DOMRead  as Export
+import Language.JavaScript.Conversion.DOMWrite as Export
 

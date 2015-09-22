@@ -21,13 +21,9 @@ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 -}
 
-{-# LANGUAGE GADTs                 #-}
-{-# LANGUAGE MultiParamTypeClasses #-}
-{-# LANGUAGE TypeSynonymInstances  #-}
-
 {- |
 Module      :  $Header$
-Description :  PolyDSL to JavaScript conversion.
+Description :  The expression definitions of the EDSL.
 Author	    :  Nils 'bash0r' Jonsson
 Copyright   :  (c) 2015 Nils 'bash0r' Jonsson
 License	    :  MIT
@@ -36,22 +32,49 @@ Maintainer  :  aka.bash0r@gmail.com
 Stability   :  unstable
 Portability :  non-portable (Portability is untested.)
 
-PolyDSL to JavaScript conversion.
+The expression definitions of the EDSL.
 -}
-module Language.PolyDSL.Transformation.JavaScript
-( 
+module Language.JavaScript.DSL.Operators
+( (=:)
+, (+:)
+, (-:)
+, (*:)
+, (/:)
+, (.:)
 ) where
 
-import Language.Transformation.Protocol
+import qualified Language.JavaScript.DOM as DOM
 
-import Language.JavaScript
-
-import qualified Language.PolyDSL.DOM as DOM
+import           Language.JavaScript.DSL.TypeAliases
 
 
-instance Transformer (DOM.Expression a) Expression where
-  transform (DOM.NumberLiteral v  ) = val v
-  transform (DOM.StringLiteral v  ) = val v
-  transform (DOM.Identifier    i  ) = ident i
-  transform (DOM.FunctionCall  f e) = call (transform f) [transform e]
+-- | Creates a field from a field name and an expression.
+infixr 3 =:
+(=:) :: FieldName -> Expression -> Field
+(=:) k v = (k, v)
+
+-- | Creates a binary addition expression.
+infixl 3 +:
+(+:) :: Expression -> Expression -> Expression
+(+:) = DOM.BinaryExpression DOM.Addition
+
+-- | Creates a binary subtraction expression.
+infixl 3 -:
+(-:) :: Expression -> Expression -> Expression
+(-:) = DOM.BinaryExpression DOM.Subtraction
+
+-- | Creates a binary multiplication expression.
+infixl 4 *:
+(*:) :: Expression -> Expression -> Expression
+(*:) = DOM.BinaryExpression DOM.Multiplication
+
+-- | Creates a binary division expression.
+infixl 4 /:
+(/:) :: Expression -> Expression -> Expression
+(/:) = DOM.BinaryExpression DOM.Division
+
+-- | Creates an object access expression.
+infixl 9 .:
+(.:) :: Expression -> VariableName -> Expression
+(.:) = DOM.ObjectAccess
 

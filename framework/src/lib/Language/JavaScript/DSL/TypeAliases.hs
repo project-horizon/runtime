@@ -23,26 +23,85 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 {- |
 Module      :  $Header$
-Description :  JavaScript to Haskell value conversion.
-Author      :  Nils 'bash0r' Jonsson
+Description :  Contains type alias definitions.
+Author	    :  Nils 'bash0r' Jonsson
 Copyright   :  (c) 2015 Nils 'bash0r' Jonsson
-License     :  MIT
+License	    :  MIT
 
 Maintainer  :  aka.bash0r@gmail.com
 Stability   :  unstable
 Portability :  non-portable (Portability is untested.)
 
-JavaScript to Haskell value conversion.
+Contains type alias definitions.
 -}
-module Language.JavaScript.DOM.Conversion.Read
-( C (..)
+module Language.JavaScript.DSL.TypeAliases
+( Expression
+, Statement
+, LoopHead
+
+, FunctionName
+, FunctionParameter
+, Argument
+
+, VariableName
+, Initializations
+, Changes
+, Container
+
+, FieldName
+, Field
+
+, Condition
+, Case
 ) where
 
 import qualified Language.JavaScript.DOM as DOM
 
 
--- | A typeclass structuring reads from JavaScript expressions.
-class C a where
-  -- | Reads a value from an expression.
-  read :: (Monad m) => DOM.Expression -> m a
+-- | An expression.
+type Expression = DOM.Expression
+
+-- | A statement.
+type Statement = DOM.Statement
+
+-- | A loop head.
+type LoopHead = DOM.LoopHead
+
+
+-- | The name of a function.
+type FunctionName = String
+
+-- | The name of a parameter in a function.
+type FunctionParameter = String
+
+-- | An argument for a function call.
+type Argument = Expression
+
+
+-- | The name of a variable.
+type VariableName = String
+
+-- | The statements to initialize a for loop.
+type Initializations = [Statement]
+
+-- | The statements to change the state of a for loop.
+type Changes = [Statement]
+
+-- | An expression containing the elements to iterate over.
+type Container = Expression
+
+
+-- | The name of a field in an object.
+type FieldName = String
+
+-- | A field of an object.
+type Field = (FieldName, Expression)
+
+
+-- | A condition in control flow statements.
+type Condition = Expression
+
+-- | A case statement.
+type Case = (Condition, Statement)
+
 

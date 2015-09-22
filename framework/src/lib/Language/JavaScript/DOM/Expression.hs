@@ -21,13 +21,9 @@ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 -}
 
-{-# LANGUAGE GADTs                 #-}
-{-# LANGUAGE MultiParamTypeClasses #-}
-{-# LANGUAGE TypeSynonymInstances  #-}
-
 {- |
 Module      :  $Header$
-Description :  PolyDSL to JavaScript conversion.
+Description :  Contains definitions for the expression tree of JavaScript.
 Author	    :  Nils 'bash0r' Jonsson
 Copyright   :  (c) 2015 Nils 'bash0r' Jonsson
 License	    :  MIT
@@ -36,22 +32,12 @@ Maintainer  :  aka.bash0r@gmail.com
 Stability   :  unstable
 Portability :  non-portable (Portability is untested.)
 
-PolyDSL to JavaScript conversion.
+Contains definitions for the expression tree of JavaScript.
 -}
-module Language.PolyDSL.Transformation.JavaScript
-( 
+module Language.JavaScript.DOM.Expression
+( module Export
 ) where
 
-import Language.Transformation.Protocol
-
-import Language.JavaScript
-
-import qualified Language.PolyDSL.DOM as DOM
-
-
-instance Transformer (DOM.Expression a) Expression where
-  transform (DOM.NumberLiteral v  ) = val v
-  transform (DOM.StringLiteral v  ) = val v
-  transform (DOM.Identifier    i  ) = ident i
-  transform (DOM.FunctionCall  f e) = call (transform f) [transform e]
+import           Language.JavaScript.DOM.Expression.BinaryOperator as Export
+import           Language.JavaScript.DOM.Expression.UnaryOperator  as Export
 

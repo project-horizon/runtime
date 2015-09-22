@@ -35,11 +35,11 @@ Portability :  non-portable (Portability is untested.)
 The available binary operators in JavaScript.
 -}
 module Language.JavaScript.DOM.Expression.BinaryOperator
-( T (..)
+( BinaryOperator (..)
 ) where
 
 -- | All available binary operators in the JavaScript language.
-data T
+data BinaryOperator
   -- | The addition operator.
   = Addition
   -- | The subtraction operator.

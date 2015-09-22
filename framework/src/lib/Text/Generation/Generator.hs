@@ -35,12 +35,12 @@ Portability :  non-portable (Portability is untested.)
 A typeclass for structuring source code generation engines.
 -}
 module Text.Generation.Generator
-( C (..)
+( Generator (..)
 ) where
 
 
 -- | A typeclass providing generator access.
-class C a where
+class Generator a where
     -- | Generates source code for a given element.
     generate :: a -> String
 

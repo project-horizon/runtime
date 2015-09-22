@@ -21,13 +21,12 @@ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 -}
 
-{-# LANGUAGE GADTs                 #-}
-{-# LANGUAGE MultiParamTypeClasses #-}
-{-# LANGUAGE TypeSynonymInstances  #-}
+{-# LANGUAGE TypeSynonymInstances #-}
+{-# LANGUAGE FlexibleInstances #-}
 
 {- |
 Module      :  $Header$
-Description :  PolyDSL to JavaScript conversion.
+Description :  Contains some instances for internal conversion.
 Author	    :  Nils 'bash0r' Jonsson
 Copyright   :  (c) 2015 Nils 'bash0r' Jonsson
 License	    :  MIT
@@ -36,22 +35,46 @@ Maintainer  :  aka.bash0r@gmail.com
 Stability   :  unstable
 Portability :  non-portable (Portability is untested.)
 
-PolyDSL to JavaScript conversion.
+Contains some instances for internal conversion.
 -}
-module Language.PolyDSL.Transformation.JavaScript
-( 
+module Language.JavaScript.DSL.Instances
+(
 ) where
 
-import Language.Transformation.Protocol
+import           Data.Int
 
-import Language.JavaScript
+import qualified Language.JavaScript.DOM as DOM
 
-import qualified Language.PolyDSL.DOM as DOM
+import           Language.JavaScript.Conversion
+import           Language.JavaScript.DSL.Expressions (array, val)
 
+instance {-# OVERLAPPABLE #-} (DOMWrite a) => DOMWrite [a] where
+  write vs = array (map val vs)
 
-instance Transformer (DOM.Expression a) Expression where
-  transform (DOM.NumberLiteral v  ) = val v
-  transform (DOM.StringLiteral v  ) = val v
-  transform (DOM.Identifier    i  ) = ident i
-  transform (DOM.FunctionCall  f e) = call (transform f) [transform e]
+instance {-# OVERLAPS #-} DOMWrite String where
+  write = DOM.StringLiteral
+
+instance DOMWrite Char where
+  write c = DOM.StringLiteral [c]
+
+instance DOMWrite Int where
+  write i = DOM.NumberLiteral (fromIntegral i)
+
+instance DOMWrite Double where
+  write = DOM.NumberLiteral
+
+instance DOMWrite Float where
+  write f = DOM.NumberLiteral (realToFrac f)
+
+instance DOMWrite Int8 where
+  write i = DOM.NumberLiteral (fromIntegral i)
+
+instance DOMWrite Int16 where
+  write i = DOM.NumberLiteral (fromIntegral i)
+
+instance DOMWrite Int32 where
+  write i = DOM.NumberLiteral (fromIntegral i)
+
+instance DOMWrite Int64 where
+  write i = DOM.NumberLiteral (fromIntegral i)
 
