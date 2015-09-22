@@ -51,7 +51,9 @@ library
 
                ,        Language.PolyDSL
                ,        Language.PolyDSL.DOM
+               ,        Language.PolyDSL.DOM.Declaration
                ,        Language.PolyDSL.DOM.Declaration.Type
+               ,        Language.PolyDSL.DOM.Expression
                ,        Language.PolyDSL.Transformation.JavaScript
 
                ,        Text.Generation.Generator

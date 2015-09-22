@@ -21,9 +21,11 @@ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 -}
 
+{-# LANGUAGE GADTs #-}
+
 {- |
 Module      :  $Header$
-Description :  The DOM of the PolyDSL language.
+Description :  A declaration in the PolyDSL language.
 Author	    :  Nils 'bash0r' Jonsson
 Copyright   :  (c) 2015 Nils 'bash0r' Jonsson
 License	    :  MIT
@@ -32,12 +34,36 @@ Maintainer  :  aka.bash0r@gmail.com
 Stability   :  unstable
 Portability :  non-portable (Portability is untested.)
 
-The DOM of the PolyDSL language.
+A declaration in the PolyDSL language.
 -}
-module Language.PolyDSL.DOM
+module Language.PolyDSL.DOM.Declaration
 ( module Export
+
+, Declaration (..)
 ) where
 
-import           Language.PolyDSL.DOM.Declaration as Export
-import           Language.PolyDSL.DOM.Expression as Export
+import           Language.PolyDSL.DOM.Expression
+import           Language.PolyDSL.DOM.Declaration.Type as Export
+
+
+-- | A PolyDSL declaration.
+data Declaration a where
+  -- | Import declaration.
+  Import :: String -> Declaration String -- | TODO: decide if Declaration String is a proper type.
+  -- | Function declaration.
+  Function :: String -> [String] -> Expression a -> Declaration a
+  -- | Signature declaration.
+  Signature :: String -> [Type] -> Declaration ()
+
+
+instance Show (Declaration a) where
+  show (Import    p     ) = "Import " ++ show p
+  show (Function  f ps e) = "Function " ++ show f ++ " " ++ show ps ++ " (" ++ show e ++ ")"
+  show (Signature s ps  ) = "Signature " ++ show s ++ " " ++ show ps
+
+instance Eq (Declaration a) where
+  (Import    pl       ) == (Import    pr       ) = pl == pr
+  (Function  fl psl el) == (Function  fr psr er) = fl == fr && psl == psr && el == er
+  (Signature sl psl   ) == (Signature sr psr   ) = sl == sr && psl == psr
+  _                     == _                     = False
 

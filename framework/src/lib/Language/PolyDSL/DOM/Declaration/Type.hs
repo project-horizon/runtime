@@ -35,18 +35,18 @@ Portability :  non-portable (Portability is untested.)
 A type label in the PolyDSL DOM.
 -}
 module Language.PolyDSL.DOM.Declaration.Type
-( T (..)
+( Type (..)
 ) where
 
 -- | A type signature.
-data T
+data Type
   -- | The name of a type.
   = Type String
   -- | The signature of a function.
-  | FunctionSignature T T
+  | FunctionSignature Type Type
   -- | The signature of a list.
-  | ListSignature T
+  | ListSignature Type
   -- | The tuple signature.
-  | TupleSignature [T]
+  | TupleSignature [Type]
   deriving (Show, Eq)
 
