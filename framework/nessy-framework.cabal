@@ -21,7 +21,7 @@ library
   other-modules:        Text.Generation.Generator
 
                ,        Language.Transformation.Protocol
-               ,        Language.Transformation.Protocol.Transformator
+               ,        Language.Transformation.Protocol.Transformer
 
                ,        Language.HTML
                ,        Language.HTML.DOM

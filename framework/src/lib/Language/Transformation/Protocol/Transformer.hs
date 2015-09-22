@@ -36,13 +36,13 @@ Portability :  non-portable (Portability is untested.)
 
 An AST transformation protocol.
 -}
-module Language.Transformation.Protocol.Transformator
-( Transformator (..)
+module Language.Transformation.Protocol.Transformer
+( Transformer (..)
 ) where
 
 
 -- | A typeclass structuring the transformation of ASTs.
-class Transformator a b where
+class Transformer a b where
   -- | Transforms an AST node to a different AST node.
   transform :: a -> b
 
