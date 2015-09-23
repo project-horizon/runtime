@@ -40,9 +40,9 @@ module Language.JavaScript.DSL.Script
 
 import           Data.List
 
-import           Text.Generation
+import           Language.Transformation.Protocol
 
-import           Language.JavaScript.Generator ()
+import           Language.JavaScript.Transformation
 import           Language.JavaScript.DSL.TypeAliases
 
 
@@ -53,5 +53,5 @@ data Script
   deriving (Eq)
 
 instance Show Script where
-  show (Script stmts) = intercalate ";" (map generate stmts)
+  show (Script stmts) = intercalate ";" (map transform stmts)
 

@@ -41,6 +41,6 @@ module Language.JavaScript.DOM.Expression.UnaryOperator
 -- | All available unary operators from the JavaScript language.
 data UnaryOperator
   -- | The negation operator.
-  = Negate
+  = Negation
   deriving (Show, Eq)
 

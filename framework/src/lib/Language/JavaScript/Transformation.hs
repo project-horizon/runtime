@@ -23,7 +23,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 {- |
 Module      :  $Header$
-Description :  A typeclass for structuring source code generation engines.
+Description :  Possible transformations.
 Author	    :  Nils 'bash0r' Jonsson
 Copyright   :  (c) 2015 Nils 'bash0r' Jonsson
 License	    :  MIT
@@ -32,15 +32,11 @@ Maintainer  :  aka.bash0r@gmail.com
 Stability   :  unstable
 Portability :  non-portable (Portability is untested.)
 
-A typeclass for structuring source code generation engines.
+Possible transformations.
 -}
-module Text.Generation.Generator
-( Generator (..)
+module Language.JavaScript.Transformation
+( module Export
 ) where
 
-
--- | A typeclass providing generator access.
-class Generator a where
-    -- | Generates source code for a given element.
-    generate :: a -> String
+import           Language.JavaScript.Transformation.Source as Export
 

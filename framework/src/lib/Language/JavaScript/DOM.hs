@@ -79,8 +79,12 @@ data Statement
   | Loop LoopHead Statement
   -- | An expression used as a statement.
   | ExprAsStmt Expression
+  -- | A break statement.
+  | Break
+  -- | A continue statement.
+  | Continue
   -- | A var statement.
-  | Var String Expression
+  | Var String (Maybe Expression)
   -- | A return statement.
   | Return Expression
   -- | A block of statements.
@@ -90,7 +94,7 @@ data Statement
 -- | Represents the head of a loop.
 data LoopHead
   -- | A simple iterational loop.
-  = IterationLoop [Statement] Expression [Statement]
+  = IterationLoop [(String,Expression)] Expression [Expression]
   -- | A loop iterating over every element in a collection.
   | ForEachLoop String Expression
   -- | A loop iterating until the condition becomes false.

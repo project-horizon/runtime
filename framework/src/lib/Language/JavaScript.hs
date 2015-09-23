@@ -38,7 +38,7 @@ module Language.JavaScript
 ( module Export
 ) where
 
-import           Language.JavaScript.DSL        as Export
-import           Language.JavaScript.Conversion as Export
-import           Language.JavaScript.Generator  as Export
+import           Language.JavaScript.DSL            as Export
+import           Language.JavaScript.Conversion     as Export
+import           Language.JavaScript.Transformation as Export
 

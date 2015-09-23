@@ -82,10 +82,10 @@ type Argument = Expression
 type VariableName = String
 
 -- | The statements to initialize a for loop.
-type Initializations = [Statement]
+type Initializations = [(VariableName, Expression)]
 
 -- | The statements to change the state of a for loop.
-type Changes = [Statement]
+type Changes = [Expression]
 
 -- | An expression containing the elements to iterate over.
 type Container = Expression

@@ -16,18 +16,14 @@ extra-source-files:     LICENSE
 cabal-version:          >=1.10
 
 library
-  exposed-modules:      Text.Generation
-                 ,      Language.JavaScript
+  exposed-modules:      Language.JavaScript
+                 ,      Language.Transformation.Protocol
   other-modules:        Language.CSS
                ,        Language.CSS.DOM
                ,        Language.CSS.DOM.Declaration
                ,        Language.CSS.DOM.Declaration.Selector
                ,        Language.CSS.DOM.Definition
                ,        Language.CSS.DOM.Expression
-
-
-               ,        Language.Transformation.Protocol
-               ,        Language.Transformation.Protocol.Transformer
 
                ,        Language.HTML
                ,        Language.HTML.DOM
@@ -47,7 +43,8 @@ library
                ,        Language.JavaScript.DSL.Script
                ,        Language.JavaScript.DSL.Statements
                ,        Language.JavaScript.DSL.TypeAliases
-               ,        Language.JavaScript.Generator
+               ,        Language.JavaScript.Transformation
+               ,        Language.JavaScript.Transformation.Source
 
                ,        Language.PolyDSL
                ,        Language.PolyDSL.DOM
@@ -56,7 +53,7 @@ library
                ,        Language.PolyDSL.DOM.Expression
                ,        Language.PolyDSL.Transformation.JavaScript
 
-               ,        Text.Generation.Generator
+               ,        Language.Transformation.Protocol.Transformer
   build-depends:        base >=4.8 && <4.9
   hs-source-dirs:       src/lib
   default-language:     Haskell2010

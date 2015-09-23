@@ -43,11 +43,15 @@ module Language.JavaScript.DSL.Statements
 , eitherOr
 , switch
 , expr
+, break
+, continue
 , var
 , ret
 , block
 , method
 ) where
+
+import           Prelude hiding (break)
 
 import qualified Language.JavaScript.DOM as DOM
 
@@ -86,13 +90,21 @@ eitherOr c s = DOM.ConditionTree [(c, s)]
 switch :: [Case] -> Statement -> Statement
 switch = DOM.ConditionTree
 
+-- | Creates a variable definition statement.
+var :: VariableName -> Maybe Expression -> Statement
+var = DOM.Var
+
+-- | Creates a break statement.
+break :: Statement
+break = DOM.Break
+
+-- | Creates a continue statement.
+continue :: Statement
+continue = DOM.Continue
+
 -- | Creates a return statement.
 ret :: Expression -> Statement
 ret = DOM.Return
-
--- | Creates a variable definition statement.
-var :: VariableName -> Expression -> Statement
-var = DOM.Var
 
 -- | Creates a scope block.
 block :: [Statement] -> Statement
@@ -100,5 +112,5 @@ block = DOM.StatementBlock
 
 -- | Creates a method definition.
 method :: FunctionName -> [FunctionParameter] -> [Statement] -> Statement
-method f ps ss = expr (DOM.Function (Just f) ps ss)
+method f ps ss = var f (Just (DOM.Function Nothing ps ss))
 

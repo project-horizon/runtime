@@ -21,6 +21,11 @@ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 -}
 
+{-# LANGUAGE FlexibleContexts      #-}
+{-# LANGUAGE FlexibleInstances     #-}
+{-# LANGUAGE MultiParamTypeClasses #-}
+{-# LANGUAGE TypeSynonymInstances  #-}
+
 {- |
 Module      :  $Header$
 Description :  The transformation protocol for AST conversions.
@@ -36,7 +41,16 @@ The transformation protocol for AST conversions.
 -}
 module Language.Transformation.Protocol
 ( module Language.Transformation.Protocol.Transformer
+
+, (++>)
 ) where
 
 import Language.Transformation.Protocol.Transformer
+
+infixl 3 ++>
+(++>) :: (Transformer a String, Transformer b String) => a -> b -> String
+(++>) l r = transform l ++ transform r
+
+instance Transformer String String where
+  transform s = s
 
