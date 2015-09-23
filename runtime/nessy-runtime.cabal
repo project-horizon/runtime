@@ -28,6 +28,7 @@ executable nessy-runtime
   main-is:              Main.hs
   -- other-modules:       
   build-depends:        base          ==4.8.*
+               ,        process       ==1.2.*
                ,        nessy-runtime
   hs-source-dirs:       src/runtime
   default-language:     Haskell2010
