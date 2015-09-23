@@ -1,0 +1,34 @@
+name:                   nessy-runtime
+version:                0.1.0.0
+synopsis:               A runtime for the nessy-framework.
+description:            nessy-runtime is a runtime for the nessy-framework. It
+                        supports several languages implemented in the
+                        nessy-framework.
+license:                MIT
+license-file:           LICENSE
+author:                 Nils 'bash0r' Jonsson
+maintainer:             aka.bash0r@gmail.com
+copyright:              (c) 2015 Nils 'bash0r' Jonsson
+category:               Runtime
+build-type:             Simple
+extra-source-files:     LICENSE
+                  ,     README.md
+                  ,     changelog.md
+cabal-version:          >=1.10
+
+library
+  -- exposed-modules:
+  -- other-modules:
+  build-depends:        base            ==4.8.*
+               ,        nessy-framework ==0.1.*
+  hs-source-dirs:       src/lib
+  default-language:     Haskell2010
+
+executable nessy-runtime
+  main-is:              Main.hs
+  -- other-modules:       
+  build-depends:        base          ==4.8.*
+               ,        nessy-runtime
+  hs-source-dirs:       src/runtime
+  default-language:     Haskell2010
+
