@@ -46,11 +46,13 @@ import           Language.PolyDSL.DOM.Declaration.Type as Export
 
 -- | A PolyDSL declaration.
 data Declaration
-  -- | Import declaration.
+  -- | An import declaration.
   = Import String
-  -- | Function declaration.
+  -- | A function declaration.
   | Function String [String] Expression
-  -- | Signature declaration.
-  | Signature String [Type]
+  -- | A function signature declaration.
+  | Signature String [Type] -- | TODO: add constraints
+  -- | An (G)ADT declaration.
+  | ADT String [String] [Constructor] -- | TODO: add constraints
   deriving (Show, Eq)
 
