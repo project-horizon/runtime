@@ -45,4 +45,5 @@ import           Language.PolyDSL.DOM.Declaration.Type
 data TypeSignature
   -- | A type signature with constraints.
   = TypeSignature [(String, String)] Type
+  deriving (Show, Eq)
 
