@@ -71,7 +71,7 @@ instance Transformer DOM.Expression String where
   transform (DOM.Array            vs      ) = "[" ++> intercalate "," (map transform vs) ++> "]"
   transform (DOM.ObjectAccess     o  i    ) = "(" ++> o ++> ")[" ++> show i ++> "]"
   transform (DOM.Function         f  ps ss) = "function" ++> (if f == empty then "" else " " ++> fromJust f) ++> "(" ++> intercalate "," (map transform ps) ++> "){" ++> intercalate ";" (map transform ss) ++> "}"
-
+  transform (DOM.FunctionCall     f  as   ) = "(" ++> f ++> ")(" ++> intercalate "," (map transform as) ++> ")"
 instance Transformer DOM.Statement String where
   transform (DOM.ConditionTree  cs d) = intercalate "else " (map (\(c,a) -> "if(" ++> c ++> "){" ++> a ++> "}") cs) ++> "else{" ++> d ++> "}"
   transform (DOM.Loop           lh a) = transform (transform (DOM.Loop lh a) :: DOM.Statement) :: String
