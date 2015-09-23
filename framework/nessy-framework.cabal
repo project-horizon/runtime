@@ -18,18 +18,7 @@ cabal-version:          >=1.10
 library
   exposed-modules:      Language.JavaScript
                  ,      Language.Transformation.Protocol
-  other-modules:        Language.CSS
-               ,        Language.CSS.DOM
-               ,        Language.CSS.DOM.Declaration
-               ,        Language.CSS.DOM.Declaration.Selector
-               ,        Language.CSS.DOM.Definition
-               ,        Language.CSS.DOM.Expression
-
-               ,        Language.HTML
-               ,        Language.HTML.DOM
-               ,        Language.HTML.DOM.Attribute
-
-               ,        Language.JavaScript.Conversion
+  other-modules:        Language.JavaScript.Conversion
                ,        Language.JavaScript.Conversion.DOMRead
                ,        Language.JavaScript.Conversion.DOMWrite
                ,        Language.JavaScript.DOM
