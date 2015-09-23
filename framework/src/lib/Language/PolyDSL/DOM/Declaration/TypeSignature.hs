@@ -38,7 +38,7 @@ module Language.PolyDSL.DOM.Declaration.TypeSignature
 ( TypeSignature (..)
 ) where
 
-import           Language.PolyDSL.Declaration.Type
+import           Language.PolyDSL.DOM.Declaration.Type
 
 
 -- | A type signature with constraints.
