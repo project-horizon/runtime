@@ -45,6 +45,7 @@ module Language.JavaScript.DSL.Expressions
 , function
 , call
 , val
+, negate
 ) where
 
 import qualified Language.JavaScript.DOM as DOM
@@ -93,4 +94,8 @@ call = DOM.FunctionCall
 -- | Creates an expression from a Haskell value.
 val :: (DOMWrite a) => a -> Expression
 val = write
+
+-- | Creates a unary negation expression.
+negate :: Expression -> Expression
+negate = DOM.UnaryExpression DOM.Negate
 
