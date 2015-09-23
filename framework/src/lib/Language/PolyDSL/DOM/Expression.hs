@@ -38,9 +38,7 @@ Portability :  non-portable (Portability is untested.)
 An expression in the PolyDSL language.
 -}
 module Language.PolyDSL.DOM.Expression
-( module Export
-
-, Value
+( Value
 , Expression (..)
 ) where
 
