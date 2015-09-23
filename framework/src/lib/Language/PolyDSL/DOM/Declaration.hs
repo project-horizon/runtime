@@ -21,8 +21,6 @@ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 -}
 
-{-# LANGUAGE GADTs #-}
-
 {- |
 Module      :  $Header$
 Description :  A declaration in the PolyDSL language.
@@ -47,23 +45,12 @@ import           Language.PolyDSL.DOM.Declaration.Type as Export
 
 
 -- | A PolyDSL declaration.
-data Declaration a where
+data Declaration
   -- | Import declaration.
-  Import :: String -> Declaration String -- | TODO: decide if Declaration String is a proper type.
+  = Import String
   -- | Function declaration.
-  Function :: String -> [String] -> Expression a -> Declaration a
+  | Function String [String] Expression
   -- | Signature declaration.
-  Signature :: String -> [Type] -> Declaration ()
-
-
-instance Show (Declaration a) where
-  show (Import    p     ) = "Import " ++ show p
-  show (Function  f ps e) = "Function " ++ show f ++ " " ++ show ps ++ " (" ++ show e ++ ")"
-  show (Signature s ps  ) = "Signature " ++ show s ++ " " ++ show ps
-
-instance Eq (Declaration a) where
-  (Import    pl       ) == (Import    pr       ) = pl == pr
-  (Function  fl psl el) == (Function  fr psr er) = fl == fr && psl == psr && el == er
-  (Signature sl psl   ) == (Signature sr psr   ) = sl == sr && psl == psr
-  _                     == _                     = False
+  | Signature String [Type]
+  deriving (Show, Eq)
 

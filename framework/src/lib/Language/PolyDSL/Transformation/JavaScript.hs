@@ -21,7 +21,6 @@ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 -}
 
-{-# LANGUAGE GADTs                 #-}
 {-# LANGUAGE MultiParamTypeClasses #-}
 {-# LANGUAGE TypeSynonymInstances  #-}
 
@@ -49,9 +48,10 @@ import Language.JavaScript
 import qualified Language.PolyDSL.DOM as DOM
 
 
-instance Transformer (DOM.Expression a) Expression where
-  transform (DOM.NumberLiteral v  ) = val v
-  transform (DOM.StringLiteral v  ) = val v
-  transform (DOM.Identifier    i  ) = ident i
-  transform (DOM.FunctionCall  f e) = call (transform f) [transform e]
+instance Transformer DOM.Expression Expression where
+  transform (DOM.IntegralLiteral v  ) = dbl (fromIntegral v)
+  transform (DOM.RationalLiteral v  ) = dbl v
+  transform (DOM.StringLiteral   v  ) = val v
+  transform (DOM.Identifier      i  ) = ident i
+  transform (DOM.FunctionCall    f e) = call (transform f) [transform e]
 
