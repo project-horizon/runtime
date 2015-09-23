@@ -48,6 +48,7 @@ module Language.JavaScript.DSL.Expressions
 , negate
 ) where
 
+import           Prelude hiding (negate)
 import qualified Language.JavaScript.DOM as DOM
 import           Language.JavaScript.Conversion
 
