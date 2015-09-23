@@ -23,7 +23,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 {- |
 Module      :  $Header$
-Description :  A declaration in the PolyDSL language.
+Description :  A type signature with constraints.
 Author	    :  Nils 'bash0r' Jonsson
 Copyright   :  (c) 2015 Nils 'bash0r' Jonsson
 License	    :  MIT
@@ -32,27 +32,17 @@ Maintainer  :  aka.bash0r@gmail.com
 Stability   :  unstable
 Portability :  non-portable (Portability is untested.)
 
-A declaration in the PolyDSL language.
+A type signature with constraints.
 -}
-module Language.PolyDSL.DOM.Declaration
-( module Export
-
-, Declaration (..)
+module Language.PolyDSL.DOM.Declaration.TypeSignature
+( TypeSignature (..)
 ) where
 
-import           Language.PolyDSL.DOM.Expression
-import           Language.PolyDSL.DOM.Declaration.Type          as Export
-import           Language.PolyDSL.DOM.Declaration.TypeSignature as Export
+import           Language.PolyDSL.Declaration.Type
 
--- | A PolyDSL declaration.
-data Declaration
-  -- | An import declaration.
-  = Import String
-  -- | A function declaration.
-  | Function String [String] Expression
-  -- | A function signature declaration.
-  | Signature String TypeSignature
-  -- | A GADT declaration.
-  | GADT String [String] [(String, TypeSignature)]
-  deriving (Show, Eq)
+
+-- | A type signature with constraints.
+data TypeSignature
+  -- | A type signature with constraints.
+  = TypeSignature [(String, String)] Type
 
