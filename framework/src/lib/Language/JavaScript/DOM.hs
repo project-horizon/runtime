@@ -48,7 +48,7 @@ import           Language.JavaScript.DOM.Expression as Export
 -- | A JavaScript exmression.
 data Expression
   -- | A JavaScript number expression.
-  = NumberLiteral Double
+  = NumberLiteral Rational
   -- | A JavaScript string expression.
   | StringLiteral String
   -- | A JavaScript boolean expression.

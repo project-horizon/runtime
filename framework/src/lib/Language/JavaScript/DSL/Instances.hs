@@ -61,10 +61,13 @@ instance DOMWrite Int where
   write i = DOM.NumberLiteral (fromIntegral i)
 
 instance DOMWrite Double where
-  write = DOM.NumberLiteral
+  write d = DOM.NumberLiteral (realToFrac d)
 
 instance DOMWrite Float where
   write f = DOM.NumberLiteral (realToFrac f)
+
+instance DOMWrite Rational where
+  write = DOM.NumberLiteral
 
 instance DOMWrite Int8 where
   write i = DOM.NumberLiteral (fromIntegral i)
