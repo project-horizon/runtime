@@ -35,11 +35,9 @@ Portability :  non-portable (Portability is untested.)
 The PolyDSL EDSL.
 -}
 module Language.PolyDSL
-( 
+( module Export
 ) where
 
-import Language.JavaScript
-
-
-
+import           Language.PolyDSL.DSL            as Export
+import           Language.PolyDSL.Transformation as Export
 
