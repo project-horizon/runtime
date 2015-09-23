@@ -51,8 +51,8 @@ data Declaration
   -- | A function declaration.
   | Function String [String] Expression
   -- | A function signature declaration.
-  | Signature String [Type] -- | TODO: add constraints
+  | Signature String Type
   -- | An (G)ADT declaration.
-  | ADT String [String] [Constructor] -- | TODO: add constraints
+  | ADT String [String] [(String, Type)]
   deriving (Show, Eq)
 
