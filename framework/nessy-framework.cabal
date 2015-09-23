@@ -17,11 +17,9 @@ cabal-version:          >=1.10
 
 library
   exposed-modules:      Language.JavaScript
+                 ,      Language.PolyDSL
                  ,      Language.Transformation.Protocol
-  other-modules:        Language.JavaScript.Conversion
-               ,        Language.JavaScript.Conversion.DOMRead
-               ,        Language.JavaScript.Conversion.DOMWrite
-               ,        Language.JavaScript.DOM
+  other-modules:        Language.JavaScript.DOM
                ,        Language.JavaScript.DOM.Expression
                ,        Language.JavaScript.DOM.Expression.BinaryOperator
                ,        Language.JavaScript.DOM.Expression.UnaryOperator
