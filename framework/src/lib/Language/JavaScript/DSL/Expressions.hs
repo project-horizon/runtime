@@ -97,5 +97,5 @@ val = write
 
 -- | Creates a unary negation expression.
 negate :: Expression -> Expression
-negate = DOM.UnaryExpression DOM.Negate
+negate = DOM.UnaryExpression DOM.Negation
 
