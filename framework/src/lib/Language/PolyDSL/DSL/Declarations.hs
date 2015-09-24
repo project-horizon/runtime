@@ -35,7 +35,59 @@ Portability :  non-portable (Portability is untested.)
 Contains definitions for expressions in EDSL.
 -}
 module Language.PolyDSL.DSL.Declarations
-( 
+( include
+, function
+, signature
+, gadt
+
+-- type signatures
+, t
+, (-->)
+, listT
+, tupleT
+, genericT
 ) where
 
+import qualified Language.PolyDSL.DOM as DOM
+
+import           Language.PolyDSL.DSL.TypeAliases
+
+
+-- | An import declaration.
+include :: ModuleName -> Declaration
+include = DOM.Import
+
+-- | A function declaration
+function :: FunctionName -> [FunctionParameter] -> Expression -> Declaration
+function = DOM.Function
+
+-- | A type signature
+signature :: FunctionName -> TypeSignature -> Declaration
+signature = DOM.Signature
+
+-- | A generalized algebraic data type.
+gadt :: TypeName -> [TypeParameter] -> [Constructor] -> Declaration
+gadt = DOM.GADT
+
+
+-- | A simple type.
+t :: TypeName -> Type
+t = DOM.Type
+
+-- | A function type.
+infixr 9 -->
+(-->) :: Type -> Type -> Type
+(-->) = DOM.FunctionType
+
+-- | A list type.
+listT :: Type -> Type
+listT = DOM.ListType
+
+-- | A list type.
+tupleT :: [Type] -> Type
+tupleT = DOM.TupleType
+
+-- | A generic type.
+genericT :: TypeName -> [Type] -> Type
+genericT = DOM.GenericType
 

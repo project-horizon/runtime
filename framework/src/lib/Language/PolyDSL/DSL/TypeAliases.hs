@@ -38,7 +38,20 @@ module Language.PolyDSL.DSL.TypeAliases
 ( Expression
 , Declaration
 
+-- | Types
+, Type
+, TypeSignature
+
+-- | Expressions
 , Operator
+
+-- | Declarations
+, Constructor
+, ModuleName
+, FunctionName
+, FunctionParameter
+, TypeName
+, TypeParameter
 ) where
 
 import qualified Language.PolyDSL.DOM as DOM
@@ -51,6 +64,32 @@ type Expression = DOM.Expression
 type Declaration = DOM.Declaration
 
 
+-- | A type label.
+type Type = DOM.Type
+
+-- | A type signature.
+type TypeSignature = DOM.TypeSignature
+
+
 -- | The name of an operator.
 type Operator = String
+
+
+-- | A constructor definition.
+type Constructor = (String, TypeSignature)
+
+-- | The name of a module.
+type ModuleName = String
+
+-- | The name of a function
+type FunctionName = String
+
+-- | The name of a function parameter.
+type FunctionParameter = String
+
+-- | The name of a type.
+type TypeName = String
+
+-- | The name of a type parameter.
+type TypeParameter = String
 

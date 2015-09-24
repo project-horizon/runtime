@@ -40,13 +40,15 @@ module Language.PolyDSL.DOM.Declaration.Type
 
 -- | A type signature.
 data Type
-  -- | The name of a type.
+  -- | A simple type.
   = Type String
-  -- | The signature of a function.
-  | FunctionSignature Type Type
-  -- | The signature of a list.
-  | ListSignature Type
-  -- | The tuple signature.
-  | TupleSignature [Type]
+  -- | A function type.
+  | FunctionType Type Type
+  -- | A list type.
+  | ListType Type
+  -- | A tuple type.
+  | TupleType [Type]
+  -- | A generic type.
+  | GenericType String [Type]
   deriving (Show, Eq)
 

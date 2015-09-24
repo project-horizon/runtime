@@ -44,6 +44,7 @@ import           Language.PolyDSL.DOM.Expression
 import           Language.PolyDSL.DOM.Declaration.Type          as Export
 import           Language.PolyDSL.DOM.Declaration.TypeSignature as Export
 
+
 -- | A PolyDSL declaration.
 data Declaration
   -- | An import declaration.

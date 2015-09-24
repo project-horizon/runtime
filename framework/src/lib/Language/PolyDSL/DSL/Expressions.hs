@@ -68,6 +68,6 @@ binExpr :: Operator -> Expression -> Expression -> Expression
 binExpr = DOM.BinaryExpression
 
 -- | A function call.
-call :: Expression -> Expression -> Expressison
+call :: Expression -> Expression -> Expression
 call = DOM.FunctionCall
 
