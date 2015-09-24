@@ -33,7 +33,6 @@ library
                ,        Language.JavaScript.Transformation
                ,        Language.JavaScript.Transformation.Source
 
-               ,        Language.PolyDSL
                ,        Language.PolyDSL.DOM
                ,        Language.PolyDSL.DOM.Declaration
                ,        Language.PolyDSL.DOM.Declaration.Type
