@@ -38,6 +38,7 @@ module Language.PolyDSL.DSL
 ( module Export
 ) where
 
-import           Language.PolyDSL.DSL.Expressions as Export
-import           Language.PolyDSL.DSL.TypeAliases as Export
+import           Language.PolyDSL.DSL.Expressions  as Export
+import           Language.PolyDSL.DSL.Declarations as Export
+import           Language.PolyDSL.DSL.TypeAliases  as Export
 
