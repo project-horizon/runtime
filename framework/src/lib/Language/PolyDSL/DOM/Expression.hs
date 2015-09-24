@@ -40,10 +40,8 @@ module Language.PolyDSL.DOM.Expression
 
 -- | A PolyDSL expression.
 data Expression
-  -- | An integral numeric value in the PolyDSL language.
-  = IntegralLiteral  Int
-  -- | A rational numeric value in the PolyDSL language.
-  | RationalLiteral  Rational
+  -- | A numeric value in the PolyDSL language.
+  = NumberLiteral    Rational
   -- | A string value in the PolyDSL language.
   | StringLiteral    String
   -- | A char value in the PolyDSL language.
