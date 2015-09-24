@@ -44,6 +44,7 @@ library
                ,        Language.PolyDSL.DSL.TypeAliases
                ,        Language.PolyDSL.Transformation
                ,        Language.PolyDSL.Transformation.JavaScript
+               ,        Language.PolyDSL.Transformation.Source
 
                ,        Language.Transformation.Protocol.Transformer
   build-depends:        base ==4.8.*

@@ -54,3 +54,8 @@ instance Transformer DOM.Expression Expression where
   transform (DOM.Identifier    i  ) = ident i
   transform (DOM.FunctionCall  f e) = call (transform f) [transform e]
 
+instance Transformer DOM.Declaration Statement where
+  transform (DOM.Function f ps e) = method f ps
+    [ (ret . transform) e
+    ]
+

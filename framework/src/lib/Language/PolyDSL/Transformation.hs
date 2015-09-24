@@ -39,4 +39,5 @@ module Language.PolyDSL.Transformation
 ) where
 
 import           Language.PolyDSL.Transformation.JavaScript as Export
+import           Language.PolyDSL.Transformation.Source     as Export
 
