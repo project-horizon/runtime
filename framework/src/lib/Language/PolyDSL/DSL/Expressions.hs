@@ -21,14 +21,9 @@ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 -}
 
-{-# LANGUAGE FlexibleContexts      #-}
-{-# LANGUAGE FlexibleInstances     #-}
-{-# LANGUAGE MultiParamTypeClasses #-}
-{-# LANGUAGE TypeSynonymInstances  #-}
-
 {- |
 Module      :  $Header$
-Description :  Contains some instances for internal conversion.
+Description :  The expressions of the PolyDSL EDSL.
 Author	    :  Nils 'bash0r' Jonsson
 Copyright   :  (c) 2015 Nils 'bash0r' Jonsson
 License	    :  MIT
@@ -37,29 +32,13 @@ Maintainer  :  aka.bash0r@gmail.com
 Stability   :  unstable
 Portability :  non-portable (Portability is untested.)
 
-Contains some instances for internal conversion.
+The expressions of the PolyDSL EDSL.
 -}
-module Language.JavaScript.DSL.Instances
+module Language.PolyDSL.DSL.Expressions
 (
 ) where
 
-import qualified Language.JavaScript.DOM as DOM
+import qualified Language.PolyDSL.DOM as DOM
 
-import           Language.JavaScript.DSL.Expressions (array, val)
-import           Language.JavaScript.DSL.TypeAliases
-
-import           Language.Transformation.Protocol
-
-
-instance Transformer Char Expression where
-  transform c = DOM.StringLiteral [c]
-
-instance {-# OVERLAPPABLE #-} (Transformer a Expression) => Transformer [a] Expression where
-  transform vs = array (map val vs)
-
-instance {-# OVERLAPS #-} Transformer String Expression where
-  transform = DOM.StringLiteral
-
-instance {-# OVERLAPS #-} (Transformer a Expression) => Transformer [(String, a)] Expression where
-  transform vs = DOM.Object (map (\(k,v) -> (k, transform v)) vs)
+import           Language.PolyDSL.DSL.TypeAliases
 

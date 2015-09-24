@@ -49,8 +49,8 @@ import qualified Language.PolyDSL.DOM as DOM
 
 
 instance Transformer DOM.Expression Expression where
-  transform (DOM.IntegralLiteral v  ) = dbl (fromIntegral v)
-  transform (DOM.RationalLiteral v  ) = dbl v
+  transform (DOM.IntegralLiteral v  ) = num (fromIntegral v)
+  transform (DOM.RationalLiteral v  ) = num v
   transform (DOM.StringLiteral   v  ) = val v
   transform (DOM.Identifier      i  ) = ident i
   transform (DOM.FunctionCall    f e) = call (transform f) [transform e]

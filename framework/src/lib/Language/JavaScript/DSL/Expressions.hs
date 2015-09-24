@@ -21,6 +21,8 @@ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 -}
 
+{-# LANGUAGE FlexibleContexts #-}
+
 {- |
 Module      :  $Header$
 Description :  The expression definitions of the EDSL.
@@ -35,8 +37,7 @@ Portability :  non-portable (Portability is untested.)
 The expression definitions of the EDSL.
 -}
 module Language.JavaScript.DSL.Expressions
-( int
-, dbl
+( num
 , true
 , false
 , ident
@@ -50,18 +51,15 @@ module Language.JavaScript.DSL.Expressions
 
 import           Prelude hiding (negate)
 import qualified Language.JavaScript.DOM as DOM
-import           Language.JavaScript.Conversion
 
 import           Language.JavaScript.DSL.TypeAliases
 
+import           Language.Transformation.Protocol
+
 
 -- | Creates a numeric value expression.
-int :: (Integral a) => a -> Expression
-int i = DOM.NumberLiteral (fromIntegral i)
-
--- | Creates a numeric value expression.
-dbl :: (Real a) => a -> Expression
-dbl d = DOM.NumberLiteral (realToFrac d)
+num :: Rational -> Expression
+num = DOM.NumberLiteral
 
 -- | Creates a boolean value expression.
 true :: Expression
@@ -93,8 +91,8 @@ call :: Expression -> [Argument] -> Expression
 call = DOM.FunctionCall
 
 -- | Creates an expression from a Haskell value.
-val :: (DOMWrite a) => a -> Expression
-val = write
+val :: (Transformer a Expression) => a -> Expression
+val = transform
 
 -- | Creates a unary negation expression.
 negate :: Expression -> Expression

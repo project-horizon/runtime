@@ -39,6 +39,5 @@ module Language.JavaScript
 ) where
 
 import           Language.JavaScript.DSL            as Export
-import           Language.JavaScript.Conversion     as Export
 import           Language.JavaScript.Transformation as Export
 

@@ -38,5 +38,6 @@ module Language.PolyDSL.DSL
 ( module Export
 ) where
 
+import           Language.PolyDSL.DSL.Expressions as Export
 import           Language.PolyDSL.DSL.TypeAliases as Export
 

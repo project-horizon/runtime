@@ -37,6 +37,9 @@ library
                ,        Language.PolyDSL.DOM.Declaration
                ,        Language.PolyDSL.DOM.Declaration.Type
                ,        Language.PolyDSL.DOM.Expression
+               ,        Language.PolyDSL.DSL
+               ,        Language.PolyDSL.DSL.Declarations
+               ,        Language.PolyDSL.DSL.Expressions
                ,        Language.PolyDSL.DSL.TypeAliases
                ,        Language.PolyDSL.Transformation
                ,        Language.PolyDSL.Transformation.JavaScript
