@@ -35,10 +35,39 @@ Portability :  non-portable (Portability is untested.)
 The expressions of the PolyDSL EDSL.
 -}
 module Language.PolyDSL.DSL.Expressions
-(
+( num
+, str
+, chr
+, ident
+, binExpr
 ) where
 
 import qualified Language.PolyDSL.DOM as DOM
 
 import           Language.PolyDSL.DSL.TypeAliases
+
+
+-- | A numeric literal.
+num :: Rational -> Expression
+num = DOM.NumberLiteral
+
+-- | A string literal.
+str :: String -> Expression
+str = DOM.StringLiteral
+
+-- | A char literal.
+chr :: Char -> Expression
+chr = DOM.CharLiteral
+
+-- | An identifier.
+ident :: String -> Expression
+ident = DOM.Identifier
+
+-- | A binary expression.
+binExpr :: Operator -> Expression -> Expression -> Expression
+binExpr = DOM.BinaryExpression
+
+-- | A function call.
+call :: Expression -> Expression -> Expressison
+call = DOM.FunctionCall
 
