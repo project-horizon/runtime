@@ -37,6 +37,8 @@ Type aliases for the EDSL.
 module Language.PolyDSL.DSL.TypeAliases
 ( Expression
 , Declaration
+
+, Operator
 ) where
 
 import qualified Language.PolyDSL.DOM as DOM
@@ -48,4 +50,6 @@ type Expression = DOM.Expression
 type Declaration = DOM.Declaration
 
 
+-- | The name of an operator.
+type Operator = String
 
