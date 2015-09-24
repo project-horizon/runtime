@@ -43,6 +43,7 @@ module Language.PolyDSL.DSL.TypeAliases
 
 import qualified Language.PolyDSL.DOM as DOM
 
+
 -- | An expression in the PolyDSL DOM.
 type Expression = DOM.Expression
 
