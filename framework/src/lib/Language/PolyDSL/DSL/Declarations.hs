@@ -39,6 +39,7 @@ module Language.PolyDSL.DSL.Declarations
 , function
 , signature
 , gadt
+, alias
 
 -- type signatures
 , t
@@ -68,6 +69,10 @@ signature = DOM.Signature
 -- | A generalized algebraic data type.
 gadt :: TypeName -> [TypeParameter] -> [Constructor] -> Declaration
 gadt = DOM.GADT
+
+-- | A type alias.
+alias :: String -> [String] -> Type -> Declaration
+alias = DOM.TypeAlias
 
 
 -- | A simple type.

@@ -55,5 +55,7 @@ data Declaration
   | Signature String TypeSignature
   -- | A GADT declaration.
   | GADT String [String] [(String, TypeSignature)]
+  -- | A type alias declaration.
+  | TypeAlias String [String] Type
   deriving (Show, Eq)
 
