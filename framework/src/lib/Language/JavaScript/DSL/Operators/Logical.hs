@@ -23,7 +23,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 {- |
 Module      :  $Header$
-Description :  The expression definitions of the EDSL.
+Description :  The logical operators of the EDSL.
 Author	    :  Nils 'bash0r' Jonsson
 Copyright   :  (c) 2015 Nils 'bash0r' Jonsson
 License	    :  MIT
@@ -32,15 +32,28 @@ Maintainer  :  aka.bash0r@gmail.com
 Stability   :  unstable
 Portability :  non-portable (Portability is untested.)
 
-The expression definitions of the EDSL.
+The logical operators of the EDSL.
 -}
-module Language.JavaScript.DSL.Operators
-( module Export
+module Language.JavaScript.DSL.Operators.Logical
+( (.&&)
+, (.||)
 ) where
 
-import           Language.JavaScript.DSL.Operators.Bitwise    as Export
-import           Language.JavaScript.DSL.Operators.Comparison as Export
-import           Language.JavaScript.DSL.Operators.Logical    as Export
-import           Language.JavaScript.DSL.Operators.Members    as Export
-import           Language.JavaScript.DSL.Operators.Numeric    as Export
+import qualified Language.JavaScript.DOM as DOM
+
+import           Language.JavaScript.DSL.TypeAliases
+
+
+-- | Creates a logical and expression.
+infixl 1 .&&
+(.&&) :: Expression -> Expression -> Expression
+(.&&) (DOM.BooleanLiteral l) (DOM.BooleanLiteral r) = DOM.BooleanLiteral (l && r)
+(.&&) l                      r                      = DOM.BinaryExpression DOM.LogicalAnd l r
+
+-- | Creates a logical or expression.
+infixl 1 .||
+(.||) :: Expression -> Expression -> Expression
+(.||) (DOM.BooleanLiteral l) (DOM.BooleanLiteral r) = DOM.BooleanLiteral (l || r)
+(.||) l                      r                      = DOM.BinaryExpression DOM.LogicalOr l r
+
 
