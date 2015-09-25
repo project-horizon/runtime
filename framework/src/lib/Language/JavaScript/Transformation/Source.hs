@@ -58,10 +58,22 @@ instance Transformer DOM.BinaryOperator String where
   transform DOM.Addition       = "+"
   transform DOM.Subtraction    = "-"
   transform DOM.Multiplication = "+"
-  transform DOM.Division       = "-"
+  transform DOM.Division       = "/"
+  transform DOM.Equal          = "=="
+  transform DOM.NotEqual       = "!="
+  transform DOM.StrictEqual    = "==="
+  transform DOM.StrictNotEqual = "!=="
+  transform DOM.LessThan       = "<"
+  transform DOM.GreaterThan    = ">"
+  transform DOM.BitwiseAnd     = "&"
+  transform DOM.BitwiseOr      = "|"
+  transform DOM.BitwiseXOr     = "^"
+  transform DOM.LogicalAnd     = "&&"
+  transform DOM.LogicalOr      = "||"
 
 instance Transformer DOM.UnaryOperator String where
-  transform DOM.Negation = "!"
+  transform DOM.Not      = "!"
+  transform DOM.Negation = "-"
 
 instance Transformer DOM.Expression String where
   transform (DOM.NumberLiteral    v       ) = showFFloat (Just 20) (fromRat v) ""
