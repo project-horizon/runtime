@@ -21,6 +21,8 @@ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 -}
 
+{-# LANGUAGE TypeSynonymInstances #-}
+
 {- |
 Module      :  $Header$
 Description :  The expression definitions of the EDSL.
@@ -36,10 +38,14 @@ The expression definitions of the EDSL.
 -}
 module Language.JavaScript.DSL.Operators
 ( (=:)
-, (+:)
-, (-:)
-, (*:)
-, (/:)
+, (==:)
+, (!=:)
+, (===:)
+, (!==:)
+, (<:)
+, (>:)
+, (<=:)
+, (>=:)
 , (.:)
 ) where
 
@@ -49,32 +55,111 @@ import           Language.JavaScript.DSL.TypeAliases
 
 
 -- | Creates a field from a field name and an expression.
-infixr 3 =:
+infixr 1 =:
 (=:) :: FieldName -> Expression -> Field
 (=:) k v = (k, v)
-
--- | Creates a binary addition expression.
-infixl 3 +:
-(+:) :: Expression -> Expression -> Expression
-(+:) = DOM.BinaryExpression DOM.Addition
-
--- | Creates a binary subtraction expression.
-infixl 3 -:
-(-:) :: Expression -> Expression -> Expression
-(-:) = DOM.BinaryExpression DOM.Subtraction
-
--- | Creates a binary multiplication expression.
-infixl 4 *:
-(*:) :: Expression -> Expression -> Expression
-(*:) = DOM.BinaryExpression DOM.Multiplication
-
--- | Creates a binary division expression.
-infixl 4 /:
-(/:) :: Expression -> Expression -> Expression
-(/:) = DOM.BinaryExpression DOM.Division
 
 -- | Creates an object access expression.
 infixl 9 .:
 (.:) :: Expression -> VariableName -> Expression
 (.:) = DOM.ObjectAccess
+
+-- | Creates an equal expression.
+infixl 4 ==:
+(==:) :: Expression -> Expression -> Expression
+(==:) (DOM.NumberLiteral  l) (DOM.NumberLiteral  r) = DOM.BooleanLiteral (l == r)
+(==:) (DOM.StringLiteral  l) (DOM.StringLiteral  r) = DOM.BooleanLiteral (l == r)
+(==:) (DOM.BooleanLiteral l) (DOM.BooleanLiteral r) = DOM.BooleanLiteral (l == r)
+(==:) (DOM.Object         l) (DOM.Object         r) = DOM.BooleanLiteral (l == r)
+(==:) (DOM.Array          l) (DOM.Array          r) = DOM.BooleanLiteral (l == r)
+(==:) l                      r                      = DOM.BinaryExpression DOM.Equal l r
+
+-- | Creates not equal expression.
+infixl 4 !=:
+(!=:) :: Expression -> Expression -> Expression
+(!=:) (DOM.NumberLiteral  l) (DOM.NumberLiteral  r) = DOM.BooleanLiteral (l /= r)
+(!=:) (DOM.StringLiteral  l) (DOM.StringLiteral  r) = DOM.BooleanLiteral (l /= r)
+(!=:) (DOM.BooleanLiteral l) (DOM.BooleanLiteral r) = DOM.BooleanLiteral (l /= r)
+(!=:) (DOM.Object         l) (DOM.Object         r) = DOM.BooleanLiteral (l /= r)
+(!=:) (DOM.Array          l) (DOM.Array          r) = DOM.BooleanLiteral (l /= r)
+(!=:) l                      r                      = DOM.BinaryExpression DOM.NotEqual l r
+
+-- | Creates a strict equal expression.
+infixl 4 ===:
+(===:) :: Expression -> Expression -> Expression
+(===:) (DOM.NumberLiteral  l) (DOM.NumberLiteral  r) = DOM.BooleanLiteral (l == r)
+(===:) (DOM.StringLiteral  l) (DOM.StringLiteral  r) = DOM.BooleanLiteral (l == r)
+(===:) (DOM.BooleanLiteral l) (DOM.BooleanLiteral r) = DOM.BooleanLiteral (l == r)
+(===:) (DOM.Object         l) (DOM.Object         r) = DOM.BooleanLiteral (l == r)
+(===:) (DOM.Array          l) (DOM.Array          r) = DOM.BooleanLiteral (l == r)
+(===:) l                      r                      = DOM.BinaryExpression DOM.StrictEqual l r
+
+-- | Creates a strict not equal expression.
+infixl 4 !==:
+(!==:) :: Expression -> Expression -> Expression
+(!==:) (DOM.NumberLiteral  l) (DOM.NumberLiteral  r) = DOM.BooleanLiteral (l /= r)
+(!==:) (DOM.StringLiteral  l) (DOM.StringLiteral  r) = DOM.BooleanLiteral (l /= r)
+(!==:) (DOM.BooleanLiteral l) (DOM.BooleanLiteral r) = DOM.BooleanLiteral (l /= r)
+(!==:) (DOM.Object         l) (DOM.Object         r) = DOM.BooleanLiteral (l /= r)
+(!==:) l                      r                      = DOM.BinaryExpression DOM.StrictNotEqual l r
+
+-- | Creates a less than expression.
+infixl 5 <:
+(<:) :: Expression -> Expression -> Expression
+(<:) (DOM.NumberLiteral l) (DOM.NumberLiteral r) = DOM.BooleanLiteral (l < r)
+(<:) l                     r                     = DOM.BinaryExpression DOM.LessThan l r
+
+-- | Creates a greater than expression.
+infixl 5 >:
+(>:) :: Expression -> Expression -> Expression
+(>:) (DOM.NumberLiteral l) (DOM.NumberLiteral r) = DOM.BooleanLiteral (l > r)
+(>:) l                     r                     = DOM.BinaryExpression DOM.GreaterThan l r
+
+-- | Creates a less than or equal expression.
+infixl 5 <=:
+(<=:) :: Expression -> Expression -> Expression
+(<=:) (DOM.NumberLiteral l) (DOM.NumberLiteral r) = DOM.BooleanLiteral (l <= r)
+(<=:) l                     r                     = DOM.BinaryExpression DOM.LessThanEqual l r
+
+-- | Creates a greater than or equal expression.
+infixl 5 >=:
+(>=:) :: Expression -> Expression -> Expression
+(>=:) (DOM.NumberLiteral l) (DOM.NumberLiteral r) = DOM.BooleanLiteral (l >= r)
+(>=:) l                     r                     = DOM.BinaryExpression DOM.GreaterThanEqual l r
+
+
+instance Num Expression where
+  (+) (DOM.NumberLiteral l) (DOM.NumberLiteral r) = DOM.NumberLiteral (l + r)
+  (+) l                     r                     = DOM.BinaryExpression DOM.Addition l r
+
+  (-) (DOM.NumberLiteral l) (DOM.NumberLiteral r) = DOM.NumberLiteral (l - r)
+  (-) l                     r                     = DOM.BinaryExpression DOM.Subtraction l r
+
+  (*) (DOM.NumberLiteral l) (DOM.NumberLiteral r) = DOM.NumberLiteral (l * r)
+  (*) l                     r                     = DOM.BinaryExpression DOM.Multiplication l r
+
+  negate (DOM.NumberLiteral v) = DOM.NumberLiteral (negate v)
+  negate v                     = DOM.BinaryExpression DOM.Multiplication v (DOM.NumberLiteral (-1))
+
+  abs    (DOM.NumberLiteral v) = DOM.NumberLiteral (abs v)
+  abs    v                     = DOM.FunctionCall function []
+    where
+      function   = DOM.Function Nothing [] [ DOM.ConditionTree conditions otherwise ]
+      conditions = [(condition, action)]
+      condition  = DOM.BinaryExpression DOM.LessThan v (DOM.NumberLiteral 0)
+      action     = DOM.Return (DOM.BinaryExpression DOM.Multiplication v (DOM.NumberLiteral (-1)))
+      otherwise  = DOM.Return v
+
+  signum (DOM.NumberLiteral v) = DOM.NumberLiteral (signum v)
+  signum v                     = DOM.FunctionCall function []
+    where
+      function   = DOM.Function Nothing [] [ DOM.ConditionTree conditions otherwise ]
+      conditions = [(condGZero, actGZero), (condLZero, actLZero)]
+      condLZero  = DOM.BinaryExpression DOM.LessThan v (DOM.NumberLiteral 0)
+      condGZero  = DOM.BinaryExpression DOM.GreaterThan v (DOM.NumberLiteral 0)
+      actLZero   = DOM.Return (DOM.NumberLiteral (-1))
+      actGZero   = DOM.Return (DOM.NumberLiteral 1)
+      otherwise  = DOM.Return (DOM.NumberLiteral 0)
+
+  fromInteger i = DOM.NumberLiteral (fromInteger i)
 

@@ -48,5 +48,21 @@ data BinaryOperator
   | Multiplication
   -- | The division operator.
   | Division
+  -- | The equal operator.
+  | Equal
+  -- | The not equal operator.
+  | NotEqual
+  -- | The strict equal operator.
+  | StrictEqual
+  -- | The strict not equal operator.
+  | StrictNotEqual
+  -- | The less than operator.
+  | LessThan
+  -- | The greater than operator.
+  | GreaterThan
+  -- | The less than or equal operator.
+  | LessThanEqual
+  -- | The greater than or equal operator.
+  | GreaterThanEqual
   deriving (Show, Eq)
 

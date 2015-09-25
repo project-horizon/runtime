@@ -40,7 +40,9 @@ module Language.JavaScript.DOM.Expression.UnaryOperator
 
 -- | All available unary operators from the JavaScript language.
 data UnaryOperator
-  -- | The negation operator.
-  = Negation
+  -- | The boolean negation operator.
+  = Not
+  -- | The numeric negation operator.
+  | Negation
   deriving (Show, Eq)
 
