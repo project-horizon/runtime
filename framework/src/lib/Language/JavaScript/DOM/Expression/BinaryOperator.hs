@@ -64,5 +64,15 @@ data BinaryOperator
   | LessThanEqual
   -- | The greater than or equal operator.
   | GreaterThanEqual
+  -- | The bitwise and operator.
+  | BitwiseAnd
+  -- | The bitwise or operator.
+  | BitwiseOr
+  -- | The bitwise exclusive or operator.
+  | BitwiseXOr
+  -- | The logical and operator.
+  | LogicalAnd
+  -- | The logical or operator.
+  | LogicalOr
   deriving (Show, Eq)
 

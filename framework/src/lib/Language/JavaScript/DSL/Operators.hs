@@ -37,17 +37,31 @@ Portability :  non-portable (Portability is untested.)
 The expression definitions of the EDSL.
 -}
 module Language.JavaScript.DSL.Operators
-( (=:)
-, (==:)
-, (!=:)
-, (===:)
-, (!==:)
-, (<:)
-, (>:)
-, (<=:)
-, (>=:)
-, (.:)
+-- Member operators
+( (.:)
+, (...)
+
+-- Comparison operators
+, (.==)
+, (.!=)
+, (.===)
+, (.!==)
+, (.<)
+, (.>)
+, (.<=)
+, (.>=)
+
+-- Bitwise operators
+, (.&)
+, (.|)
+, (.^)
+
+-- Logical operators
+, (.&&)
+, (.||)
 ) where
+
+import           Data.Bits
 
 import qualified Language.JavaScript.DOM as DOM
 
@@ -55,77 +69,107 @@ import           Language.JavaScript.DSL.TypeAliases
 
 
 -- | Creates a field from a field name and an expression.
-infixr 1 =:
-(=:) :: FieldName -> Expression -> Field
-(=:) k v = (k, v)
+infixr 1 .:
+(.:) :: FieldName -> Expression -> Field
+(.:) k v = (k, v)
 
 -- | Creates an object access expression.
-infixl 9 .:
-(.:) :: Expression -> VariableName -> Expression
-(.:) = DOM.ObjectAccess
+infixl 9 ...
+(...) :: Expression -> VariableName -> Expression
+(...) = DOM.ObjectAccess
+
 
 -- | Creates an equal expression.
-infixl 4 ==:
-(==:) :: Expression -> Expression -> Expression
-(==:) (DOM.NumberLiteral  l) (DOM.NumberLiteral  r) = DOM.BooleanLiteral (l == r)
-(==:) (DOM.StringLiteral  l) (DOM.StringLiteral  r) = DOM.BooleanLiteral (l == r)
-(==:) (DOM.BooleanLiteral l) (DOM.BooleanLiteral r) = DOM.BooleanLiteral (l == r)
-(==:) (DOM.Object         l) (DOM.Object         r) = DOM.BooleanLiteral (l == r)
-(==:) (DOM.Array          l) (DOM.Array          r) = DOM.BooleanLiteral (l == r)
-(==:) l                      r                      = DOM.BinaryExpression DOM.Equal l r
+infixl 4 .==
+(.==) :: Expression -> Expression -> Expression
+(.==) (DOM.NumberLiteral  l) (DOM.NumberLiteral  r) = DOM.BooleanLiteral (l == r)
+(.==) (DOM.StringLiteral  l) (DOM.StringLiteral  r) = DOM.BooleanLiteral (l == r)
+(.==) (DOM.BooleanLiteral l) (DOM.BooleanLiteral r) = DOM.BooleanLiteral (l == r)
+(.==) (DOM.Object         l) (DOM.Object         r) = DOM.BooleanLiteral (l == r)
+(.==) (DOM.Array          l) (DOM.Array          r) = DOM.BooleanLiteral (l == r)
+(.==) l                      r                      = DOM.BinaryExpression DOM.Equal l r
 
 -- | Creates not equal expression.
-infixl 4 !=:
-(!=:) :: Expression -> Expression -> Expression
-(!=:) (DOM.NumberLiteral  l) (DOM.NumberLiteral  r) = DOM.BooleanLiteral (l /= r)
-(!=:) (DOM.StringLiteral  l) (DOM.StringLiteral  r) = DOM.BooleanLiteral (l /= r)
-(!=:) (DOM.BooleanLiteral l) (DOM.BooleanLiteral r) = DOM.BooleanLiteral (l /= r)
-(!=:) (DOM.Object         l) (DOM.Object         r) = DOM.BooleanLiteral (l /= r)
-(!=:) (DOM.Array          l) (DOM.Array          r) = DOM.BooleanLiteral (l /= r)
-(!=:) l                      r                      = DOM.BinaryExpression DOM.NotEqual l r
+infixl 4 .!=
+(.!=) :: Expression -> Expression -> Expression
+(.!=) (DOM.NumberLiteral  l) (DOM.NumberLiteral  r) = DOM.BooleanLiteral (l /= r)
+(.!=) (DOM.StringLiteral  l) (DOM.StringLiteral  r) = DOM.BooleanLiteral (l /= r)
+(.!=) (DOM.BooleanLiteral l) (DOM.BooleanLiteral r) = DOM.BooleanLiteral (l /= r)
+(.!=) (DOM.Object         l) (DOM.Object         r) = DOM.BooleanLiteral (l /= r)
+(.!=) (DOM.Array          l) (DOM.Array          r) = DOM.BooleanLiteral (l /= r)
+(.!=) l                      r                      = DOM.BinaryExpression DOM.NotEqual l r
 
 -- | Creates a strict equal expression.
-infixl 4 ===:
-(===:) :: Expression -> Expression -> Expression
-(===:) (DOM.NumberLiteral  l) (DOM.NumberLiteral  r) = DOM.BooleanLiteral (l == r)
-(===:) (DOM.StringLiteral  l) (DOM.StringLiteral  r) = DOM.BooleanLiteral (l == r)
-(===:) (DOM.BooleanLiteral l) (DOM.BooleanLiteral r) = DOM.BooleanLiteral (l == r)
-(===:) (DOM.Object         l) (DOM.Object         r) = DOM.BooleanLiteral (l == r)
-(===:) (DOM.Array          l) (DOM.Array          r) = DOM.BooleanLiteral (l == r)
-(===:) l                      r                      = DOM.BinaryExpression DOM.StrictEqual l r
+infixl 4 .===
+(.===) :: Expression -> Expression -> Expression
+(.===) (DOM.NumberLiteral  l) (DOM.NumberLiteral  r) = DOM.BooleanLiteral (l == r)
+(.===) (DOM.StringLiteral  l) (DOM.StringLiteral  r) = DOM.BooleanLiteral (l == r)
+(.===) (DOM.BooleanLiteral l) (DOM.BooleanLiteral r) = DOM.BooleanLiteral (l == r)
+(.===) (DOM.Object         l) (DOM.Object         r) = DOM.BooleanLiteral (l == r)
+(.===) (DOM.Array          l) (DOM.Array          r) = DOM.BooleanLiteral (l == r)
+(.===) l                      r                      = DOM.BinaryExpression DOM.StrictEqual l r
 
 -- | Creates a strict not equal expression.
-infixl 4 !==:
-(!==:) :: Expression -> Expression -> Expression
-(!==:) (DOM.NumberLiteral  l) (DOM.NumberLiteral  r) = DOM.BooleanLiteral (l /= r)
-(!==:) (DOM.StringLiteral  l) (DOM.StringLiteral  r) = DOM.BooleanLiteral (l /= r)
-(!==:) (DOM.BooleanLiteral l) (DOM.BooleanLiteral r) = DOM.BooleanLiteral (l /= r)
-(!==:) (DOM.Object         l) (DOM.Object         r) = DOM.BooleanLiteral (l /= r)
-(!==:) l                      r                      = DOM.BinaryExpression DOM.StrictNotEqual l r
+infixl 4 .!==
+(.!==) :: Expression -> Expression -> Expression
+(.!==) (DOM.NumberLiteral  l) (DOM.NumberLiteral  r) = DOM.BooleanLiteral (l /= r)
+(.!==) (DOM.StringLiteral  l) (DOM.StringLiteral  r) = DOM.BooleanLiteral (l /= r)
+(.!==) (DOM.BooleanLiteral l) (DOM.BooleanLiteral r) = DOM.BooleanLiteral (l /= r)
+(.!==) (DOM.Object         l) (DOM.Object         r) = DOM.BooleanLiteral (l /= r)
+(.!==) l                      r                      = DOM.BinaryExpression DOM.StrictNotEqual l r
 
 -- | Creates a less than expression.
-infixl 5 <:
-(<:) :: Expression -> Expression -> Expression
-(<:) (DOM.NumberLiteral l) (DOM.NumberLiteral r) = DOM.BooleanLiteral (l < r)
-(<:) l                     r                     = DOM.BinaryExpression DOM.LessThan l r
+infixl 5 .<
+(.<) :: Expression -> Expression -> Expression
+(.<) (DOM.NumberLiteral l) (DOM.NumberLiteral r) = DOM.BooleanLiteral (l < r)
+(.<) l                     r                     = DOM.BinaryExpression DOM.LessThan l r
 
 -- | Creates a greater than expression.
-infixl 5 >:
-(>:) :: Expression -> Expression -> Expression
-(>:) (DOM.NumberLiteral l) (DOM.NumberLiteral r) = DOM.BooleanLiteral (l > r)
-(>:) l                     r                     = DOM.BinaryExpression DOM.GreaterThan l r
+infixl 5 .>
+(.>) :: Expression -> Expression -> Expression
+(.>) (DOM.NumberLiteral l) (DOM.NumberLiteral r) = DOM.BooleanLiteral (l > r)
+(.>) l                     r                     = DOM.BinaryExpression DOM.GreaterThan l r
 
 -- | Creates a less than or equal expression.
-infixl 5 <=:
-(<=:) :: Expression -> Expression -> Expression
-(<=:) (DOM.NumberLiteral l) (DOM.NumberLiteral r) = DOM.BooleanLiteral (l <= r)
-(<=:) l                     r                     = DOM.BinaryExpression DOM.LessThanEqual l r
+infixl 5 .<=
+(.<=) :: Expression -> Expression -> Expression
+(.<=) (DOM.NumberLiteral l) (DOM.NumberLiteral r) = DOM.BooleanLiteral (l <= r)
+(.<=) l                     r                     = DOM.BinaryExpression DOM.LessThanEqual l r
 
 -- | Creates a greater than or equal expression.
-infixl 5 >=:
-(>=:) :: Expression -> Expression -> Expression
-(>=:) (DOM.NumberLiteral l) (DOM.NumberLiteral r) = DOM.BooleanLiteral (l >= r)
-(>=:) l                     r                     = DOM.BinaryExpression DOM.GreaterThanEqual l r
+infixl 5 .>=
+(.>=) :: Expression -> Expression -> Expression
+(.>=) (DOM.NumberLiteral l) (DOM.NumberLiteral r) = DOM.BooleanLiteral (l >= r)
+(.>=) l                     r                     = DOM.BinaryExpression DOM.GreaterThanEqual l r
+
+
+-- | Creates a bitwise and expression.
+infixl 2 .&
+(.&) :: Expression -> Expression -> Expression
+(.&) = DOM.BinaryExpression DOM.BitwiseAnd
+
+-- | Creates a bitwise or expression.
+infixl 2 .|
+(.|) :: Expression -> Expression -> Expression
+(.|) = DOM.BinaryExpression DOM.BitwiseOr
+
+-- | Creates a bitwise xor expression.
+infixl 2 .^
+(.^) :: Expression -> Expression -> Expression
+(.^) = DOM.BinaryExpression DOM.BitwiseXOr
+
+
+-- | Creates a logical and expression.
+infixl 1 .&&
+(.&&) :: Expression -> Expression -> Expression
+(.&&) (DOM.BooleanLiteral l) (DOM.BooleanLiteral r) = DOM.BooleanLiteral (l && r)
+(.&&) l                      r                      = DOM.BinaryExpression DOM.LogicalAnd l r
+
+-- | Creates a logical or expression.
+infixl 1 .||
+(.||) :: Expression -> Expression -> Expression
+(.||) (DOM.BooleanLiteral l) (DOM.BooleanLiteral r) = DOM.BooleanLiteral (l || r)
+(.||) l                      r                      = DOM.BinaryExpression DOM.LogicalOr l r
 
 
 instance Num Expression where
