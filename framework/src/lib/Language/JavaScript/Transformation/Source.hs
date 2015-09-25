@@ -42,7 +42,10 @@ module Language.JavaScript.Transformation.Source
 ( 
 ) where
 
+import           Numeric             (showFFloat, fromRat)
+
 import           Control.Applicative (empty)
+
 import           Data.Maybe          (fromJust)
 import           Data.List           (intercalate)
 
@@ -61,7 +64,7 @@ instance Transformer DOM.UnaryOperator String where
   transform DOM.Negation = "!"
 
 instance Transformer DOM.Expression String where
-  transform (DOM.NumberLiteral    v       ) = show v
+  transform (DOM.NumberLiteral    v       ) = showFFloat (Just 20) (fromRat v) ""
   transform (DOM.StringLiteral    v       ) = show v
   transform (DOM.BooleanLiteral   v       ) = if v then "true" else "false"
   transform (DOM.Identifier       v       ) = v
@@ -72,6 +75,7 @@ instance Transformer DOM.Expression String where
   transform (DOM.ObjectAccess     o  i    ) = "(" ++> o ++> ")[" ++> show i ++> "]"
   transform (DOM.Function         f  ps ss) = "function" ++> (if f == empty then "" else " " ++> fromJust f) ++> "(" ++> intercalate "," (map transform ps) ++> "){" ++> intercalate ";" (map transform ss) ++> "}"
   transform (DOM.FunctionCall     f  as   ) = "(" ++> f ++> ")(" ++> intercalate "," (map transform as) ++> ")"
+
 instance Transformer DOM.Statement String where
   transform (DOM.ConditionTree  cs d) = intercalate "else " (map (\(c,a) -> "if(" ++> c ++> "){" ++> a ++> "}") cs) ++> "else{" ++> d ++> "}"
   transform (DOM.Loop           lh a) = transform (transform (DOM.Loop lh a) :: DOM.Statement) :: String
