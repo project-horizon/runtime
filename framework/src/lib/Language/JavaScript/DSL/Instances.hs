@@ -43,6 +43,8 @@ module Language.JavaScript.DSL.Instances
 (
 ) where
 
+import qualified Control.Arrow as CA
+
 import qualified Language.JavaScript.DOM as DOM
 
 import           Language.JavaScript.DSL.Expressions (array, val)
@@ -61,5 +63,8 @@ instance {-# OVERLAPS #-} Transformer String Expression where
   transform = DOM.StringLiteral
 
 instance {-# OVERLAPS #-} (Transformer a Expression) => Transformer [(String, a)] Expression where
-  transform vs = DOM.Object (map (\(k,v) -> (k, transform v)) vs)
+  transform vs = DOM.Object (map (CA.second transform) vs)
+
+instance Transformer Bool Expression where
+  transform = DOM.BooleanLiteral
 
