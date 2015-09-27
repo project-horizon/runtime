@@ -41,8 +41,14 @@ module Language.JavaScript.DOM.Expression.UnaryOperator
 -- | All available unary operators from the JavaScript language.
 data UnaryOperator
   -- | The boolean negation operator.
-  = Not
-  -- | The numeric negation operator.
-  | Negation
+  = LogicalNot
+  -- | The suffix increment operator.
+  | SuffixIncrement
+  -- | The prefix increment operator.
+  | PrefixIncrement
+  -- | The unary plus operator.
+  | UnaryPlus
+  -- | The unary minus operator.
+  | UnaryMinus
   deriving (Show, Eq)
 
