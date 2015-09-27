@@ -72,8 +72,9 @@ instance Transformer DOM.BinaryOperator String where
   transform DOM.LogicalOr      = "||"
 
 instance Transformer DOM.UnaryOperator String where
-  transform DOM.Not      = "!"
-  transform DOM.Negation = "-"
+  transform DOM.LogicalNot = "!"
+  transform DOM.UnaryPlus  = "+"
+  transform DOM.UnaryMinus = "-"
 
 instance Transformer DOM.Expression String where
   transform (DOM.NumberLiteral    v       ) = showFFloat (Just 20) (fromRat v) ""
@@ -90,18 +91,20 @@ instance Transformer DOM.Expression String where
 
 instance Transformer DOM.Statement String where
   transform (DOM.ConditionTree  cs d) = intercalate "else " (map (\(c,a) -> "if(" ++> c ++> "){" ++> a ++> "}") cs) ++> "else{" ++> d ++> "}"
-  transform (DOM.Loop           lh a) = transform (transform (DOM.Loop lh a) :: DOM.Statement) :: String
+  transform (DOM.Loop           lh a) = lh ++> a
   transform (DOM.ExprAsStmt     e   ) = "(" ++> e ++> ")"
   transform (DOM.Break              ) = "break"
   transform (DOM.Continue           ) = "continue"
-  transform (DOM.Var            v  e) = "var " ++> v ++> if e == empty
-                                                            then ";"
-                                                            else "=(" ++> fromJust e ++> ")"
+  transform (DOM.Var            v  e) = "var " ++> v ++> if e == empty then ";" else "=(" ++> fromJust e ++> ")"
   transform (DOM.Return         e   ) = "return(" ++> e ++> ")"
   transform (DOM.StatementBlock ps  ) = "{" ++> intercalate ";" (map transform ps) ++> "}"
 
 instance Transformer DOM.LoopHead String where
-  transform (DOM.IterationLoop vs c cs) = "for(var " ++> intercalate "," (map (\(k,v) -> k ++> "=(" ++> v ++> ")") vs) ++> ";" ++> c ++> ";" ++> intercalate "," (map transform cs) ++> ")"
+  transform (DOM.IterationLoop vs c cs) = "for(" ++> init ++> ";" ++> cond ++> ";" ++> chgs ++> ")"
+    where
+      init = (if not $ null vs then "var " else "") ++> intercalate "," (map (\(k,v) -> k ++> "=(" ++> v ++> ")") vs)
+      cond = if c /= empty then transform (fromJust c) else ""
+      chgs = intercalate "," (map transform cs)
   transform (DOM.ForEachLoop   v  e   ) = "for(var " ++> v ++> " in " ++> e ++> ")"
   transform (DOM.WhileLoop     c      ) = "while(" ++> c ++> ")"
   transform (DOM.DoWhileLoop   _      ) = error "Cannot generate DOM.DoWhileLoop. Transformation is required."
@@ -110,6 +113,6 @@ instance Transformer DOM.LoopHead String where
 instance Transformer DOM.Statement DOM.Statement where
   transform (DOM.Loop (DOM.DoWhileLoop c) a) =
     DOM.Loop (DOM.WhileLoop (DOM.BooleanLiteral True))
-      (DOM.StatementBlock [DOM.ConditionTree [(c, DOM.Break)] a])
+      (DOM.StatementBlock [a, DOM.ConditionTree [(c, DOM.Break)] (DOM.StatementBlock [])])
   transform statement                        = statement
 

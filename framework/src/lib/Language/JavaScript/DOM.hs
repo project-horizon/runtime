@@ -94,7 +94,7 @@ data Statement
 -- | Represents the head of a loop.
 data LoopHead
   -- | A simple iterational loop.
-  = IterationLoop [(String,Expression)] Expression [Expression]
+  = IterationLoop [(String,Expression)] (Maybe Expression) [Expression]
   -- | A loop iterating over every element in a collection.
   | ForEachLoop String Expression
   -- | A loop iterating until the condition becomes false.

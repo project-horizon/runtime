@@ -63,7 +63,7 @@ expr :: Expression -> Statement
 expr = DOM.ExprAsStmt
 
 -- | Creates a for loop head.
-for :: Initializations -> Condition -> Changes -> Statement -> Statement
+for :: Initializations -> Maybe Condition -> Changes -> Statement -> Statement
 for i c cs = DOM.Loop (DOM.IterationLoop i c cs)
 
 -- | Creates a for each loop head.
