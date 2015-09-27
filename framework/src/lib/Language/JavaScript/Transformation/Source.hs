@@ -86,18 +86,12 @@ instance Transformer DOM.Expression String where
   transform (DOM.Object           vs      ) = "{" ++> intercalate "," (map (\(k,v) -> show k ++> ":(" ++> v ++> ")") vs) ++> "}"
   transform (DOM.Array            vs      ) = "[" ++> intercalate "," (map transform vs) ++> "]"
   transform (DOM.ObjectAccess     o  i    ) = "(" ++> o ++> ")[" ++> show i ++> "]"
-  transform (DOM.Function         f  ps ss) = "function" ++> (if f == empty then "" else " " ++> fromJust f) ++> "(" ++> intercalate "," (map transform ps) ++> "){" ++> intercalate ";" (map transform ss) ++> "}"
+  transform (DOM.Function         f  ps ss) = "function" ++> fName ++> params ++> body
+    where
+      fName  = if f == empty then "" else " " ++> fromJust f
+      params = "(" ++> intercalate "," (map transform ps) ++> ")"
+      body   = "{" ++> intercalate ";" (map transform ss) ++> "}"
   transform (DOM.FunctionCall     f  as   ) = "(" ++> f ++> ")(" ++> intercalate "," (map transform as) ++> ")"
-
-instance Transformer DOM.Statement String where
-  transform (DOM.ConditionTree  cs d) = intercalate "else " (map (\(c,a) -> "if(" ++> c ++> "){" ++> a ++> "}") cs) ++> "else{" ++> d ++> "}"
-  transform (DOM.Loop           lh a) = lh ++> a
-  transform (DOM.ExprAsStmt     e   ) = "(" ++> e ++> ")"
-  transform (DOM.Break              ) = "break"
-  transform (DOM.Continue           ) = "continue"
-  transform (DOM.Var            v  e) = "var " ++> v ++> if e == empty then ";" else "=(" ++> fromJust e ++> ")"
-  transform (DOM.Return         e   ) = "return(" ++> e ++> ")"
-  transform (DOM.StatementBlock ps  ) = "{" ++> intercalate ";" (map transform ps) ++> "}"
 
 instance Transformer DOM.LoopHead String where
   transform (DOM.IterationLoop vs c cs) = "for(" ++> init ++> ";" ++> cond ++> ";" ++> chgs ++> ")"
@@ -107,12 +101,27 @@ instance Transformer DOM.LoopHead String where
       chgs = intercalate "," (map transform cs)
   transform (DOM.ForEachLoop   v  e   ) = "for(var " ++> v ++> " in " ++> e ++> ")"
   transform (DOM.WhileLoop     c      ) = "while(" ++> c ++> ")"
-  transform (DOM.DoWhileLoop   _      ) = error "Cannot generate DOM.DoWhileLoop. Transformation is required."
+  transform (DOM.DoWhileLoop   _      ) = error "wtf you doin"
 
--- Transformation from DOM.DoWhileLoop to DOM.WhileLoop.
-instance Transformer DOM.Statement DOM.Statement where
-  transform (DOM.Loop (DOM.DoWhileLoop c) a) =
+
+newtype L1 = L1 { getL1 :: DOM.Statement }
+
+instance Transformer DOM.Statement L1 where
+  transform (DOM.Loop (DOM.DoWhileLoop c) a) = L1 $
     DOM.Loop (DOM.WhileLoop (DOM.BooleanLiteral True))
       (DOM.StatementBlock [a, DOM.ConditionTree [(c, DOM.Break)] (DOM.StatementBlock [])])
-  transform statement                        = statement
+  transform statement                        = L1 statement
+
+instance Transformer L1 String where
+  transform (L1 (DOM.ConditionTree  cs d)) = intercalate "else " (map (\(c,a) -> "if(" ++> c ++> "){" ++> a ++> "}") cs) ++> "else{" ++> d ++> "}"
+  transform (L1 (DOM.Loop           lh a)) = lh ++> a
+  transform (L1 (DOM.ExprAsStmt     e   )) = "(" ++> e ++> ")"
+  transform (L1  DOM.Break               ) = "break"
+  transform (L1  DOM.Continue            ) = "continue"
+  transform (L1 (DOM.Var            v  e)) = "var " ++> v ++> if e == empty then ";" else "=(" ++> fromJust e ++> ")"
+  transform (L1 (DOM.Return         e   )) = "return(" ++> e ++> ")"
+  transform (L1 (DOM.StatementBlock ps  )) = "{" ++> intercalate ";" (map transform ps) ++> "}"
+
+instance Transformer DOM.Statement String where
+  transform p = transform (transform p :: L1) :: String
 
