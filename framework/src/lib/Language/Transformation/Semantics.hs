@@ -40,6 +40,7 @@ module Language.Transformation.Semantics
 ( Semantics (..)
 , Scope (..)
 , FullyQualifiedName (..)
+, HierarchicalScope (..)
 ) where
 
 import           Control.Applicative
@@ -48,6 +49,7 @@ import           Control.Monad
 import           Language.Transformation.Protocol
 
 import           Data.List (intercalate)
+
 
 -- | A special monad for handling semantic constraints in language
 --   analysis.
@@ -60,19 +62,14 @@ instance Semantics (Either String) where
   report = Left
 
 
--- | A type class representing the required functionality of a scope.
-class Scope a where
-  -- | Checks if the given identifier is contained within a scope.
-  idIsInScope :: a -> String -> Bool
-
 -- | Functionality for handling fully qualified names.
-class FullyQualifiedName a where
+class (Eq a) => FullyQualifiedName a where
   -- | The fully qualified name.
-  fullyQualifiedName :: a -> String
+  fullyQualifiedName :: a -> a
   -- | The namespace of the identifier.
-  namespace          :: a -> String
+  namespace          :: a -> a
   -- | The name of the value.
-  name               :: a -> String
+  name               :: a -> a
 
 split :: String -> [String]
 split s = split' s []
@@ -86,4 +83,18 @@ instance FullyQualifiedName String where
   fullyQualifiedName s = s
   namespace          s = intercalate "." (reverse (drop 1 (reverse (split s))))
   name               s = let vs = split s; [v] = drop (length vs - 1) vs; in v
+
+-- | A type class representing the required functionality of a scope.
+class Scope a where
+  -- | Checks if the given identifier is contained within a scope.
+  isIn :: (FullyQualifiedName b) => b -> a b -> Bool
+
+data (FullyQualifiedName a) => HierarchicalScope a
+  = HScope [a] (HierarchicalScope a)
+  | IScope [a]
+  deriving (Show, Eq)
+
+instance Scope HierarchicalScope where
+  isIn fqn (HScope ids  p) = fullyQualifiedName fqn `elem` ids || fqn `isIn` p
+  isIn fqn (IScope ids   ) = fullyQualifiedName fqn `elem` ids
 
