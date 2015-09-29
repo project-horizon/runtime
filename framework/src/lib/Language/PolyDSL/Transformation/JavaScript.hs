@@ -63,5 +63,9 @@ instance Transformer DOM.Declaration Statement where
       trans (p:ps) = function [p] [ ret (trans ps) ]
 
 instance Transformer DOM.Module Statement where
-  transform (DOM.Module mName exps decls) = var mName (Just $ object [])
+  transform (DOM.Module mName es ds) = var mName (Just body)
+    where
+      body = new (function [] (defs ++ exps)) []
+      defs = []
+      exps = map (\v -> expr (ident ("this." ++ v) .= ident v)) es
 
