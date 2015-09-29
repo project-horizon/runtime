@@ -21,9 +21,11 @@ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 -}
 
+{-# LANGUAGE FlexibleInstances #-}
+
 {- |
 Module      :  $Header$
-Description :  Generalized semantic analysis.
+Description :  Default instances for the Semantics type class.
 Author	    :  Nils 'bash0r' Jonsson
 Copyright   :  (c) 2015 Nils 'bash0r' Jonsson
 License	    :  MIT
@@ -32,14 +34,15 @@ Maintainer  :  aka.bash0r@gmail.com
 Stability   :  unstable
 Portability :  non-portable (Portability is untested.)
 
-Generalized semantic analysis.
+Default instances for the Semantics type class.
 -}
-module Language.Transformation.Semantics
-( module Export
+module Language.Transformation.Semantics.Instances
+( 
 ) where
-  
-import           Language.Transformation.Semantics.Class              as Export
-import           Language.Transformation.Semantics.FullyQualifiedName as Export
-import           Language.Transformation.Semantics.Instances          as Export
-import           Language.Transformation.Semantics.Scope              as Export
+
+import           Language.Transformation.Semantics.Class
+
+
+instance Semantics (Either String) where
+  report = Left
 

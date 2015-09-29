@@ -23,7 +23,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 {- |
 Module      :  $Header$
-Description :  Generalized semantic analysis.
+Description :  A type class defining basic functionality for scopes.
 Author	    :  Nils 'bash0r' Jonsson
 Copyright   :  (c) 2015 Nils 'bash0r' Jonsson
 License	    :  MIT
@@ -32,14 +32,17 @@ Maintainer  :  aka.bash0r@gmail.com
 Stability   :  unstable
 Portability :  non-portable (Portability is untested.)
 
-Generalized semantic analysis.
+A type class defining basic functionality for scopes.
 -}
-module Language.Transformation.Semantics
-( module Export
+module Language.Transformation.Semantics.Scope
+( Scope (..)
 ) where
-  
-import           Language.Transformation.Semantics.Class              as Export
-import           Language.Transformation.Semantics.FullyQualifiedName as Export
-import           Language.Transformation.Semantics.Instances          as Export
-import           Language.Transformation.Semantics.Scope              as Export
+
+import           Language.Transformation.Semantics.FullyQualifiedName
+
+
+-- | A type class representing the required functionality of a scope.
+class Scope a where
+  -- | Checks if the given identifier is contained within a scope.
+  isIn :: (FullyQualifiedName b) => b -> a b -> Bool
 

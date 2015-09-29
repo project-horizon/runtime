@@ -23,7 +23,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 {- |
 Module      :  $Header$
-Description :  Generalized semantic analysis.
+Description :  A type class for checking semantics within a transformation.
 Author	    :  Nils 'bash0r' Jonsson
 Copyright   :  (c) 2015 Nils 'bash0r' Jonsson
 License	    :  MIT
@@ -32,14 +32,15 @@ Maintainer  :  aka.bash0r@gmail.com
 Stability   :  unstable
 Portability :  non-portable (Portability is untested.)
 
-Generalized semantic analysis.
+A type class for checking semantics within a transformation.
 -}
-module Language.Transformation.Semantics
-( module Export
+module Language.Transformation.Semantics.Class
+( Semantics (..)
 ) where
-  
-import           Language.Transformation.Semantics.Class              as Export
-import           Language.Transformation.Semantics.FullyQualifiedName as Export
-import           Language.Transformation.Semantics.Instances          as Export
-import           Language.Transformation.Semantics.Scope              as Export
+
+-- | A special monad for handling semantic constraints in language
+--   analysis.
+class (Monad m) => Semantics m where
+  -- | Report a semantic error during analysis.
+  report :: String -> m a
 

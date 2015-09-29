@@ -23,7 +23,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 {- |
 Module      :  $Header$
-Description :  Generalized semantic analysis.
+Description :  A type class defining basic functionality for fully qualified names.
 Author	    :  Nils 'bash0r' Jonsson
 Copyright   :  (c) 2015 Nils 'bash0r' Jonsson
 License	    :  MIT
@@ -32,14 +32,18 @@ Maintainer  :  aka.bash0r@gmail.com
 Stability   :  unstable
 Portability :  non-portable (Portability is untested.)
 
-Generalized semantic analysis.
+A type class defining basic functionalityp for fully qualified names.
 -}
-module Language.Transformation.Semantics
-( module Export
+module Language.Transformation.Semantics.FullyQualifiedName
+( FullyQualifiedName (..)
 ) where
-  
-import           Language.Transformation.Semantics.Class              as Export
-import           Language.Transformation.Semantics.FullyQualifiedName as Export
-import           Language.Transformation.Semantics.Instances          as Export
-import           Language.Transformation.Semantics.Scope              as Export
+
+-- | Functionality for handling fully qualified names.
+class (Eq a) => FullyQualifiedName a where
+  -- | The fully qualified name.
+  fullyQualified :: a -> a
+  -- | The namespace of the identifier.
+  namespace      :: a -> a
+  -- | The name of the value.
+  name           :: a -> a
 
