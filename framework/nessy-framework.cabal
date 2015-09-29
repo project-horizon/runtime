@@ -43,6 +43,7 @@ library
                ,        Language.PolyDSL.DOM.Declaration.Type
                ,        Language.PolyDSL.DOM.Declaration.TypeSignature
                ,        Language.PolyDSL.DOM.Expression
+               ,        Language.PolyDSL.DOM.Module
                ,        Language.PolyDSL.DSL
                ,        Language.PolyDSL.DSL.Declarations
                ,        Language.PolyDSL.DSL.Expressions
