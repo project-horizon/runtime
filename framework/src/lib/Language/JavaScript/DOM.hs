@@ -69,6 +69,8 @@ data Expression
   | Function (Maybe String) [String] [Statement]
   -- | A JavaScript function call expression.
   | FunctionCall Expression [Expression]
+  -- | A JavaScript constructor invocation.
+  | NewCall Expression [Expression]
   deriving (Show, Eq)
 
 -- | A simple statement representation.

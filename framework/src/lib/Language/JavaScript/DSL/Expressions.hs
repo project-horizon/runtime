@@ -44,6 +44,7 @@ module Language.JavaScript.DSL.Expressions
 , array
 , object
 , function
+, new
 , call
 , val
 ) where
@@ -87,6 +88,10 @@ function = DOM.Function Nothing
 --   arguments.
 call :: Expression -> [Argument] -> Expression
 call = DOM.FunctionCall
+
+-- | Creates an object creation.
+new :: Expression -> [Expression] -> Expression
+new = DOM.NewCall
 
 -- | Creates an expression from a Haskell value.
 val :: (Transformer a Expression) => a -> Expression

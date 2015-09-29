@@ -92,6 +92,7 @@ instance Transformer DOM.Expression String where
       params = "(" ++> intercalate "," (map transform ps) ++> ")"
       body   = "{" ++> intercalate ";" (map transform ss) ++> "}"
   transform (DOM.FunctionCall     f  as   ) = "(" ++> f ++> ")(" ++> intercalate "," (map transform as) ++> ")"
+  transform (DOM.NewCall          f  as   ) = "new(" ++> f ++> ")(" ++> intercalate "," (map transform as) ++> ")"
 
 instance Transformer DOM.LoopHead String where
   transform (DOM.IterationLoop vs c cs) = "for(" ++> init ++> ";" ++> cond ++> ";" ++> chgs ++> ")"
