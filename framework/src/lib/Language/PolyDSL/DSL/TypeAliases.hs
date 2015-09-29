@@ -37,21 +37,24 @@ Type aliases for the EDSL.
 module Language.PolyDSL.DSL.TypeAliases
 ( Expression
 , Declaration
+, Module
 
--- | Types
+-- Types
 , Type
 , TypeSignature
 
--- | Expressions
+-- Expressions
 , Operator
 
--- | Declarations
+-- Declarations
 , Constructor
-, ModuleName
 , FunctionName
 , FunctionParameter
 , TypeName
 , TypeParameter
+
+-- Modules
+, ModuleName
 ) where
 
 import qualified Language.PolyDSL.DOM as DOM
@@ -62,6 +65,9 @@ type Expression = DOM.Expression
 
 -- | A declaration in the PolyDSL DOM.
 type Declaration = DOM.Declaration
+
+-- | A module declaration in the PolyDSL DOM.
+type Module = DOM.Module
 
 
 -- | A type label.
@@ -78,9 +84,6 @@ type Operator = String
 -- | A constructor definition.
 type Constructor = (String, TypeSignature)
 
--- | The name of a module.
-type ModuleName = String
-
 -- | The name of a function
 type FunctionName = String
 
@@ -92,4 +95,8 @@ type TypeName = String
 
 -- | The name of a type parameter.
 type TypeParameter = String
+
+
+-- | The name of a module.
+type ModuleName = String
 

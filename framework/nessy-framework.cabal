@@ -47,6 +47,7 @@ library
                ,        Language.PolyDSL.DSL
                ,        Language.PolyDSL.DSL.Declarations
                ,        Language.PolyDSL.DSL.Expressions
+               ,        Language.PolyDSL.DSL.Modules
                ,        Language.PolyDSL.DSL.TypeAliases
                ,        Language.PolyDSL.Transformation
                ,        Language.PolyDSL.Transformation.JavaScript

@@ -40,5 +40,6 @@ module Language.PolyDSL.DSL
 
 import           Language.PolyDSL.DSL.Expressions  as Export
 import           Language.PolyDSL.DSL.Declarations as Export
+import           Language.PolyDSL.DSL.Modules      as Export
 import           Language.PolyDSL.DSL.TypeAliases  as Export
 
