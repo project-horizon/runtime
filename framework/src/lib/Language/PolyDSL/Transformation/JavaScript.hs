@@ -21,6 +21,7 @@ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 -}
 
+{-# LANGUAGE FlexibleInstances     #-}
 {-# LANGUAGE MultiParamTypeClasses #-}
 {-# LANGUAGE TypeSynonymInstances  #-}
 
@@ -63,9 +64,13 @@ instance Transformer DOM.Declaration Statement where
       trans (p:ps) = function [p] [ ret (trans ps) ]
 
 instance Transformer DOM.Module Statement where
-  transform (DOM.Module mName es ds) = expr (ident "this" ... mName .= body)
+  transform (DOM.Module mName es ds) = expr (ident "this" ... "module_register" ... mName .= body)
     where
       body = new (function [] (defs ++ exps)) []
       defs = []
       exps = map (\v -> expr (ident ("this." ++ v) .= ident v)) es
+
+instance Transformer [DOM.Module] Statement where
+  transform ms = block $ modBlockInit : map transform ms
+    where modBlockInit = expr (ident "this" ... "module_register" .= object [])
 

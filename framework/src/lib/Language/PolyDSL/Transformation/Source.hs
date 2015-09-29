@@ -50,6 +50,6 @@ import           Language.PolyDSL.Transformation.JavaScript
 import           Language.Transformation.Protocol
 
 
-instance Transformer DOM.Module String where
+instance Transformer [DOM.Module] String where
   transform p = transform (transform p :: Statement)
 
