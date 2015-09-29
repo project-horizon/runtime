@@ -39,5 +39,6 @@ module Language.PolyDSL.DOM
 ) where
 
 import           Language.PolyDSL.DOM.Declaration as Export
-import           Language.PolyDSL.DOM.Expression as Export
+import           Language.PolyDSL.DOM.Expression  as Export
+import           Language.PolyDSL.DOM.Module      as Export
 

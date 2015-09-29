@@ -23,7 +23,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 {- |
 Module      :  $Header$
-Description :  A module definition 
+Description :  A module definition in the PolyDSL language.
 Author	    :  Nils 'bash0r' Jonsson
 Copyright   :  (c) 2015 Nils 'bash0r' Jonsson
 License	    :  
@@ -32,6 +32,17 @@ Maintainer  :  aka.bash0r@gmail.com
 Stability   :  unstable
 Portability :  non-portable (Portability is untested.)
 
-A module definition 
+A module definition in the PolyDSL language.
 -}
+module Language.PolyDSL.DOM.Module
+( Module (..)
+) where
+
+import           Language.PolyDSL.DOM.Declaration
+
+
+-- | A module definition.
+data Module
+  -- | A module definition.
+  = Module String [Declaration]
 
