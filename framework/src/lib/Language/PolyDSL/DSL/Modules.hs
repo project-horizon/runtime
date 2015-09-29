@@ -43,6 +43,7 @@ import           Language.PolyDSL.DSL.TypeAliases
 import qualified Language.PolyDSL.DOM as DOM
 
 
-defModule :: ModuleName -> [Declaration] -> Module
+-- | Creates a module definition.
+defModule :: ModuleName -> [SymbolName] -> [Declaration] -> Module
 defModule = DOM.Module
 

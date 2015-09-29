@@ -44,5 +44,5 @@ import           Language.PolyDSL.DOM.Declaration
 -- | A module definition.
 data Module
   -- | A module definition.
-  = Module String [Declaration]
+  = Module String [String] [Declaration]
 

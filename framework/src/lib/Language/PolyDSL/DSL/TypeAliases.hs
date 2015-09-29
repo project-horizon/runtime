@@ -55,6 +55,7 @@ module Language.PolyDSL.DSL.TypeAliases
 
 -- Modules
 , ModuleName
+, SymbolName
 ) where
 
 import qualified Language.PolyDSL.DOM as DOM
@@ -99,4 +100,7 @@ type TypeParameter = String
 
 -- | The name of a module.
 type ModuleName = String
+
+-- | The name of a symbol.
+type SymbolName = String
 
