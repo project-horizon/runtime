@@ -49,10 +49,11 @@ import qualified Language.PolyDSL.DOM as DOM
 
 
 instance Transformer DOM.Expression Expression where
-  transform (DOM.NumberLiteral v  ) = num v
-  transform (DOM.StringLiteral v  ) = val v
-  transform (DOM.Identifier    i  ) = ident i
-  transform (DOM.FunctionCall  f e) = call (transform f) [transform e]
+  transform (DOM.NumberLiteral    v     ) = num v
+  transform (DOM.StringLiteral    v     ) = val v
+  transform (DOM.Identifier       i     ) = ident i
+  transform (DOM.BinaryExpression op l r) = call (call (ident "operator_table" ... op) [transform l]) [transform r]
+  transform (DOM.FunctionCall     f  e  ) = call (transform f) [transform e]
 
 instance Transformer DOM.Declaration Statement where
   transform (DOM.Function f ps e) = method f ps
