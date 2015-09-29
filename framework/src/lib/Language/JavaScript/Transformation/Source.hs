@@ -70,6 +70,7 @@ instance Transformer DOM.BinaryOperator String where
   transform DOM.BitwiseXOr     = "^"
   transform DOM.LogicalAnd     = "&&"
   transform DOM.LogicalOr      = "||"
+  transform DOM.Assignment     = "="
 
 instance Transformer DOM.UnaryOperator String where
   transform DOM.LogicalNot = "!"

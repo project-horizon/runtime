@@ -34,9 +34,10 @@ Portability :  non-portable (Portability is untested.)
 
 The member acces operators.
 -}
-module Language.JavaScript.DSL.Operators.Members
+module Language.JavaScript.DSL.Operators.Others
 ( (.:)
 , (...)
+, (.=)
 ) where
 
 import qualified Language.JavaScript.DOM as DOM
@@ -53,4 +54,8 @@ infixr 1 .:
 infixl 9 ...
 (...) :: Expression -> VariableName -> Expression
 (...) = DOM.ObjectAccess
+
+infixr 1 .=
+(.=) :: Expression -> Expression -> Expression
+(.=) = DOM.BinaryExpression DOM.Assignment
 

@@ -41,6 +41,6 @@ module Language.JavaScript.DSL.Operators
 import           Language.JavaScript.DSL.Operators.Bitwise    as Export
 import           Language.JavaScript.DSL.Operators.Comparison as Export
 import           Language.JavaScript.DSL.Operators.Logical    as Export
-import           Language.JavaScript.DSL.Operators.Members    as Export
 import           Language.JavaScript.DSL.Operators.Numeric    as Export
+import           Language.JavaScript.DSL.Operators.Others     as Export
 

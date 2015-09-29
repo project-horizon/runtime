@@ -74,5 +74,7 @@ data BinaryOperator
   | LogicalAnd
   -- | The logical or operator.
   | LogicalOr
+  -- | The assignment operator.
+  | Assignment
   deriving (Show, Eq)
 

@@ -30,8 +30,8 @@ library
                ,        Language.JavaScript.DSL.Operators.Bitwise
                ,        Language.JavaScript.DSL.Operators.Comparison
                ,        Language.JavaScript.DSL.Operators.Logical
-               ,        Language.JavaScript.DSL.Operators.Members
                ,        Language.JavaScript.DSL.Operators.Numeric
+               ,        Language.JavaScript.DSL.Operators.Others
                ,        Language.JavaScript.DSL.Script
                ,        Language.JavaScript.DSL.Statements
                ,        Language.JavaScript.DSL.TypeAliases
