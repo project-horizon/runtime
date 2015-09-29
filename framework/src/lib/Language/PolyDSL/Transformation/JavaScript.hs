@@ -56,7 +56,9 @@ instance Transformer DOM.Expression Expression where
   transform (DOM.FunctionCall     f  e  ) = call (transform f) [transform e]
 
 instance Transformer DOM.Declaration Statement where
-  transform (DOM.Function f ps e) = method f ps
-    [ (ret . transform) e
-    ]
+  transform (DOM.Function f []     e) = var f (Just (transform e))
+  transform (DOM.Function f (p:ps) e) = method f [p] [ ret (trans ps) ]
+    where
+      trans []     = transform e
+      trans (p:ps) = function [p] [ ret (trans ps) ]
 
