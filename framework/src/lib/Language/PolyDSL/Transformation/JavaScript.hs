@@ -39,22 +39,15 @@ Portability :  non-portable (Portability is untested.)
 PolyDSL to JavaScript conversion.
 -}
 module Language.PolyDSL.Transformation.JavaScript
-(
+( module Export
 ) where
 
-import Language.Transformation.Protocol
-
-import Language.JavaScript
+import           Language.JavaScript
+import           Language.Transformation.Protocol
 
 import qualified Language.PolyDSL.DOM as DOM
 
-
-instance Transformer DOM.Expression Expression where
-  transform (DOM.NumberLiteral    v     ) = num v
-  transform (DOM.StringLiteral    v     ) = val v
-  transform (DOM.Identifier       i     ) = ident i
-  transform (DOM.BinaryExpression op l r) = call (call (ident "operator_table" ... op) [transform l]) [transform r]
-  transform (DOM.FunctionCall     f  e  ) = call (transform f) [transform e]
+import           Language.PolyDSL.Transformation.JavaScript.Expressions as Export
 
 
 type Exports = [String]
