@@ -39,7 +39,7 @@ Portability :  non-portable (Portability is untested.)
 PolyDSL to JavaScript conversion.
 -}
 module Language.PolyDSL.Transformation.JavaScript
-( 
+(
 ) where
 
 import Language.Transformation.Protocol
@@ -63,14 +63,58 @@ instance Transformer DOM.Declaration Statement where
       trans []     = transform e
       trans (p:ps) = function [p] [ ret (trans ps) ]
 
-instance Transformer DOM.Module Statement where
-  transform (DOM.Module mName es ds) = expr (ident "this" ... "module_register" ... mName .= body)
+type Exports = [String]
+
+newtype Imports     = Imports     { getImports     :: [DOM.Declaration] }
+newtype Functions   = Functions   { getfunctions   :: [DOM.Declaration] }
+newtype GADTs       = GADTs       { getGADTs       :: [DOM.Declaration] }
+
+instance Transformer GADTs [Statement] where
+  transform (GADTs ts) = concatMap initType ts
+    where
+      initType (DOM.GADT tn ps cs) =
+        let initCons (n, DOM.TypeSignature _ sig) = var n (Just $ fun (transSig sig) 0)
+            transSig (DOM.Type {}         ) = []
+            transSig (DOM.ListType {}     ) = []
+            transSig (DOM.TupleType {}    ) = []
+            transSig (DOM.GenericType {}  ) = []
+            transSig (DOM.FunctionType p r) = p : transSig r
+            getId i = '_' : show i
+            genAssignment 0 as = as
+            genAssignment i as = genAssignment (i - 1) ((show (i - 1) .: (ident . getId) (i - 1)) : as)
+            fun []     i = object (genAssignment i []) -- TODO: implement type label generation
+            fun (x:xs) i = function [getId i] [ ret (fun xs (i + 1)) ] -- TODO: implement signature check.
+         in map initCons cs
+
+newtype TypeAliases = TypeAliases { getTypeAliases :: [DOM.Declaration] }
+
+
+data ModL1
+  = ModL1 String Exports Imports GADTs TypeAliases Functions
+
+instance Transformer DOM.Module ModL1 where
+  transform (DOM.Module mName es ds) =
+      let (is, ts, tas, fs) = filterDecls ds [] [] [] []
+       in ModL1 mName es (Imports is) (GADTs ts) (TypeAliases tas) (Functions fs)
+    where
+      filterDecls []                        is ts tas fs = (reverse is, reverse ts, reverse tas, reverse fs)
+      filterDecls (i@(DOM.Import    {}):ds) is ts tas fs = filterDecls ds (i:is) ts     tas     fs
+      filterDecls (t@(DOM.GADT      {}):ds) is ts tas fs = filterDecls ds is     (t:ts) tas     fs
+      filterDecls (t@(DOM.TypeAlias {}):ds) is ts tas fs = filterDecls ds is     ts     (t:tas) fs
+      filterDecls (f@(DOM.Function  {}):ds) is ts tas fs = filterDecls ds is     ts     tas     (f:fs)
+      filterDecls (s@(DOM.Signature {}):ds) is ts tas fs = filterDecls ds is     ts     tas     (s:fs)
+
+instance Transformer ModL1 Statement where
+  transform (ModL1 mName es is ts tas fs) = expr (this ... "module_register" ... mName .= body)
     where
       body = new (function [] (defs ++ exps)) []
-      defs = []
-      exps = map (\v -> expr (ident ("this." ++ v) .= ident v)) es
+      defs = transform ts
+      exps = map (\v -> expr (this ... v .= ident v)) es
+
+instance Transformer DOM.Module Statement where
+  transform p = transform (transform p :: ModL1) :: Statement
 
 instance Transformer [DOM.Module] Statement where
-  transform ms = block $ modBlockInit : map transform ms
-    where modBlockInit = expr (ident "this" ... "module_register" .= object [])
+  transform ms = let modBlockInit = expr (this ... "module_register" .= object [])
+                  in block $ modBlockInit : map transform ms
 
