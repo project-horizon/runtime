@@ -46,15 +46,20 @@ import           System.Process (readCreateProcess, shell)
 
 import           Language.PolyDSL
 import           Language.Transformation.Protocol
+import           Language.Transformation.Semantics
 
 import qualified Language.JavaScript as JS
 
 
 main :: IO ()
-main = do
-  --out <- readCreateProcess (shell "node") (intercalate ";" (map transform script))
-  let out = transform [script]
-  putStrLn out
+main = test -- exec
+
+
+test = case transform [script] of
+  Result a -> putStrLn a
+  Error  m -> putStrLn m
+
+exec = undefined --out <- readCreateProcess (shell "node") (intercalate ";" (map transform script))
 
 script = defModule "Data.Maybe" ["Just", "Nothing"]
   [ gadt "Maybe" ["a"]
