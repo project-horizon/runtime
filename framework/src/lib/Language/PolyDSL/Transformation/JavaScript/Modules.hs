@@ -51,6 +51,7 @@ import qualified Language.PolyDSL.DOM as DOM
 import           Language.PolyDSL.Transformation.JavaScript.GADTs
 import           Language.PolyDSL.Transformation.JavaScript.Internal
 
+moduleRegister = this ... "$module_register$"
 
 instance Transformer DOM.Module (SemanticResult ModL1) where
   transform (DOM.Module mName es ds) =
@@ -65,7 +66,7 @@ instance Transformer DOM.Module (SemanticResult ModL1) where
       filterDecls (s@(DOM.Signature {}):ds) is ts tas fs = filterDecls ds is     ts     tas     (s:fs)
 
 instance Transformer ModL1 (SemanticResult Statement) where
-  transform (ModL1 mName es is ts tas fs) = return $ expr (this ... "module_register" ... mName .= body)
+  transform (ModL1 mName es is ts tas fs) = return $ expr (moduleRegister ... mName .= body)
     where
       body = new (function [] (defs ++ exps)) []
       defs = transform ts
@@ -78,7 +79,7 @@ instance Transformer DOM.Module (SemanticResult Statement) where
 
 instance Transformer [DOM.Module] (SemanticResult Statement) where
   transform ms = do
-    let modBlockInit = expr (this ... "module_register" .= object [])
+    let modBlockInit = expr (moduleRegister .= object [])
     ms' <- mapM transform ms
     return (block (modBlockInit : ms'))
 
