@@ -23,7 +23,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 {- |
 Module      :  $Header$
-Description :  PolyDSL to JavaScript conversion.
+Description :  newtype definitions for transformations.
 Author	    :  Nils 'bash0r' Jonsson
 Copyright   :  (c) 2015 Nils 'bash0r' Jonsson
 License	    :  MIT
@@ -32,13 +32,54 @@ Maintainer  :  aka.bash0r@gmail.com
 Stability   :  unstable
 Portability :  non-portable (Portability is untested.)
 
-PolyDSL to JavaScript conversion.
+newtype definitions for transformations.
 -}
-module Language.PolyDSL.Transformation.JavaScript
-( module Export
+module Language.PolyDSL.Transformation.JavaScript.Internal
+( Exports
+
+, Imports (..)
+, Functions (..)
+, GADTs (..)
+, TypeAliases (..)
+, FunctionSignature (..)
+
+, FunctionPack (..)
+, ModL1 (..)
 ) where
 
-import           Language.PolyDSL.Transformation.JavaScript.Expressions as Export
-import           Language.PolyDSL.Transformation.JavaScript.GADTs       as Export
-import           Language.PolyDSL.Transformation.JavaScript.Modules     as Export
+import qualified Language.PolyDSL.DOM as DOM
+
+
+-- | All exported symbols of a module.
+type Exports = [String]
+
+
+-- | All import declarations of a module.
+newtype Imports
+  = Imports           { getImports           :: [DOM.Declaration] }
+
+-- | All functions and signature definitions of a module.
+newtype Functions
+  = Functions         { getFunctions         :: [DOM.Declaration] }
+
+-- | All GADT definitions of a module.
+newtype GADTs
+  = GADTs             { getGADTs             :: [DOM.Declaration] }
+
+-- | All type alias definitions of a module.
+newtype TypeAliases
+  = TypeAliases       { getTypeAliases       :: [DOM.Declaration] }
+
+-- | A signature definition.
+newtype FunctionSignature
+  = FunctionSignature { getFunctionSignature :: DOM.Declaration }
+
+
+-- | A pack of functions.
+data FunctionPack
+  = FunctionPack String (Maybe FunctionSignature) [([String], DOM.Expression)]
+
+-- | A module definition with filtered declarations.
+data ModL1
+  = ModL1 String Exports Imports GADTs TypeAliases Functions
 

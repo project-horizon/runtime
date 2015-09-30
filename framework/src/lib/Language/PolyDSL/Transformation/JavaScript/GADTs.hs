@@ -26,7 +26,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 {- |
 Module      :  $Header$
-Description :  Conversion from PolyDSL expressions to JavaScript functions.
+Description :  Conversion from GADTs to JavaScript functions.
 Author	    :  Nils 'bash0r' Jonsson
 Copyright   :  (c) 2015 Nils 'bash0r' Jonsson
 License	    :  MIT
@@ -35,9 +35,9 @@ Maintainer  :  aka.bash0r@gmail.com
 Stability   :  unstable
 Portability :  non-portable (Portability is untested.)
 
-Conversion from PolyDSL expressions to JavaScript functions.
+Conversion from GADTs to JavaScript functions.
 -}
-module Language.PolyDSL.Transformation.JavaScript.Expressions
+module Language.PolyDSL.Transformation.JavaScript.GADTs
 (
 ) where
 
@@ -46,11 +46,23 @@ import           Language.Transformation.Protocol
 
 import qualified Language.PolyDSL.DOM as DOM
 
+import           Language.PolyDSL.Transformation.JavaScript.Internal
 
-instance Transformer DOM.Expression Expression where
-  transform (DOM.NumberLiteral    v     ) = num v
-  transform (DOM.StringLiteral    v     ) = val v
-  transform (DOM.Identifier       i     ) = ident i
-  transform (DOM.BinaryExpression op l r) = call (call (ident "operator_table" ... op) [transform l]) [transform r]
-  transform (DOM.FunctionCall     f  e  ) = call (transform f) [transform e]
+
+instance Transformer GADTs [Statement] where
+  transform (GADTs ts) = concatMap initType ts
+    where
+      initType (DOM.GADT tn ps cs) =
+        let initCons (n, DOM.TypeSignature _ sig) = var n (Just $ fun (transSig sig) 0)
+            transSig (DOM.Type {}         ) = []
+            transSig (DOM.ListType {}     ) = []
+            transSig (DOM.TupleType {}    ) = []
+            transSig (DOM.GenericType {}  ) = []
+            transSig (DOM.FunctionType p r) = p : transSig r
+            getId i = '_' : show i
+            genAssignment 0 as = as
+            genAssignment i as = genAssignment (i - 1) ((show (i - 1) .: (ident . getId) (i - 1)) : as)
+            fun []     i = object (genAssignment i []) -- TODO: implement type label generation
+            fun (x:xs) i = function [getId i] [ ret (fun xs (i + 1)) ] -- TODO: implement signature check.
+         in map initCons cs
 
