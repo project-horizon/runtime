@@ -47,6 +47,7 @@ module Language.JavaScript.DSL.Expressions
 , new
 , call
 , val
+, this
 ) where
 
 import qualified Language.JavaScript.DOM as DOM
@@ -96,4 +97,8 @@ new = DOM.NewCall
 -- | Creates an expression from a Haskell value.
 val :: (Transformer a Expression) => a -> Expression
 val = transform
+
+-- | Creates a this keyword expression.
+this :: Expression
+this = ident "this"
 
