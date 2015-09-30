@@ -52,6 +52,7 @@ module Language.PolyDSL.DSL.TypeAliases
 , FunctionParameter
 , TypeName
 , TypeParameter
+, Constraint
 
 -- Modules
 , ModuleName
@@ -96,6 +97,9 @@ type TypeName = String
 
 -- | The name of a type parameter.
 type TypeParameter = String
+
+-- | A constaint for a type signature.
+type Constraint = (String, String)
 
 
 -- | The name of a module.
