@@ -48,8 +48,11 @@ import qualified Language.PolyDSL.DOM as DOM
 import           Language.PolyDSL.Transformation.JavaScript
 
 import           Language.Transformation.Protocol
+import           Language.Transformation.Semantics
 
 
-instance Transformer [DOM.Module] String where
-  transform p = transform (transform p :: Statement)
+instance Transformer [DOM.Module] (SemanticResult String) where
+  transform p = do
+    x <- transform p
+    return (transform (x :: Statement))
 

@@ -44,6 +44,7 @@ module Language.PolyDSL.Transformation.JavaScript.Modules
 
 import           Language.JavaScript
 import           Language.Transformation.Protocol
+import           Language.Transformation.Semantics
 
 import qualified Language.PolyDSL.DOM as DOM
 
@@ -51,10 +52,10 @@ import           Language.PolyDSL.Transformation.JavaScript.GADTs
 import           Language.PolyDSL.Transformation.JavaScript.Internal
 
 
-instance Transformer DOM.Module ModL1 where
+instance Transformer DOM.Module (SemanticResult ModL1) where
   transform (DOM.Module mName es ds) =
       let (is, ts, tas, fs) = filterDecls ds [] [] [] []
-       in ModL1 mName es (Imports is) (GADTs ts) (TypeAliases tas) (Functions fs)
+       in return $ ModL1 mName es (Imports is) (GADTs ts) (TypeAliases tas) (Functions fs)
     where
       filterDecls []                        is ts tas fs = (reverse is, reverse ts, reverse tas, reverse fs)
       filterDecls (i@(DOM.Import    {}):ds) is ts tas fs = filterDecls ds (i:is) ts     tas     fs
@@ -63,18 +64,21 @@ instance Transformer DOM.Module ModL1 where
       filterDecls (f@(DOM.Function  {}):ds) is ts tas fs = filterDecls ds is     ts     tas     (f:fs)
       filterDecls (s@(DOM.Signature {}):ds) is ts tas fs = filterDecls ds is     ts     tas     (s:fs)
 
-instance Transformer ModL1 Statement where
-  transform (ModL1 mName es is ts tas fs) = expr (this ... "module_register" ... mName .= body)
+instance Transformer ModL1 (SemanticResult Statement) where
+  transform (ModL1 mName es is ts tas fs) = return $ expr (this ... "module_register" ... mName .= body)
     where
       body = new (function [] (defs ++ exps)) []
       defs = transform ts
       exps = map (\v -> expr (this ... v .= ident v)) es
 
-instance Transformer DOM.Module Statement where
-  transform p = transform (transform p :: ModL1) :: Statement
+instance Transformer DOM.Module (SemanticResult Statement) where
+  transform p = do
+    x <- transform p 
+    transform (x :: ModL1)
 
-instance Transformer [DOM.Module] Statement where
-  transform ms = let modBlockInit = expr (this ... "module_register" .= object [])
-                  in block $ modBlockInit : map transform ms
-
+instance Transformer [DOM.Module] (SemanticResult Statement) where
+  transform ms = do
+    let modBlockInit = expr (this ... "module_register" .= object [])
+    ms' <- mapM transform ms
+    return (block (modBlockInit : ms'))
 
