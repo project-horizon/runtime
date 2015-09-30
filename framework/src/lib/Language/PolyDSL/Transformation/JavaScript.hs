@@ -59,9 +59,15 @@ instance Transformer DOM.Expression Expression where
 
 type Exports = [String]
 
-newtype Imports     = Imports     { getImports     :: [DOM.Declaration] }
-newtype Functions   = Functions   { getfunctions   :: [DOM.Declaration] }
-newtype GADTs       = GADTs       { getGADTs       :: [DOM.Declaration] }
+newtype Imports   = Imports   { getImports   :: [DOM.Declaration] }
+newtype Functions = Functions { getFunctions :: [DOM.Declaration] }
+
+newtype FunctionSignature = FunctionSignature { getFunctionSignature :: DOM.Declaration }
+
+data FunctionPack
+  = FunctionPack String (Maybe FunctionSignature) [([String], Expression)]
+
+newtype GADTs = GADTs { getGADTs :: [DOM.Declaration] }
 
 instance Transformer GADTs [Statement] where
   transform (GADTs ts) = concatMap initType ts
