@@ -40,7 +40,26 @@ module Main
 
 import           Control.Monad
 
+import           Data.List      (intercalate)
+
+import           System.Process (readCreateProcess, shell)
+
+import           Language.PolyDSL
+import           Language.Transformation.Protocol
+
+import qualified Language.JavaScript as JS
+
 
 main :: IO ()
-main = return ()
+main = do
+  --out <- readCreateProcess (shell "node") (intercalate ";" (map transform script))
+  let out = transform [script]
+  putStrLn out
+
+script = defModule "Data.Maybe" ["Just", "Nothing"]
+  [ gadt "Maybe" ["a"]
+    [ cons "Just"    $ [] ==> t "a" --> "Data.Maybe" `genericT` [t "a"]
+    , cons "Nothing" $ [] ==> "Data.Maybe" `genericT` [t "a"]
+    ]
+  ]
 
