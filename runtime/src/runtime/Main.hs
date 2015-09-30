@@ -45,26 +45,20 @@ import           Data.List      (intercalate)
 import           System.Process (readCreateProcess, shell)
 
 import           Language.PolyDSL
+import           Language.PolyDSL.Lib
 import           Language.Transformation.Protocol
 import           Language.Transformation.Semantics
 
 import qualified Language.JavaScript as JS
 
 
+modules =
+  [ moduleDataBool
+  , moduleDataMaybe
+  ]
+
 main :: IO ()
-main = test -- exec
-
-
-test = case transform [script] of
+main = case transform modules of
   Result a -> putStrLn a
   Error  m -> putStrLn m
-
-exec = undefined --out <- readCreateProcess (shell "node") (intercalate ";" (map transform script))
-
-script = defModule "Data.Maybe" ["Just", "Nothing"]
-  [ gadt "Maybe" ["a"]
-    [ cons "Just"    $ [] ==> t "a" --> "Data.Maybe" `genericT` [t "a"]
-    , cons "Nothing" $ [] ==> "Data.Maybe" `genericT` [t "a"]
-    ]
-  ]
 
