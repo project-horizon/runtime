@@ -40,6 +40,6 @@ module Language.Transformation.Semantics
   
 import           Language.Transformation.Semantics.Class              as Export
 import           Language.Transformation.Semantics.FullyQualifiedName as Export
-import           Language.Transformation.Semantics.Instances          as Export
 import           Language.Transformation.Semantics.Scope              as Export
+import           Language.Transformation.Semantics.SemanticResult     as Export
 

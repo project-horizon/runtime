@@ -21,11 +21,9 @@ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 -}
 
-{-# LANGUAGE FlexibleInstances #-}
-
 {- |
 Module      :  $Header$
-Description :  Default instances for the Semantics type class.
+Description :  A semantic result monad.
 Author	    :  Nils 'bash0r' Jonsson
 Copyright   :  (c) 2015 Nils 'bash0r' Jonsson
 License	    :  MIT
@@ -34,15 +32,47 @@ Maintainer  :  aka.bash0r@gmail.com
 Stability   :  unstable
 Portability :  non-portable (Portability is untested.)
 
-Default instances for the Semantics type class.
+A semantic result monad.
 -}
-module Language.Transformation.Semantics.Instances
-( 
+module Language.Transformation.Semantics.SemanticResult
+( SemanticResult (..)
 ) where
+
+import           Control.Applicative
+import           Control.Monad
 
 import           Language.Transformation.Semantics.Class
 
 
-instance Semantics (Either String) where
-  report = Left
+data SemanticResult a
+  = Result a
+  | Error String
+
+instance Functor SemanticResult where
+  fmap f (Result a) = (Result . f) a
+  fmap _ (Error  m) = Error m
+
+instance Applicative SemanticResult where
+  pure = Result
+
+  (Result f) <*> r = fmap f r
+  (Error  m) <*> _ = Error m
+
+instance Alternative SemanticResult where
+  empty = Error ""
+
+  l@(Result {}) <|> _             = l
+  (Error _    ) <|> r@(Result {}) = r
+  (Error l    ) <|> (Error r    ) = Error (l ++ "\nor " ++ r)
+
+instance Monad SemanticResult where
+  return = pure
+
+  fail = Error
+
+  (Result a) >>= f = f a
+  (Error  m) >>= _ = Error m
+
+instance Semantics SemanticResult where
+  report = fail
 
