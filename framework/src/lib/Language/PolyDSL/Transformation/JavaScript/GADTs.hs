@@ -49,6 +49,7 @@ import qualified Language.PolyDSL.DOM as DOM
 
 import           Language.PolyDSL.Transformation.JavaScript.Internal
 
+
 -- TODO: transform signature and keep return type.
 transSig (DOM.Type {}         ) = []
 transSig (DOM.ListType {}     ) = []
@@ -65,11 +66,11 @@ fun (x:xs) i = function [getId i] [ ret (fun xs (i + 1)) ] -- TODO: implement si
 
 getId i = '_' : show i
 
-initCons (n, DOM.TypeSignature _ sig) = var n (Just $ fun (transSig sig) 0)
+initCons (n, DOM.TypeSignature _ sig) = (n, fun (transSig sig) 0)
 
 initType (DOM.GADT tn ps cs) = map initCons cs
 
 
-instance Transformer GADTs [Statement] where
-  transform (GADTs ts) = concatMap initType ts
+instance Transformer GADTs (SemanticResult [(String, Expression)]) where
+  transform (GADTs ts) = return (concatMap initType ts)
 

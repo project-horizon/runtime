@@ -72,14 +72,16 @@ instance Transformer DOM.Module (SemanticResult ModL1) where
 instance Transformer ModL1 (SemanticResult Statement) where
   transform (ModL1 mName es is ts tas fs) = do
     ts' <- transform ts
-    let body = new (function [] (ts' ++ exps)) []
-        exps = map (\v -> expr (this ... v .= ident v)) es
-    return $ expr (moduleRegister ... mName .= body)
+    let scope = var "scope" (Just (object []))
+        defs  = map (\(n,t) -> expr (ident "scope" ... n .= t)) ts'
+        exps  = map (\v -> expr (this ... v .= ident "scope" ... v)) es
+        body  = new (function [] (scope : defs ++ exps)) []
+    return (expr (moduleRegister ... mName .= body))
 
 instance Transformer DOM.Module (SemanticResult Statement) where
   transform p = do
-    x <- transform p 
-    transform (x :: ModL1)
+    p' <- transform p
+    transform (p' :: ModL1)
 
 instance Transformer [DOM.Module] (SemanticResult Statement) where
   transform ms = do
