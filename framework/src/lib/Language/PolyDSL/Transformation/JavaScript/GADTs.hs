@@ -43,26 +43,33 @@ module Language.PolyDSL.Transformation.JavaScript.GADTs
 
 import           Language.JavaScript
 import           Language.Transformation.Protocol
+import           Language.Transformation.Semantics
 
 import qualified Language.PolyDSL.DOM as DOM
 
 import           Language.PolyDSL.Transformation.JavaScript.Internal
 
+-- TODO: transform signature and keep return type.
+transSig (DOM.Type {}         ) = []
+transSig (DOM.ListType {}     ) = []
+transSig (DOM.TupleType {}    ) = []
+transSig (DOM.GenericType {}  ) = []
+transSig (DOM.FunctionType p r) = p : transSig r
+
+genAssignment 0 as = as
+genAssignment i as = genAssignment n ((show n .: (ident . getId) n) : as)
+  where n = i - 1
+
+fun []     i = object (genAssignment i []) -- TODO: implement type label generation
+fun (x:xs) i = function [getId i] [ ret (fun xs (i + 1)) ] -- TODO: implement signature check.
+
+getId i = '_' : show i
+
+initCons (n, DOM.TypeSignature _ sig) = var n (Just $ fun (transSig sig) 0)
+
+initType (DOM.GADT tn ps cs) = map initCons cs
+
 
 instance Transformer GADTs [Statement] where
   transform (GADTs ts) = concatMap initType ts
-    where
-      initType (DOM.GADT tn ps cs) =
-        let initCons (n, DOM.TypeSignature _ sig) = var n (Just $ fun (transSig sig) 0)
-            transSig (DOM.Type {}         ) = []
-            transSig (DOM.ListType {}     ) = []
-            transSig (DOM.TupleType {}    ) = []
-            transSig (DOM.GenericType {}  ) = []
-            transSig (DOM.FunctionType p r) = p : transSig r
-            getId i = '_' : show i
-            genAssignment 0 as = as
-            genAssignment i as = genAssignment (i - 1) ((show (i - 1) .: (ident . getId) (i - 1)) : as)
-            fun []     i = object (genAssignment i []) -- TODO: implement type label generation
-            fun (x:xs) i = function [getId i] [ ret (fun xs (i + 1)) ] -- TODO: implement signature check.
-         in map initCons cs
 
