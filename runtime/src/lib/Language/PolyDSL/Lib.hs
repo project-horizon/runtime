@@ -49,3 +49,10 @@ moduleDataBool = defModule "Data.Bool" ["True", "False"]
     ]
   ]
 
+moduleDataMaybe = defModule "Data.Maybe" ["Just", "Nothing"]
+  [ gadt "Maybe" ["a"]
+    [ cons "Just"    $ [] ==> t "a" --> "Data.Maybe" `genericT` [t "a"]
+    , cons "Nothing" $ [] ==>           "Data.Maybe" `genericT` [t "a"]
+    ]
+  ]
+
