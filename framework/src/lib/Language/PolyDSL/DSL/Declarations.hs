@@ -36,12 +36,14 @@ Contains definitions for expressions in EDSL.
 -}
 module Language.PolyDSL.DSL.Declarations
 ( include
-, function
-, signature
+, def
+, sig
 , gadt
+, cons
 , alias
 
 -- type signatures
+, (==>)
 , t
 , (-->)
 , listT
@@ -59,28 +61,37 @@ include :: ModuleName -> Declaration
 include = DOM.Import
 
 -- | A function declaration
-function :: FunctionName -> [FunctionParameter] -> Expression -> Declaration
-function = DOM.Function
+def :: FunctionName -> [FunctionParameter] -> Expression -> Declaration
+def = DOM.Function
 
 -- | A type signature
-signature :: FunctionName -> TypeSignature -> Declaration
-signature = DOM.Signature
+sig :: FunctionName -> TypeSignature -> Declaration
+sig = DOM.Signature
 
 -- | A generalized algebraic data type.
 gadt :: TypeName -> [TypeParameter] -> [Constructor] -> Declaration
 gadt = DOM.GADT
+
+-- | A constructor.
+cons :: String -> TypeSignature -> Constructor
+cons s t = (s, t)
 
 -- | A type alias.
 alias :: String -> [String] -> Type -> Declaration
 alias = DOM.TypeAlias
 
 
+-- | A constrainted type signature.
+infix 5 ==>
+(==>) :: [Constraint] -> Type -> TypeSignature
+(==>) = DOM.TypeSignature
+
 -- | A simple type.
 t :: TypeName -> Type
 t = DOM.Type
 
 -- | A function type.
-infixr 9 -->
+infixr 6 -->
 (-->) :: Type -> Type -> Type
 (-->) = DOM.FunctionType
 
