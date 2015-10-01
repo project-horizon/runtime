@@ -23,7 +23,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 {- |
 Module      :  $Header$
-Description :  The standard library of PolyDSL.
+Description :  Data.Maybe module.
 Author	    :  Nils 'bash0r' Jonsson
 Copyright   :  (c) 2015 Nils 'bash0r' Jonsson
 License	    :  MIT
@@ -32,18 +32,19 @@ Maintainer  :  aka.bash0r@gmail.com
 Stability   :  unstable
 Portability :  non-portable (Portability is untested.)
 
-The standard library of PolyDSL.
+Data.Maybe module.
 -}
-module Language.PolyDSL.Lib
-( stdLib
+module Language.PolyDSL.Lib.ModuleDataMaybe
+( moduleDataMaybe
 ) where
 
-import           Language.PolyDSL.Lib.ModuleDataBool
-import           Language.PolyDSL.Lib.ModuleDataMaybe
+import           Language.PolyDSL
 
 
-stdLib =
-  [ moduleDataBool
-  , moduleDataMaybe
+moduleDataMaybe = defModule "Data.Maybe" ["Just", "Nothing"]
+  [ gadt "Maybe" ["a"]
+    [ cons "Just"    $ [] ==> t "a" --> "Data.Maybe" `genericT` [t "a"]
+    , cons "Nothing" $ [] ==>           "Data.Maybe" `genericT` [t "a"]
+    ]
   ]
 

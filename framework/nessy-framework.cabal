@@ -51,6 +51,8 @@ library
                ,        Language.PolyDSL.DSL.Expressions
                ,        Language.PolyDSL.DSL.Modules
                ,        Language.PolyDSL.DSL.TypeAliases
+               ,        Language.PolyDSL.Lib.ModuleDataBool
+               ,        Language.PolyDSL.Lib.ModuleDataMaybe
                ,        Language.PolyDSL.Transformation
                ,        Language.PolyDSL.Transformation.JavaScript
                ,        Language.PolyDSL.Transformation.JavaScript.Expressions
