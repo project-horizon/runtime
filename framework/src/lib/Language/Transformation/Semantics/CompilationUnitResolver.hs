@@ -23,7 +23,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 {- |
 Module      :  $Header$
-Description :  Generalized semantic analysis.
+Description :  A compilation unit resolver for handling import of compilation units.
 Author	    :  Nils 'bash0r' Jonsson
 Copyright   :  (c) 2015 Nils 'bash0r' Jonsson
 License	    :  MIT
@@ -32,16 +32,17 @@ Maintainer  :  aka.bash0r@gmail.com
 Stability   :  unstable
 Portability :  non-portable (Portability is untested.)
 
-Generalized semantic analysis.
+A compilation unit resolver for handling import of compilation units.
 -}
-module Language.Transformation.Semantics
-( module Export
+module Language.Transformation.Semantics.CompilationUnitResolver
+( CompilationUnitResolver (..)
 ) where
-  
-import           Language.Transformation.Semantics.Class                   as Export
-import           Language.Transformation.Semantics.CompilationUnit         as Export
-import           Language.Transformation.Semantics.CompilationUnitResolver as Export
-import           Language.Transformation.Semantics.FullyQualifiedName      as Export
-import           Language.Transformation.Semantics.Scope                   as Export
-import           Language.Transformation.Semantics.SemanticResult          as Export
+
+import           Language.Transformation.Semantics.CompilationUnit
+
+
+-- | A compilation unit resolver for handling import of compilation units.
+class CompilationUnitResolver a where
+  -- | Resolve the name of a compilation unit.
+  resolveCompilationUnit :: (Eq b, CompilationUnit c) => a -> b -> c
 
