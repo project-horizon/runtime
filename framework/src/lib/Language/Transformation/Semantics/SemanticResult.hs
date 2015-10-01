@@ -47,6 +47,7 @@ import           Language.Transformation.Semantics.Class
 data SemanticResult a
   = Result a
   | Error String
+  deriving (Show, Eq)
 
 instance Functor SemanticResult where
   fmap f (Result a) = (Result . f) a
