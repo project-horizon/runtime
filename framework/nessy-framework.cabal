@@ -18,6 +18,7 @@ cabal-version:          >=1.10
 library
   exposed-modules:      Language.JavaScript
                  ,      Language.PolyDSL
+                 ,      Language.PolyDSL.Lib
                  ,      Language.Transformation.Protocol
                  ,      Language.Transformation.Semantics
   other-modules:        Language.JavaScript.DOM

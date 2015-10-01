@@ -52,13 +52,8 @@ import           Language.Transformation.Semantics
 import qualified Language.JavaScript as JS
 
 
-modules =
-  [ moduleDataBool
-  , moduleDataMaybe
-  ]
-
 main :: IO ()
-main = case transform modules of
+main = case transform stdLib of
   Result a -> putStrLn a
   Error  m -> putStrLn m
 

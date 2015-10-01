@@ -35,15 +35,20 @@ Portability :  non-portable (Portability is untested.)
 The standard library of PolyDSL.
 -}
 module Language.PolyDSL.Lib
-( moduleDataBool
-, moduleDataMaybe
+( stdLib
 ) where
 
 import           Language.PolyDSL
 
+stdLib =
+  [ moduleDataBool
+  , moduleDataMaybe
+  ]
 
 moduleDataBool = defModule "Data.Bool" ["True", "False"]
-  [ gadt "Bool" []
+  [ include "Data.Maybe"
+
+  , gadt "Bool" []
     [ cons "True"  $ [] ==> t "Data.Bool"
     , cons "False" $ [] ==> t "Data.Bool"
     ]
