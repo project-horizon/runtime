@@ -58,6 +58,7 @@ library
                ,        Language.PolyDSL.Transformation.JavaScript.Expressions
                ,        Language.PolyDSL.Transformation.JavaScript.GADTs
                ,        Language.PolyDSL.Transformation.JavaScript.Internal
+               ,        Language.PolyDSL.Transformation.JavaScript.MainModule
                ,        Language.PolyDSL.Transformation.JavaScript.Modules
                ,        Language.PolyDSL.Transformation.Source
 
