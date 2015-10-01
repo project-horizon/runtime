@@ -23,7 +23,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 {- |
 Module      :  $Header$
-Description :  Generalized semantic analysis.
+Description :  Type class for compilation units.
 Author	    :  Nils 'bash0r' Jonsson
 Copyright   :  (c) 2015 Nils 'bash0r' Jonsson
 License	    :  MIT
@@ -32,15 +32,17 @@ Maintainer  :  aka.bash0r@gmail.com
 Stability   :  unstable
 Portability :  non-portable (Portability is untested.)
 
-Generalized semantic analysis.
+Type class for compilation units.
 -}
-module Language.Transformation.Semantics
-( module Export
+module Language.Transformation.Semantics.CompilationUnit
+( CompilationUnit (..)
 ) where
-  
-import           Language.Transformation.Semantics.Class              as Export
-import           Language.Transformation.Semantics.CompilationUnit    as Export
-import           Language.Transformation.Semantics.FullyQualifiedName as Export
-import           Language.Transformation.Semantics.Scope              as Export
-import           Language.Transformation.Semantics.SemanticResult     as Export
+
+
+-- | A compilation unit for handling imports.
+class CompilationUnit a where
+  -- | The name of the compilation unit.
+  unitName         :: (Eq b) => a -> b
+  -- | The dependencies of the compilation unit.
+  unitDependencies :: (Eq b) => a -> [b]
 

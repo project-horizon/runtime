@@ -65,6 +65,7 @@ library
                ,        Language.Transformation.Protocol.Transformer
 
                ,        Language.Transformation.Semantics.Class
+               ,        Language.Transformation.Semantics.CompilationUnit
                ,        Language.Transformation.Semantics.FullyQualifiedName
                ,        Language.Transformation.Semantics.Scope
                ,        Language.Transformation.Semantics.SemanticResult
