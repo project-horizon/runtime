@@ -71,6 +71,6 @@ initCons (n, DOM.TypeSignature _ sig) = (n, fun (transSig sig) 0)
 initType (DOM.GADT tn ps cs) = map initCons cs
 
 
-instance Transformer GADTs (SemanticResult [(String, Expression)]) where
+instance (Semantics m) => Transformer GADTs (m [(String, Expression)]) where
   transform (GADTs ts) = return (concatMap initType ts)
 

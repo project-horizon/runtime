@@ -52,7 +52,6 @@ import           Language.PolyDSL.Transformation.JavaScript.GADTs
 import           Language.PolyDSL.Transformation.JavaScript.Internal
 
 
--- | A register for modules.
 moduleRegister = this ... "$module_register$"
 
 
@@ -63,29 +62,59 @@ filterDecls (t@(DOM.TypeAlias {}):ds) is ts tas fs = filterDecls ds is     ts   
 filterDecls (f@(DOM.Function  {}):ds) is ts tas fs = filterDecls ds is     ts     tas     (f:fs)
 filterDecls (s@(DOM.Signature {}):ds) is ts tas fs = filterDecls ds is     ts     tas     (s:fs)
 
+importDeclaration (DOM.Import i) =
+  foreach "v" (moduleRegister ... i)
+    (when (call (moduleRegister ... i ... "hasOwnProperty") [ident "v"])
+      (expr (call (ident "console.log") [ident "v"])))
 
-instance Transformer DOM.Module (SemanticResult ModL1) where
+
+instance (Semantics m) => Transformer DOM.Module (m ModL1) where
   transform (DOM.Module mName es ds) = do
       let (is, ts, tas, fs) = filterDecls ds [] [] [] []
       return (ModL1 mName es (Imports is) (GADTs ts) (TypeAliases tas) (Functions fs))
 
-instance Transformer ModL1 (SemanticResult Statement) where
+-- TODO: prepend a module existance check to prevent modules
+-- overriding other modules during definition
+instance (Semantics m) => Transformer ModL1 (m Statement) where
   transform (ModL1 mName es is ts tas fs) = do
     ts' <- transform ts
-    let scope = var "scope" (Just (object []))
+    let impc  = when (ident "imported") (ret (ident "undefined"))
+        imps  = expr (ident "imported" .= val True)
+        impb  = impc : imps : map importDeclaration (getImports is)
+        impf  = expr (this ... "import" .= function [] impb)
+        expb  = object (map (\v -> v .: ident "scope" ... v) es)
+        expf  = expr (this ... "export" .= function []
+                       [ expr (call (this ... "import") [])
+                       , ret expb
+                       ])
+        scope = var "scope" (Just (object []))
+        impg  = var "imported" (Just (val False))
         defs  = map (\(n,t) -> expr (ident "scope" ... n .= t)) ts'
-        exps  = map (\v -> expr (this ... v .= ident "scope" ... v)) es
-        body  = new (function [] (scope : defs ++ exps)) []
+        body  = new (function [] (scope : impg : impf : expf : defs)) []
     return (expr (moduleRegister ... mName .= body))
 
-instance Transformer DOM.Module (SemanticResult Statement) where
+instance (Semantics m) => Transformer DOM.Module (m Statement) where
   transform p = do
     p' <- transform p
     transform (p' :: ModL1)
 
-instance Transformer [DOM.Module] (SemanticResult Statement) where
+instance (Semantics m) => Transformer [DOM.Module] (m [ModL1]) where
+  transform ms = do
+    ms' <- mapM transform ms
+    checkForImportCycles ms'
+    return ms'
+
+instance (Semantics m) => Transformer [ModL1] (m Statement) where
   transform ms = do
     let modBlockInit = expr (moduleRegister .= object [])
     ms' <- mapM transform ms
     return (block (modBlockInit : ms'))
+
+instance (Semantics m) => Transformer [DOM.Module] (m Statement) where
+  transform ms = do
+    ms' <- mapM transform ms
+    transform (ms' :: [ModL1])
+
+checkForImportCycles :: (Semantics m) => [ModL1] -> m ()
+checkForImportCycles ms = return ()
 
