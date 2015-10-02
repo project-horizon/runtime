@@ -56,6 +56,7 @@ import qualified Language.JavaScript as JS
 
 moduleMain = defModule "Main" []
   [ include "Data.Bool"
+  , include "Data.Numbers"
   ]
 
 stdLibResolver = VirtualResolver stdLib
@@ -64,6 +65,6 @@ main :: IO ()
 main = case transform (MainModule (stdLibResolver, moduleMain)) of
   Result a -> putStrLn a
   Error  m -> do
-    hPutStrLn stderr m
+    hPutStrLn stderr ("[Error]: " ++ m)
     exitWith (ExitFailure (-1))
 
