@@ -1,6 +1,5 @@
-* implement loading of virtual modules
-* implement abstract algorithms for handling import resolvers
-* implement detection of import cycles
-* implement scope object into functions as a copy of the global scope of a module.
-* implement code generation for invoking the main function of the main module
+* [semantic] implement detection of import cycles or decide to support import cycles
+* [code-gen] implement module import in code generation
+* [code-gen] implement main module execution
+* [code-gen] implement scope object into functions as a copy of the global scope of a module
 

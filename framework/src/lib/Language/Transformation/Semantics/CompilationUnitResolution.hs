@@ -21,6 +21,9 @@ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 -}
 
+{-# LANGUAGE FlexibleInstances     #-}
+{-# LANGUAGE MultiParamTypeClasses #-}
+
 {- |
 Module      :  $Header$
 Description :  Algorithms for compilation unit resolution.
@@ -38,9 +41,14 @@ module Language.Transformation.Semantics.CompilationUnitResolution
 ( CompilationUnitName (..)
 , CompilationUnit (..)
 , CompilationUnitResolver (..)
+
 , resolveDependencies
+
+, VirtualResolverT (..)
+, MainModuleT (..)
 ) where
 
+import           Language.Transformation.Protocol
 import           Language.Transformation.Semantics.Class
 
 
@@ -64,8 +72,23 @@ class CompilationUnitResolver a where
 resolveDependencies :: (CompilationUnitResolver a, CompilationUnit b, CompilationUnitName c, Semantics m) => a b c -> b c -> m [b c]
 resolveDependencies cur cu = ld (unitDependencies cu) [cu]
   where
-    ld []     ms = return (reverse ms)
+    ld []     ms = return ms
     ld (i:is) ms = do
       m <- cur `resolveCompilationUnit` i
       ld is (m:ms)
+
+
+-- | A generic main module definition.
+newtype (CompilationUnitResolver a, CompilationUnit b, CompilationUnitName c) =>
+        MainModuleT a b c = MainModule { getMainModule :: (a b c, b c) }
+
+
+-- | A virtual compilation unit resolver.
+newtype (CompilationUnit a, CompilationUnitName b) =>
+        VirtualResolverT a b = VirtualResolver { getVirtualResolver :: [a b] }
+
+
+instance (CompilationUnitResolver a, CompilationUnit b, CompilationUnitName c, Semantics m) =>
+         Transformer (MainModuleT a b c) (m [b c]) where
+  transform (MainModule (cur, m)) = cur `resolveDependencies` m
 

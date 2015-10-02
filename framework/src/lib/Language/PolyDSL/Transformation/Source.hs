@@ -50,15 +50,12 @@ import           Language.PolyDSL.Transformation.JavaScript
 import           Language.Transformation.Protocol
 import           Language.Transformation.Semantics
 
-
-type MainModuleT = MainModule VirtualResolverT DOM.ModuleT String
-
 instance Transformer [DOM.Module] (SemanticResult String) where
   transform ms = do
     ms' <- transform ms
     return (transform (ms' :: Statement))
 
-instance Transformer MainModuleT (SemanticResult String) where
+instance Transformer MainModule (SemanticResult String) where
   transform m = do
     ms <- transform m
     transform (ms :: [DOM.Module])

@@ -38,9 +38,8 @@ Portability :  non-portable (Portability is untested.)
 Conversion from a main module to JavaScript.
 -}
 module Language.PolyDSL.Transformation.JavaScript.MainModule
-( MainModule (..)
-, VirtualResolverT (..)
-, VirtualResolver
+( VirtualResolver
+, MainModule
 ) where
 
 import           Control.Applicative
@@ -56,11 +55,8 @@ import qualified Language.PolyDSL.DOM as DOM
 
 import           Language.PolyDSL.Transformation.JavaScript.Internal
 
-
-newtype (CompilationUnitResolver a, CompilationUnit b, CompilationUnitName c) => MainModule a b c = MainModule { getMainModule :: (a b c, b c) }
-
-newtype (CompilationUnit a, CompilationUnitName b) => VirtualResolverT a b = VirtualResolver { getVirtualResolver :: [a b] }
-
+-- | A concrete main module.
+type MainModule = MainModuleT VirtualResolverT DOM.ModuleT String
 
 -- | A virtual resolver for compilation units.
 type VirtualResolver = VirtualResolverT DOM.ModuleT String
@@ -73,7 +69,4 @@ instance CompilationUnitResolver VirtualResolverT where
     when (length ms' /= 1) (fail ("Module name " ++ show m ++ " exists multiple times."))
     let (m:_) = ms'
     return m
-
-instance (CompilationUnitResolver a, CompilationUnit b, CompilationUnitName c, Semantics m) => Transformer (MainModule a b c) (m [b c]) where
-  transform (MainModule (cur, m)) = cur `resolveDependencies` m
 
