@@ -38,7 +38,7 @@ module Language.PolyDSL.Lib.ModuleDataMaybe
 ( moduleDataMaybe
 ) where
 
-import           Language.PolyDSL
+import           Language.PolyDSL.DSL
 
 
 moduleDataMaybe = defModule "Data.Maybe" ["Just", "Nothing"]

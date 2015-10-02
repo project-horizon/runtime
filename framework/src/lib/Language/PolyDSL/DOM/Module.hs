@@ -21,12 +21,16 @@ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 -}
 
+{-# LANGUAGE FlexibleInstances    #-}
+{-# LANGUAGE GADTs                #-}
+{-# LANGUAGE TypeSynonymInstances #-}
+
 {- |
 Module      :  $Header$
 Description :  A module definition in the PolyDSL language.
 Author	    :  Nils 'bash0r' Jonsson
 Copyright   :  (c) 2015 Nils 'bash0r' Jonsson
-License	    :  
+License	    :  MIT
 
 Maintainer  :  aka.bash0r@gmail.com
 Stability   :  unstable
@@ -35,14 +39,33 @@ Portability :  non-portable (Portability is untested.)
 A module definition in the PolyDSL language.
 -}
 module Language.PolyDSL.DOM.Module
-( Module (..)
+( ModuleT (..)
+, Module
 ) where
+
+import           Language.Transformation.Semantics
 
 import           Language.PolyDSL.DOM.Declaration
 
 
--- | A module definition.
-data Module
+-- | A generic module definition.
+data ModuleT a where
   -- | A module definition.
-  = Module String [String] [Declaration]
+  Module :: (CompilationUnitName a) => a -> [String] -> [DeclarationT a] -> ModuleT a
+
+-- | A module definition.
+type Module = ModuleT String
+
+instance CompilationUnitName String
+
+instance CompilationUnit ModuleT where
+  unitName (Module n _ _) = n
+  unitDependencies = collectImports
+
+collectImports :: (CompilationUnitName a) => ModuleT a -> [a]
+collectImports (Module _ _ ds) = ci ds []
+  where
+    ci []            rs = reverse rs
+    ci (Import i:is) rs = ci is (i:rs)
+    ci (_:is)        rs = ci is rs
 

@@ -38,10 +38,9 @@ module Language.Transformation.Semantics
 ( module Export
 ) where
   
-import           Language.Transformation.Semantics.Class                   as Export
-import           Language.Transformation.Semantics.CompilationUnit         as Export
-import           Language.Transformation.Semantics.CompilationUnitResolver as Export
-import           Language.Transformation.Semantics.FullyQualifiedName      as Export
-import           Language.Transformation.Semantics.Scope                   as Export
-import           Language.Transformation.Semantics.SemanticResult          as Export
+import           Language.Transformation.Semantics.Class                     as Export
+import           Language.Transformation.Semantics.CompilationUnitResolution as Export
+import           Language.Transformation.Semantics.FullyQualifiedName        as Export
+import           Language.Transformation.Semantics.Scope                     as Export
+import           Language.Transformation.Semantics.SemanticResult            as Export
 

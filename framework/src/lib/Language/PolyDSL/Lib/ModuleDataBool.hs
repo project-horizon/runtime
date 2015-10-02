@@ -38,7 +38,7 @@ module Language.PolyDSL.Lib.ModuleDataBool
 ( moduleDataBool
 ) where
 
-import           Language.PolyDSL
+import           Language.PolyDSL.DSL
 
 
 moduleDataBool = defModule "Data.Bool" ["True", "False"]

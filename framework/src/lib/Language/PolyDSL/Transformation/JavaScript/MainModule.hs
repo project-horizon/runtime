@@ -39,48 +39,41 @@ Conversion from a main module to JavaScript.
 -}
 module Language.PolyDSL.Transformation.JavaScript.MainModule
 ( MainModule (..)
+, VirtualResolverT (..)
+, VirtualResolver
 ) where
 
-import           Language.JavaScript
+import           Control.Applicative
+import           Control.Monad
+
+import           Language.JavaScript hiding (when)
 import           Language.Transformation.Protocol
 import           Language.Transformation.Semantics
+
+import           Language.PolyDSL.Lib
 
 import qualified Language.PolyDSL.DOM as DOM
 
 import           Language.PolyDSL.Transformation.JavaScript.Internal
 
 
-newtype MainModule = MainModule { getMainModule :: DOM.Module }
+newtype (CompilationUnitResolver a, CompilationUnit b, CompilationUnitName c) => MainModule a b c = MainModule { getMainModule :: (a b c, b c) }
+
+newtype (CompilationUnit a, CompilationUnitName b) => VirtualResolverT a b = VirtualResolver { getVirtualResolver :: [a b] }
 
 
-instance (Semantics m) => Transformer MainModule (m [DOM.Module]) where
-  transform (MainModule m) = collectImports m >>= loadDependencies [m]
+-- | A virtual resolver for compilation units.
+type VirtualResolver = VirtualResolverT DOM.ModuleT String
 
-loadDependencies :: (Semantics m) => [DOM.Module] -> [String] -> m [DOM.Module]
-loadDependencies = ld
-  where
-    ld ms []     = (return . reverse) ms
-    ld ms (i:is) = do
-      m    <- loadModule i
-      is'  <- collectImports m
-      let ms' = m:ms
-      is'' <- dropLoadedModules ms' (is ++ is')
-      ld ms' is''
 
-loadModule :: (Semantics m) => String -> m DOM.Module
-loadModule = undefined -- TODO: implement module loading
+instance CompilationUnitResolver VirtualResolverT where
+  resolveCompilationUnit (VirtualResolver ms) m = do
+    let ms' = filter (\m' -> unitName m' == m) ms
+    when (null ms')        (fail ("Module " ++ show m ++ " is not in scope."))
+    when (length ms' /= 1) (fail ("Module name " ++ show m ++ " exists multiple times."))
+    let (m:_) = ms'
+    return m
 
-dropLoadedModules :: (Semantics m) => [DOM.Module] -> [String] -> m [String]
-dropLoadedModules ms is = return (dlm (map (\(DOM.Module n _ _) -> n) ms) is [])
-  where
-    dlm ms []     rs = rs
-    dlm ms (i:is) rs = if i `elem` ms then dlm ms is rs else dlm ms is (i:rs)
-
-collectImports :: (Semantics m) => DOM.Module -> m [String]
-collectImports (DOM.Module _ _ ds) = return (ci ds [])
-  where
-    ci :: [DOM.Declaration] -> [String] -> [String]
-    ci []                rs = rs
-    ci (DOM.Import i:is) rs = ci is (i:rs)
-    ci (_:is)            rs = ci is rs
+instance (CompilationUnitResolver a, CompilationUnit b, CompilationUnitName c, Semantics m) => Transformer (MainModule a b c) (m [b c]) where
+  transform (MainModule (cur, m)) = cur `resolveDependencies` m
 

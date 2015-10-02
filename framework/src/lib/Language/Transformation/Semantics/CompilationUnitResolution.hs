@@ -23,7 +23,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 {- |
 Module      :  $Header$
-Description :  A compilation unit resolver for handling import of compilation units.
+Description :  Algorithms for compilation unit resolution.
 Author	    :  Nils 'bash0r' Jonsson
 Copyright   :  (c) 2015 Nils 'bash0r' Jonsson
 License	    :  MIT
@@ -32,17 +32,40 @@ Maintainer  :  aka.bash0r@gmail.com
 Stability   :  unstable
 Portability :  non-portable (Portability is untested.)
 
-A compilation unit resolver for handling import of compilation units.
+Algorithms for compilation unit resolution.
 -}
-module Language.Transformation.Semantics.CompilationUnitResolver
-( CompilationUnitResolver (..)
+module Language.Transformation.Semantics.CompilationUnitResolution
+( CompilationUnitName (..)
+, CompilationUnit (..)
+, CompilationUnitResolver (..)
+, resolveDependencies
 ) where
 
-import           Language.Transformation.Semantics.CompilationUnit
+import           Language.Transformation.Semantics.Class
 
+
+-- | The name of a compilation unit.
+class (Eq a, Show a) => CompilationUnitName a
+
+-- | A compilation unit for handling imports.
+class CompilationUnit a where
+  -- | The name of the compilation unit.
+  unitName         :: (CompilationUnitName b) => a b -> b
+  -- | The dependencies of the compilation unit.
+  unitDependencies :: (CompilationUnitName b) => a b -> [b]
 
 -- | A compilation unit resolver for handling import of compilation units.
 class CompilationUnitResolver a where
   -- | Resolve the name of a compilation unit.
-  resolveCompilationUnit :: (Eq b, CompilationUnit c) => a -> b -> c
+  resolveCompilationUnit :: (CompilationUnit b, CompilationUnitName c, Semantics m) => a b c -> c -> m (b c)
+
+
+-- | Resolves the dependencies of a compilation unit.
+resolveDependencies :: (CompilationUnitResolver a, CompilationUnit b, CompilationUnitName c, Semantics m) => a b c -> b c -> m [b c]
+resolveDependencies cur cu = ld (unitDependencies cu) [cu]
+  where
+    ld []     ms = return (reverse ms)
+    ld (i:is) ms = do
+      m <- cur `resolveCompilationUnit` i
+      ld is (m:ms)
 

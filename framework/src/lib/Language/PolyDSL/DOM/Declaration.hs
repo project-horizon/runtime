@@ -21,6 +21,8 @@ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 -}
 
+{-# LANGUAGE GADTs #-}
+
 {- |
 Module      :  $Header$
 Description :  A declaration in the PolyDSL language.
@@ -37,8 +39,11 @@ A declaration in the PolyDSL language.
 module Language.PolyDSL.DOM.Declaration
 ( module Export
 
-, Declaration (..)
+, DeclarationT (..)
+, Declaration
 ) where
+
+import           Language.Transformation.Semantics
 
 import           Language.PolyDSL.DOM.Expression
 import           Language.PolyDSL.DOM.Declaration.Type          as Export
@@ -46,16 +51,18 @@ import           Language.PolyDSL.DOM.Declaration.TypeSignature as Export
 
 
 -- | A PolyDSL declaration.
-data Declaration
+data DeclarationT a where
   -- | An import declaration.
-  = Import String
+  Import :: (CompilationUnitName a) => a -> DeclarationT a
   -- | A function declaration.
-  | Function String [String] Expression
+  Function :: String -> [String] -> Expression -> DeclarationT a
   -- | A function signature declaration.
-  | Signature String TypeSignature
+  Signature :: String -> TypeSignature -> DeclarationT a
   -- | A GADT declaration.
-  | GADT String [String] [(String, TypeSignature)]
+  GADT :: String -> [String] -> [(String, TypeSignature)] -> DeclarationT a
   -- | A type alias declaration.
-  | TypeAlias String [String] Type
-  deriving (Show, Eq)
+  TypeAlias :: String -> [String] -> Type -> DeclarationT a
+
+-- | A PolyDSL declaration.
+type Declaration = DeclarationT String
 
