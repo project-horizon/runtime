@@ -42,6 +42,8 @@ import           Control.Monad
 
 import           Data.List      (intercalate)
 
+import           System.Exit    (exitWith, ExitCode(ExitFailure))
+import           System.IO      (hPutStrLn, stderr)
 import           System.Process (readCreateProcess, shell)
 
 import           Language.PolyDSL
@@ -61,5 +63,7 @@ stdLibResolver = VirtualResolver stdLib
 main :: IO ()
 main = case transform (MainModule (stdLibResolver, moduleMain)) of
   Result a -> putStrLn a
-  Error  m -> putStrLn m
+  Error  m -> do
+    hPutStrLn stderr m
+    exitWith (ExitFailure (-1))
 
