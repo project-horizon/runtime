@@ -52,8 +52,14 @@ import           Language.Transformation.Semantics
 import qualified Language.JavaScript as JS
 
 
+moduleMain = defModule "Main" []
+  [ include "Data.Bool"
+  ]
+
+stdLibResolver = VirtualResolver stdLib
+
 main :: IO ()
-main = case transform stdLib of
+main = case transform (MainModule (stdLibResolver, moduleMain)) of
   Result a -> putStrLn a
   Error  m -> putStrLn m
 

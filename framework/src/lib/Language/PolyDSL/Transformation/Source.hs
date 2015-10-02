@@ -50,9 +50,13 @@ import           Language.PolyDSL.Transformation.JavaScript
 import           Language.Transformation.Protocol
 import           Language.Transformation.Semantics
 
-
 instance Transformer [DOM.Module] (SemanticResult String) where
-  transform p = do
-    x <- transform p
-    return (transform (x :: Statement))
+  transform ms = do
+    ms' <- transform ms
+    return (transform (ms' :: Statement))
+
+instance Transformer MainModule (SemanticResult String) where
+  transform m = do
+    ms <- transform m
+    transform (ms :: [DOM.Module])
 

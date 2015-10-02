@@ -40,5 +40,6 @@ module Language.PolyDSL.Transformation.JavaScript
 
 import           Language.PolyDSL.Transformation.JavaScript.Expressions as Export
 import           Language.PolyDSL.Transformation.JavaScript.GADTs       as Export
+import           Language.PolyDSL.Transformation.JavaScript.MainModule  as Export
 import           Language.PolyDSL.Transformation.JavaScript.Modules     as Export
 

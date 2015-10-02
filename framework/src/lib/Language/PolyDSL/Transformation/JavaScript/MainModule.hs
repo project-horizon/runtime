@@ -21,9 +21,12 @@ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 -}
 
+{-# LANGUAGE FlexibleInstances     #-}
+{-# LANGUAGE MultiParamTypeClasses #-}
+
 {- |
 Module      :  $Header$
-Description :  Data.Bool module.
+Description :  Conversion from a main module to JavaScript.
 Author	    :  Nils 'bash0r' Jonsson
 Copyright   :  (c) 2015 Nils 'bash0r' Jonsson
 License	    :  MIT
@@ -32,19 +35,38 @@ Maintainer  :  aka.bash0r@gmail.com
 Stability   :  unstable
 Portability :  non-portable (Portability is untested.)
 
-Data.Bool module.
+Conversion from a main module to JavaScript.
 -}
-module Language.PolyDSL.Lib.ModuleDataBool
-( moduleDataBool
+module Language.PolyDSL.Transformation.JavaScript.MainModule
+( VirtualResolver
+, MainModule
 ) where
 
-import           Language.PolyDSL.DSL
+import           Control.Applicative
+import           Control.Monad
+
+import           Language.JavaScript hiding (when)
+import           Language.Transformation.Protocol
+import           Language.Transformation.Semantics
+
+import           Language.PolyDSL.Lib
+
+import qualified Language.PolyDSL.DOM as DOM
+
+import           Language.PolyDSL.Transformation.JavaScript.Internal
+
+-- | A concrete main module.
+type MainModule = MainModuleT VirtualResolverT DOM.ModuleT String
+
+-- | A virtual resolver for compilation units.
+type VirtualResolver = VirtualResolverT DOM.ModuleT String
 
 
-moduleDataBool = defModule "Data.Bool" ["True", "False"]
-  [ gadt "Bool" []
-    [ cons "True"  $ [] ==> t "Data.Bool"
-    , cons "False" $ [] ==> t "Data.Bool"
-    ]
-  ]
+instance CompilationUnitResolver VirtualResolverT where
+  resolveCompilationUnit (VirtualResolver ms) m = do
+    let ms' = filter (\m' -> unitName m' == m) ms
+    when (null ms')        (fail ("Module " ++ show m ++ " is not in scope."))
+    when (length ms' /= 1) (fail ("Module name " ++ show m ++ " exists multiple times."))
+    let (m:_) = ms'
+    return m
 

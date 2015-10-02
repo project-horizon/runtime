@@ -58,12 +58,14 @@ library
                ,        Language.PolyDSL.Transformation.JavaScript.Expressions
                ,        Language.PolyDSL.Transformation.JavaScript.GADTs
                ,        Language.PolyDSL.Transformation.JavaScript.Internal
+               ,        Language.PolyDSL.Transformation.JavaScript.MainModule
                ,        Language.PolyDSL.Transformation.JavaScript.Modules
                ,        Language.PolyDSL.Transformation.Source
 
                ,        Language.Transformation.Protocol.Transformer
 
                ,        Language.Transformation.Semantics.Class
+               ,        Language.Transformation.Semantics.CompilationUnitResolution
                ,        Language.Transformation.Semantics.FullyQualifiedName
                ,        Language.Transformation.Semantics.Scope
                ,        Language.Transformation.Semantics.SemanticResult

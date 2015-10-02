@@ -57,7 +57,7 @@ import qualified Language.JavaScript.DOM as DOM
 instance Transformer DOM.BinaryOperator String where
   transform DOM.Addition       = "+"
   transform DOM.Subtraction    = "-"
-  transform DOM.Multiplication = "+"
+  transform DOM.Multiplication = "*"
   transform DOM.Division       = "/"
   transform DOM.Equal          = "=="
   transform DOM.NotEqual       = "!="
