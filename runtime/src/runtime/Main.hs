@@ -54,9 +54,9 @@ import           Language.Transformation.Semantics
 import qualified Language.JavaScript as JS
 
 
-moduleMain = defModule "Main" []
+moduleMain = defModule "Main" ["main"]
   [ include "Data.Bool"
-  , include "Data.Numbers"
+  , def "main" [] (num 10)
   ]
 
 stdLibResolver = VirtualResolver stdLib
