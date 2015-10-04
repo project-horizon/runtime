@@ -16,6 +16,6 @@ dump:
 	make install
 	./.cabal-sandbox/bin/nessy-runtime > /tmp/dump.js
 	echo ';console.log(this["$$module_register$$"]);' >> /tmp/dump.js
+	echo ';var mreg=this["$$module_register$$"];for(var v in mreg){console.log(mreg[v].export());}' >> /tmp/dump.js
 	node /tmp/dump.js
-	rm -f /tmp/dump.js
 
