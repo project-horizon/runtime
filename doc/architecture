@@ -1,4 +1,19 @@
-1. Overview
+Contents
+
+1. Abstract
+2. Overview
+3. Application
+  3.1. Compilation Unit (Module)
+  3.2. Application Entry Point
+
+
+1. Abstract
+
+  This document reflects the internal architecture of the nessy framework. It
+  is a a technical documentation of all implementations inside the framework.
+
+
+2. Overview
 
   +-----------------------+
   | External Dependencies |
@@ -19,4 +34,31 @@
   | (Updater, Execution) |
   +----------------------+
 
+  In the center of this framework stands an application. An application
+  consists of several compilation units (named modules). It might have or might
+  not have dependencies on external libraries. The runtime creates an loads and
+  runs the application and its external dependencies.
+
+
+3. Application
+
+  TODO: what has an application to do with this framework?
+
+
+  3.1. Compilation Unit (Module)
+
+    A compilation unit is a single file forming a part of a program. A module
+    is a compilation unit. A compilation unit has dependencies on other
+    compilation units.
+
+
+  3.2. Application Entry Point
+
+    The applicatin entry point is the function at which the execution of the
+    program begins. In this framework it is the function `Main.main`. So there
+    must be a module named `Main` which exports a symbol named `main`.
+
+    The main function's signature must match:
+
+        main :: IO ()
 
