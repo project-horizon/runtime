@@ -73,7 +73,6 @@ instance (Semantics m) => Transformer DOM.Module (m ModL1) where
       let (is, ts, tas, fs) = filterDecls ds [] [] [] []
       return (ModL1 mName es (Imports is) (GADTs ts) (TypeAliases tas) (Functions fs))
 
--- TODO: prepend a module existance check to prevent modules
 -- overriding other modules during definition
 instance (Semantics m) => Transformer ModL1 (m Statement) where
   transform (ModL1 mName es is ts tas fs) = do
@@ -107,8 +106,12 @@ instance (Semantics m) => Transformer [DOM.Module] (m [ModL1]) where
 instance (Semantics m) => Transformer [ModL1] (m Statement) where
   transform ms = do
     let modBlockInit = expr (moduleRegister .= object [])
+        mainExec = block
+          [ expr (call (moduleRegister ... "Main" ... "import") [])
+          , expr (call (call (moduleRegister ... "Main" ... "export") []) [])
+          ]
     ms' <- mapM transform ms
-    return (block (modBlockInit : ms'))
+    return (block (modBlockInit : ms' ++ [mainExec]))
 
 instance (Semantics m) => Transformer [DOM.Module] (m Statement) where
   transform ms = do
