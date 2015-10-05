@@ -101,11 +101,11 @@ Contents
   downloaded updates will be installed the next time the application starts.
 
 
-  5.1. Executor
+  5.1. Execution
 
-    The executor loads all components of the application and the components
-    of the applications external dependencies. After loading the components the
-    executor sets up an execution environment for the application.
+    During execution the runtime loads all components of the application and
+    the components of the applications external dependencies. After loading the
+    components the runtime sets up an execution environment for the application.
 
 
     5.1.1. Execution Environment
