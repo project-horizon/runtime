@@ -51,7 +51,8 @@ Contents
 
 3. Application
 
-  TODO: what has an application to do with this framework?
+  An application is a bundle of compilation units and a listing of external
+  dependencies. It can be run with the help of the runtime.
 
 
   3.1. Compilation Unit (Module)
