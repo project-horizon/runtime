@@ -77,7 +77,7 @@ Contents
 
   An external dependency (or library) is a collection of modules that cannot be
   executed standalone. They provide functionality for applications and other
-  libraries. A library consists of several interface files.
+  libraries. A library consists of several interface files and a binary blob.
 
 
     4.1. Interface Files
