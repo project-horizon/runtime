@@ -1,12 +1,19 @@
 Contents
 
-1. Abstract
-2. Overview
-3. Application
-  3.1. Compilation Unit (Module)
-  3.2. Application Entry Point
-4. External Dependencies
-  4.1. Interface File
+  1.  Abstract
+  2.  Overview
+  3.  Application
+    3.1.  Compilation Unit (Module)
+    3.2.  Application Entry Point
+  4.  External Dependencies
+    4.1.  Interface File
+  5.  Runtime
+    5.1.  Executor
+      5.1.1.  Execution Environment
+    5.2.  Updater
+      5.2.1.  Update Spot
+      5.2.2.  Incremental Patch
+      5.2.3.  Complete Patch
 
 
 1. Abstract
@@ -71,7 +78,54 @@ Contents
   executed standalone. They provide functionality for applications and other
   libraries. A library consists of several interface files.
 
+
     4.1. Interface Files
 
-    An interface file contains signatures of functions and constants and the defined types.
+    An interface file contains signatures of functions and constants and the
+    defined types.
+
+
+5. Runtime
+
+  The runtime handles the execution of the application. If the application
+  configures an update spot, the runtime will try to check for a new version.
+  If there is a new version the updater downloads all available patches. The
+  downloaded updates will be installed the next time the application starts.
+
+
+  5.1. Executor
+
+    The executor loads all components of the application and the components
+    of the applications external dependencies. After loading the components the
+    executor sets up an execution environment for the application.
+
+
+    5.1.1. Execution Environment
+
+      The execution environment contains all symbols that are in scope inside
+      the main module. The process of setting the execution environment up
+      includes loading of external symbols into the scope of the main module.
+
+
+  5.2. Updater
+
+    The updater is a component inside the runtime that may be configured in an
+    application. It can download updates from an update spot und patch the
+    application.
+
+
+    5.2.1. Update Spot
+
+      An update spot provides updates (patches) for an application. Those
+      patches may be incremental or complete.
+
+
+    5.2.2. Incremental Patch
+
+      An incremental patch changes only a few sections of the application.
+
+
+    5.2.3. Complete Patch
+
+      A complete patch replaces the whole application as is.
 
