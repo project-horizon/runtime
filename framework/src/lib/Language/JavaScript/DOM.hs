@@ -89,6 +89,8 @@ data Statement
   | Var String (Maybe Expression)
   -- | A return statement.
   | Return Expression
+  -- | Throws an exception.
+  | Throw Expression
   -- | A block of statements.
   | StatementBlock [Statement]
   deriving (Show, Eq)

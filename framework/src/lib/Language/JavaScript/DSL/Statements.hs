@@ -47,6 +47,7 @@ module Language.JavaScript.DSL.Statements
 , continue
 , var
 , ret
+, throw
 , block
 , method
 ) where
@@ -105,6 +106,10 @@ continue = DOM.Continue
 -- | Creates a return statement.
 ret :: Expression -> Statement
 ret = DOM.Return
+
+-- | Creates a throw statement.
+throw :: Expression -> Statement
+throw = DOM.Throw
 
 -- | Creates a scope block.
 block :: [Statement] -> Statement

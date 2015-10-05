@@ -122,6 +122,7 @@ instance Transformer L1 String where
   transform (L1  DOM.Continue            ) = "continue"
   transform (L1 (DOM.Var            v  e)) = "var " ++> v ++> if e == empty then ";" else "=(" ++> fromJust e ++> ")"
   transform (L1 (DOM.Return         e   )) = "return(" ++> e ++> ")"
+  transform (L1 (DOM.Throw          e   )) = "throw(" ++> e ++> ")"
   transform (L1 (DOM.StatementBlock ps  )) = "{" ++> intercalate ";" (map transform ps) ++> "}"
 
 instance Transformer DOM.Statement String where
