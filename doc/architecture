@@ -5,6 +5,8 @@ Contents
 3. Application
   3.1. Compilation Unit (Module)
   3.2. Application Entry Point
+4. External Dependencies
+  4.1. Interface File
 
 
 1. Abstract
@@ -61,4 +63,15 @@ Contents
     The main function's signature must match:
 
         main :: IO ()
+
+
+4. External Dependencies
+
+  An external dependency (or library) is a collection of modules that cannot be
+  executed standalone. They provide functionality for applications and other
+  libraries. A library consists of several interface files.
+
+    4.1. Interface Files
+
+    An interface file contains signatures of functions and constants and the defined types.
 
