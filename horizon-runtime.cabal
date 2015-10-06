@@ -1,9 +1,8 @@
-name:                   nessy-runtime
+name:                   horizon-runtime
 version:                0.1.0.0
-synopsis:               A runtime for the nessy-framework.
-description:            nessy-runtime is a runtime for the nessy-framework. It
-                        supports several languages implemented in the
-                        nessy-framework.
+synopsis:               A runtime for the horizon-framework.
+description:            The horizon-runtime is an executable wrapper around
+                        horizon applications.
 license:                MIT
 license-file:           LICENSE
 author:                 Nils 'bash0r' Jonsson
