@@ -18,18 +18,18 @@ cabal-version:          >=1.10
 library
   -- exposed-modules:
   -- other-modules:
-  build-depends:        base            ==4.8.*
-               ,        nessy-framework ==0.1.*
+  build-depends:        base              ==4.8.*
+               ,        horizon-framework ==0.1.*
   hs-source-dirs:       src/lib
   default-language:     Haskell2010
 
-executable nessy-runtime
+executable horizon-runtime
   main-is:              Main.hs
   -- other-modules:       
-  build-depends:        base            ==4.8.*
-               ,        process         ==1.2.*
-               ,        nessy-framework ==0.1.*
-               ,        nessy-runtime
+  build-depends:        base              ==4.8.*
+               ,        process           ==1.2.*
+               ,        horizon-framework ==0.1.*
+               ,        horizon-runtime
   hs-source-dirs:       src/runtime
   default-language:     Haskell2010
 
